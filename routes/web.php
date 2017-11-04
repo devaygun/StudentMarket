@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,4 +24,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/profile', 'UserController@index');
 
-Route::post('/profile', 'UserController@update');
+Route::post('/profile', 'UserController@update')->name('update_profile');
