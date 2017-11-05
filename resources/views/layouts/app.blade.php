@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
     <style>
         .space-right {
             margin-right: 15px;
