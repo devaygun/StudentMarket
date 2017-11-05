@@ -26,27 +26,27 @@
                             {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                             <div class="form-group">
                                 <label for="first_name">First Names</label>
-                                <input type="text" class="form-control" id="first_name" value="{{$user->first_name}}" name="first_name">
+                                <input type="text" class="form-control" id="first_name" value="{{$user->first_name}}" name="first_name" minlength="2" maxlength="255" required>
                             </div>
                             <div class="form-group">
                                 <label for="last_name">Last Name</label>
-                                <input type="text" class="form-control" id="last_name" value="{{$user->last_name}}" name="last_name">
+                                <input type="text" class="form-control" id="last_name" value="{{$user->last_name}}" name="last_name" minlength="2" maxlength="255" required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" value="{{$user->email}}" name="email">
+                                <input type="email" class="form-control" id="email" value="{{$user->email}}" name="email" minlength="2" maxlength="255" required>
                             </div>
                             <div class="form-group">
                                 <label for="date_of_birth">Date of Birth</label>
-                                <input type="date" class="form-control" id="date_of_birth" value="{{$user->date_of_birth}}" name="date_of_birth">
+                                <input type="date" class="form-control" id="date_of_birth" value="{{$user->date_of_birth}}" name="date_of_birth" required>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="New password...">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="New password..." minlength="6" maxlength="255">
                             </div>
                             <div class="form-group">
                                 <label for="password_confirmation">Password Confirmation</label>
-                                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm new password...">
+                                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm new password..." minlength="6" maxlength="255">
                             </div>
                             <button type="submit" class="btn btn-primary">Update</button>
                         </form>
