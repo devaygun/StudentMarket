@@ -22,6 +22,15 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+/* Item Routes */
+
+Route::get('/{category}/items', 'ItemController@index');
+
+Route::get('/{category}/item/{id}', 'ItemController@read');
+
+/* Profile Routes */
+
 Route::get('/profile', 'UserController@index');
 
 Route::post('/profile', 'UserController@update')->name('update_profile');
