@@ -17,13 +17,13 @@ class CreateItemsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('exchange_type'); // will be set to 'sell', 'swap' or 'part_exchange' based on radio button selected
-            $table->string('item_name');
+            $table->integer('category_id')->unsigned();
+            $table->foreign('category_id')->references('id')->on('categories');
+            $table->string('name');
             $table->string('description');
-            $table->integer('requested_price'); // will be set as null if 'swap' is set in 'exchange_type'
-            $table->string('requested_item'); // will be set as null if 'sell' is set in 'exchange_type'
-            $table->string('category');
-            $table->string('tags'); // tags will be seperated with comma
+            $table->string('exchange_type'); // will be set to 'sell', 'swap' or 'part_exchange' based on radio button selected
+            $table->integer('requested_price')->nullable(); // will be set as null if 'swap' is set in 'exchange_type'
+            $table->string('requested_item')->nullable(); // will be set as null if 'sell' is set in 'exchange_type'
             $table->timestamps();
         });
     }

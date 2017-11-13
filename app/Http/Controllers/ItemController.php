@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Item;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
@@ -15,8 +17,11 @@ class ItemController extends Controller
     public function index($category = null)
     {
         if ($category == null)
-            return view('categories.index');
+            return view('categories.index', ['categories' => Category::all()]);
 
-        return view('items.index', []);
+        $items = Item::with('category')->get();
+
+
+        return view('items.index', ['items' => $items, 'category' => $category]);
     }
 }
