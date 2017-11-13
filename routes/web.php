@@ -27,7 +27,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/items', 'ItemController@index');
 Route::get('/{category}/items', 'ItemController@index');
-Route::get('/{category}/item/{id}', 'ItemController@read');
+Route::get('/{category}/item/{id}', 'ItemController@readItem');
 
 /* Profile Routes */
 
