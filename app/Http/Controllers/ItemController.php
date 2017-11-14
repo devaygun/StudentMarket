@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
@@ -33,9 +34,10 @@ class ItemController extends Controller
 
     public function readItem($category = null, $id = null)
     {
-        $item = Item::find($id);
+        $item = Item::with('category')->find($id);
+        $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
 
-        return view('items.read', ['item' => $item]);
+        return view('items.read', ['item' => $item, 'authorised' => $authorised]);
     }
 
     public function updateItem($id = null)

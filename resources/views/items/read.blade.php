@@ -8,9 +8,13 @@
                     <div class="panel-heading">{{$item->name}}</div>
 
                     <div class="panel-body">
+                        <a href="/{{$item->category->slug}}/items" class="btn btn-info btn-sm" role="button">Return</a>
                         {{$item}}
 
-                        // if $item->user_id == Auth::id() then enable edit button
+
+                        @if ($authorised)
+                            <br><br>User is authorised to edit this item as they are the owner.<br>
+                        @endif
                     </div>
                 </div>
             </div>
