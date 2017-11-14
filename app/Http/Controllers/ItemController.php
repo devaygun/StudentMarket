@@ -17,7 +17,7 @@ class ItemController extends Controller
     public function index($category = null)
     {
         if ($category == null)
-            return view('categories.index', ['categories' => Category::all()]);
+            return view('items.index', ['items' => Item::with('category')->orderBy('created_at')->get()]); // View all items in all categories
 
         $items = Item::whereHas('category', function ($query) use ($category) { // Limiting our results based on whether a relationship to the specific category exists or not
             $query->where('slug', $category);

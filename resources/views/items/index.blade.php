@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">{{$category}}</div>
+                    <div class="panel-heading">{{$category or 'Recently added items'}}</div>
 
                     <div class="panel-body">
                         @if (session('status'))
