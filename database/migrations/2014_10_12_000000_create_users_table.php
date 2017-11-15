@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->date('date_of_birth');
-            $table->string('profile_picture')->nullable();
+            $table->string('profile_picture')->nullable(); // Pull through Gravatar if no image is set
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

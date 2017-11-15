@@ -26,19 +26,19 @@
                             {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                             <div class="form-group">
                                 <label for="first_name">First Names</label>
-                                <input type="text" class="form-control" id="first_name" value="{{$user->first_name}}" name="first_name" minlength="2" maxlength="255" required>
+                                <input type="text" class="form-control" id="first_name" value="{{old('first_name', $user->first_name)}}" name="first_name" minlength="2" maxlength="255" required>
                             </div>
                             <div class="form-group">
                                 <label for="last_name">Last Name</label>
-                                <input type="text" class="form-control" id="last_name" value="{{$user->last_name}}" name="last_name" minlength="2" maxlength="255" required>
+                                <input type="text" class="form-control" id="last_name" value="{{old('last_name', $user->last_name)}}" name="last_name" minlength="2" maxlength="255" required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" value="{{$user->email}}" name="email" minlength="2" maxlength="255" required>
+                                <input type="email" class="form-control" id="email" value="{{old('email', $user->email)}}" name="email" minlength="2" maxlength="255" required>
                             </div>
                             <div class="form-group">
                                 <label for="date_of_birth">Date of Birth</label>
-                                <input type="date" class="form-control" id="date_of_birth" value="{{$user->date_of_birth}}" name="date_of_birth" required>
+                                <input type="date" class="form-control" id="date_of_birth" value="{{old('date_of_birth', $user->date_of_birth)}}" name="date_of_birth" required>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>

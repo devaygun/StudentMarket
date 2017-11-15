@@ -41,7 +41,6 @@ class UserController extends Controller
             'password' => $request->password ? 'required|string|min:6|confirmed' : '',
         ]);
 
-
         $user = User::find(Auth::id());
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;

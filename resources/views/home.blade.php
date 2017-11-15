@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default">
-                <div class="panel-heading">Results (Hallo)</div>
+                <div class="panel-heading">Results</div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -13,7 +13,6 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
                     <div class="col-sm-3">
                         <div class="alert alert-info">Item 1</div>
                     </div>
