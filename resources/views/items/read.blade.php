@@ -38,15 +38,15 @@
 
                                 <div id="sell-input-form" class="form-group">
                                     <label for="price">Price (£)</label>
-                                    <input type="number" class="form-control" id="price" min="1" max="100000" value="{{$item->requested_price}}" required>
+                                    <input onchange="checkedSellType()" type="number" class="form-control" id="price" min="1" max="100000" value="{{$item->requested_price}}" required>
                                 </div>
                                 <div id="swap-input-form" class="form-group">
                                     <label for="swap">Swap for</label>
-                                    <input type="text" class="form-control" id="swap" min="1" max="255" value="{{$item->requested_item}}" required>
+                                    <input onchange="checkedSwapType()" type="text" class="form-control" id="swap" min="1" max="255" value="{{$item->requested_item}}" required>
                                 </div>
                                 <div id="pe-input-form" class="form-group">
                                     <label for="part-exchange">Part-Exchange for</label>
-                                    <input type="text" class="form-control" id="part-exchange" min="1" max="255" value="{{$item->requested_item}}" required>
+                                    <input onchange="checkedPEType()" type="text" class="form-control" id="part-exchange" min="1" max="255" value="{{$item->requested_item}}" required>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Update</button>
