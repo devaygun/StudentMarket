@@ -37,12 +37,14 @@ class ItemController extends Controller
         $item = Item::with('category')->find($id);
         $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
 
-        return view('items.read', ['item' => $item, 'authorised' => $authorised]);
+        return view('items.read', ['item' => $item, 'category' => $category, 'authorised' => $authorised]);
     }
 
-    public function updateItem($id = null)
+    public function updateItem($category = null, $id = null)
     {
-
+        dump($category);
+        dump($id);
+        dd("hit");
     }
 
     public function deleteItem($id)

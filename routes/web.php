@@ -28,6 +28,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/items', 'ItemController@index');
 Route::get('/{category}/items', 'ItemController@index');
 Route::get('/{category}/item/{id}', 'ItemController@readItem');
+Route::post('/{category}/item/{id}', 'ItemController@updateItem');
+
 
 /* Profile Routes */
 
