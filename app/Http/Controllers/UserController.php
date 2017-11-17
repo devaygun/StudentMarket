@@ -55,4 +55,15 @@ class UserController extends Controller
 
         return view('user.profile', ['user' => $user]);
     }
+
+    /**
+     * The uploadImg user function allows us to upload a profile picture to a user's profile
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function uploadImg(Request $request)
+    {
+        return view('user.profile', ['user' => $user]);
+    }
 }

@@ -34,5 +34,5 @@ Route::post('/{category}/item/{id}', 'ItemController@updateItem');
 /* Profile Routes */
 
 Route::get('/profile', 'UserController@index');
-
 Route::post('/profile', 'UserController@update')->name('update_profile');
+Route::post('/profile/upload', 'UserController@uploadImg')->name('upload_img');

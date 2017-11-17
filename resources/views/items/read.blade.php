@@ -4,22 +4,16 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">{{$item->name}}</div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{$item->name}}</h3>
+                    </div>
 
                     <div class="panel-body">
-                        <a href="/{{$item->category->slug}}/items" class="btn btn-info btn-sm" role="button">Return</a>
-                        {{$item}}
 
                         @if (!$authorised)
 
-                            <div class="panel panel-primary">
-                                <div class="panel-heading">
-                                    <h3 class="panel-title">Name</h3>
-                                </div>
-                                <div class="panel-body">{{old('name', $item->name)}}</div>
-                            </div>
-                            <div class="panel panel-primary">
+                            <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Description</h3>
                                 </div>
@@ -27,34 +21,34 @@
                             </div>
 
                             @if ($item->exchange_type == "sell")
-                                <div class="panel panel-primary">
+                                <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h3 class="panel-title">Price (£)</h3>
                                     </div>
                                     <div class="panel-body">{{$item->requested_price}}</div>
                                 </div>
                             @elseif ($item->exchange_type == "swap")
-                                <div class="panel panel-primary">
+                                <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h3 class="panel-title">Swap for</h3>
                                     </div>
                                     <div class="panel-body">{{$item->requested_item}}</div>
                                 </div>
                             @elseif ($item->exchange_type == "part-exchange")
-                                <div class="panel panel-primary">
+                                <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h3 class="panel-title">Price (£)</h3>
                                     </div>
                                     <div class="panel-body">{{$item->requested_price}}</div>
                                 </div>
-                                <div class="panel panel-primary">
+                                <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h3 class="panel-title">Swap for</h3>
                                     </div>
                                     <div class="panel-body">{{$item->requested_item}}</div>
                                 </div>
                             @endif
-
+                            <a href="/{{$item->category->slug}}/items" class="btn btn-info" role="button">Return</a>
                             <button type="submit" class="btn btn-primary">Make Offer</button>
 
                         @endif

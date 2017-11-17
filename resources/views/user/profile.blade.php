@@ -48,8 +48,38 @@
                                 <label for="password_confirmation">Password Confirmation</label>
                                 <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm new password..." minlength="6" maxlength="255">
                             </div>
-                            <button type="submit" class="btn btn-primary">Update</button>
+                            <button type="submit" class="btn btn-success">Update</button>
+                            <button onclick="openModal()" type="button" class="btn btn-primary">Upload Profile Avatar</button>
                         </form>
+
+                        <div id="upload-modal" class="modal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button onclick="closeModal()" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title">Upload Profile Avatar</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <img src="http://www.cdn.innesvienna.net//Content/user-default.png" alt="profile-avatar" width="200px" height="200px">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" style="float: left">Change Image</button>
+                                        <button onclick="closeModal()" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-success">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            function openModal(){
+                                document.getElementById("upload-modal").style.display = "block";
+                            }
+                            function closeModal(){
+                                document.getElementById("upload-modal").style.display = "none";
+                            }
+                        </script>
+
                     </div>
                 </div>
             </div>
