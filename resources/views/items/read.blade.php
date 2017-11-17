@@ -13,29 +13,45 @@
 
                         @if (!$authorised)
 
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" value="{{old('name', $item->name)}}" name="name" minlength="2" maxlength="255">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Name</h3>
+                                </div>
+                                <div class="panel-body">{{old('name', $item->name)}}</div>
                             </div>
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <input type="text" class="form-control" id="description" value="{{old('description', $item->description)}}" name="description" minlength="2" maxlength="255">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Description</h3>
+                                </div>
+                                <div class="panel-body">{{old('description', $item->description)}}</div>
                             </div>
 
                             @if ($item->exchange_type == "sell")
-                                <div id="sell-input-form" class="form-group">
-                                    <label for="price">Price (£)</label>
-                                    <input onchange="checkedSellType()" type="number" class="form-control" id="price" min="1" max="100000" value="{{$item->requested_price}}">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Price (£)</h3>
+                                    </div>
+                                    <div class="panel-body">{{$item->requested_price}}</div>
                                 </div>
                             @elseif ($item->exchange_type == "swap")
-                                <div id="swap-input-form" class="form-group">
-                                    <label for="swap">Swap for</label>
-                                    <input onchange="checkedSwapType()" type="text" class="form-control" id="swap" min="1" max="255" value="{{$item->requested_item}}">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Swap for</h3>
+                                    </div>
+                                    <div class="panel-body">{{$item->requested_item}}</div>
                                 </div>
-                            @elseif ($item->exchange_type == "sell")
-                                <div id="pe-input-form" class="form-group">
-                                    <label for="part-exchange">Part-Exchange for</label>
-                                    <input onchange="checkedPEType()" type="text" class="form-control" id="part-exchange" min="1" max="255" value="{{$item->requested_item}}">
+                            @elseif ($item->exchange_type == "part-exchange")
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Price (£)</h3>
+                                    </div>
+                                    <div class="panel-body">{{$item->requested_price}}</div>
+                                </div>
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Swap for</h3>
+                                    </div>
+                                    <div class="panel-body">{{$item->requested_item}}</div>
                                 </div>
                             @endif
 
