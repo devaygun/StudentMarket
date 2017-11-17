@@ -48,5 +48,17 @@ class ItemTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
+
+        DB::table('items')->insert([
+            'user_id' => 2,
+            'category_id' => 1,
+            'name' => 'Sony Speakers',
+            'description' => "Best speakers in the world",
+            'exchange_type' => 'swap',
+            'requested_price' => null,
+            'requested_item' => "Puppy",
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
     }
 }

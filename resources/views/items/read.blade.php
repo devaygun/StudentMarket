@@ -11,6 +11,38 @@
                         <a href="/{{$item->category->slug}}/items" class="btn btn-info btn-sm" role="button">Return</a>
                         {{$item}}
 
+                        @if (!$authorised)
+
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" value="{{old('name', $item->name)}}" name="name" minlength="2" maxlength="255">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <input type="text" class="form-control" id="description" value="{{old('description', $item->description)}}" name="description" minlength="2" maxlength="255">
+                            </div>
+
+                            @if ($item->exchange_type == "sell")
+                                <div id="sell-input-form" class="form-group">
+                                    <label for="price">Price (£)</label>
+                                    <input onchange="checkedSellType()" type="number" class="form-control" id="price" min="1" max="100000" value="{{$item->requested_price}}">
+                                </div>
+                            @elseif ($item->exchange_type == "swap")
+                                <div id="swap-input-form" class="form-group">
+                                    <label for="swap">Swap for</label>
+                                    <input onchange="checkedSwapType()" type="text" class="form-control" id="swap" min="1" max="255" value="{{$item->requested_item}}">
+                                </div>
+                            @elseif ($item->exchange_type == "sell")
+                                <div id="pe-input-form" class="form-group">
+                                    <label for="part-exchange">Part-Exchange for</label>
+                                    <input onchange="checkedPEType()" type="text" class="form-control" id="part-exchange" min="1" max="255" value="{{$item->requested_item}}">
+                                </div>
+                            @endif
+
+                            <button type="submit" class="btn btn-primary">Make Offer</button>
+
+                        @endif
+
 
                         @if ($authorised)
                             {{-- TODO: Limit changes based on whether the item has received any offers or not. --}}
@@ -27,80 +59,80 @@
                                 </div>
 
                                 <div class="form-group" style="display: inline-block">
-                                    <label class="radio-inline"><input type="radio" name="sellType">Sell</label>
+                                    <label class="radio-inline"><input onchange="checkedSellType()" type="radio" name="sellType">Sell</label>
                                 </div>
                                 <div class="form-group" style="display: inline-block">
-                                    <label class="radio-inline"><input type="radio" name="sellType">Swap</label>
+                                    <label class="radio-inline"><input onchange="checkedSwapType()" type="radio" name="sellType">Swap</label>
                                 </div>
                                 <div class="form-group" style="display: inline-block">
-                                    <label class="radio-inline"><input type="radio" name="sellType">Part-Exchange</label>
+                                    <label class="radio-inline"><input onchange="checkedPEType()" type="radio" name="sellType">Part-Exchange</label>
                                 </div>
 
                                 <div id="sell-input-form" class="form-group">
                                     <label for="price">Price (£)</label>
-                                    <input onchange="checkedSellType()" type="number" class="form-control" id="price" min="1" max="100000" value="{{$item->requested_price}}" required>
+                                    <input type="number" class="form-control" id="price" min="1" max="100000" value="{{$item->requested_price}}" required>
                                 </div>
                                 <div id="swap-input-form" class="form-group">
                                     <label for="swap">Swap for</label>
-                                    <input onchange="checkedSwapType()" type="text" class="form-control" id="swap" min="1" max="255" value="{{$item->requested_item}}" required>
+                                    <input type="text" class="form-control" id="swap" min="1" max="255" value="{{$item->requested_item}}" required>
                                 </div>
                                 <div id="pe-input-form" class="form-group">
                                     <label for="part-exchange">Part-Exchange for</label>
-                                    <input onchange="checkedPEType()" type="text" class="form-control" id="part-exchange" min="1" max="255" value="{{$item->requested_item}}" required>
+                                    <input type="text" class="form-control" id="part-exchange" min="1" max="255" value="{{$item->requested_item}}" required>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </form>
 
                             <br><br>User is authorised to edit this item as they are the owner.<br>
+
+                            <script>
+                                var sell_input = document.getElementById("price");
+                                var swap_input = document.getElementById("swap");
+                                var part_exchange_input = document.getElementById("part-exchange");
+                                var sell_input_form = document.getElementById("price-input-form");
+                                var swap_input_form = document.getElementById("swap-input-form");
+                                var part_exchange_input_form = document.getElementById("pe-input-form");
+
+                                    window.onload = function() {
+                                        checkedSellType();
+                                    }
+
+                                function checkedSellType() {
+                                        sell_input_form.style.display = "block";
+                                        sell_input.required = true;
+                                        swap_input.value = "";
+                                        swap_input.required = false;
+                                        swap_input_form.style.display = "none";
+                                        part_exchange_input.value = "";
+                                        part_exchange_input.required = false;
+                                        part_exchange_input_form.style.display = "none";
+                                }
+
+                                function checkedSwapType() {
+                                        sell_input.value = "";
+                                        sell_input.required = false;
+                                        sell_input_form.style.display = "none";
+                                        swap_input.value = "Anything...";
+                                        swap_input.required = true;
+                                        swap_input_form.style.display = "block";
+                                        part_exchange_input.value = "";
+                                        part_exchange_input.required = false;
+                                        part_exchange_input_form.style.display = "none";
+                                }
+
+                                function checkedPEType() {
+                                        sell_input_form.style.display = "block";
+                                        sell_input.required = true;
+                                        swap_input.value = "";
+                                        swap_input.required = false;
+                                        swap_input_form.style.display = "none";
+                                        part_exchange_input.value = "Anything...";
+                                        part_exchange_input.required = true;
+                                        part_exchange_input_form.style.display = "block";
+                                }
+                            </script>
                         @endif
-
-                        <script>
-                            var sell_input = document.getElementById("price");
-                            var swap_input = document.getElementById("swap");
-                            var part_exchange_input = document.getElementById("part-exchange");
-                            var sell_input_form = document.getElementById("price-input-form");
-                            var swap_input_form = document.getElementById("swap-input-form");
-                            var part_exchange_input_form = document.getElementById("pe-input-form");
-
-                            window.onload = function() {
-                                checkedSellType();
-                            }
-
-                            function checkedSellType() {
-                                sell_input_form.style.display = "block";
-                                sell_input.required = true;
-                                swap_input.value = "";
-                                swap_input.required = false;
-                                swap_input_form.style.display = "none";
-                                part_exchange_input.value = "";
-                                part_exchange_input.required = false;
-                                part_exchange_input_form.style.display = "none";
-                            }
-
-                            function checkedSwapType() {
-                                sell_input.value = "";
-                                sell_input.required = false;
-                                sell_input_form.style.display = "none";
-                                swap_input.value = "Anything...";
-                                swap_input.required = true;
-                                swap_input_form.style.display = "block";
-                                part_exchange_input.value = "";
-                                part_exchange_input.required = false;
-                                part_exchange_input_form.style.display = "none";
-                            }
-
-                            function checkedPEType() {
-                                sell_input_form.style.display = "block";
-                                sell_input.required = true;
-                                swap_input.value = "";
-                                swap_input.required = false;
-                                swap_input_form.style.display = "none";
-                                part_exchange_input.value = "Anything...";
-                                part_exchange_input.required = true;
-                                part_exchange_input_form.style.display = "block";
-                            }
-                        </script>
                     </div>
                 </div>
             </div>
