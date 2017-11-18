@@ -4,6 +4,20 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                            <i class="fa fa-times" aria-hidden="true"></i> {{ $error }}<br>
+                        @endforeach
+                    </div>
+                @endif
+
+                @if (\Illuminate\Support\Facades\Session::has('success'))
+                    <div class="alert alert-success">
+                        <i class="fa fa-check" aria-hidden="true"></i> {{ session('success') }}
+                    </div>
+                @endif
+
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3 class="panel-title">{{$item->name}}</h3>
@@ -12,7 +26,6 @@
                     <div class="panel-body">
 
                         @if (!$authorised)
-
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Description</h3>
@@ -51,10 +64,7 @@
                             <a href="/{{$item->category->slug}}/items" class="btn btn-info" role="button">Return</a>
                             <button type="submit" class="btn btn-primary">Make Offer</button>
 
-                        @endif
-
-
-                        @if ($authorised)
+                        @else
                             {{-- TODO: Limit changes based on whether the item has received any offers or not. --}}
 
                             <form method="POST" action="/items/{{$category}}/{{$item->id}}">
@@ -80,15 +90,15 @@
 
                                 <div id="sell-input-form" class="form-group">
                                     <label for="price">Price (£)</label>
-                                    <input type="number" class="form-control" id="price" min="1" max="100000" value="{{$item->requested_price}}" required>
+                                    <input type="number" class="form-control" id="price" min="1" max="100000" value="{{$item->requested_price}}" name="price" required>
                                 </div>
                                 <div id="swap-input-form" class="form-group">
                                     <label for="swap">Swap for</label>
-                                    <input type="text" class="form-control" id="swap" min="1" max="255" value="{{$item->requested_item}}" required>
+                                    <input type="text" class="form-control" id="swap" min="1" max="255" value="{{$item->requested_item}}" name="swap" required>
                                 </div>
                                 <div id="pe-input-form" class="form-group">
                                     <label for="part-exchange">Part-Exchange for</label>
-                                    <input type="text" class="form-control" id="part-exchange" min="1" max="255" value="{{$item->requested_item}}" required>
+                                    <input type="text" class="form-control" id="part-exchange" min="1" max="255" value="{{$item->requested_item}}" name="part-exchange" required>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Update</button>

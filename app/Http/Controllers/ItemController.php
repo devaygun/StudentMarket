@@ -40,11 +40,31 @@ class ItemController extends Controller
         return view('items.read', ['item' => $item, 'category' => $category, 'authorised' => $authorised]);
     }
 
-    public function updateItem($category = null, $id = null)
+    public function updateItem(Request $request, $category = null, $id = null)
     {
-        dump($category);
-        dump($id);
-        dd("hit");
+
+        $item = Item::find($id);
+        $item->name = $request->name;
+        $item->description = $request->description;
+        // TODO: Implement sellType logic
+        $item->requested_price = $request->price;
+        $item->save();
+
+        /*
+         *
+         * "name" => "Panasonic Microwave"
+  "description" => "A large modern 1250W microwave."
+  "sellType" => "on"
+  "price" => "45"
+  "swap" => "test"
+  "part-exchange" => "test2"
+]
+         *
+         */
+
+        $request->session()->flash('success', 'Successfully updated your item.');
+
+        return $this->readItem($category, $id);
     }
 
     public function deleteItem($id)
