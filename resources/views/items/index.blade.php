@@ -27,7 +27,7 @@
                             <tbody>
                                 @foreach ($items as $item)
                                     <tr>
-                                        <td><a href="/{{$item->category->slug}}/item/{{$item->id}}" class="btn btn-info btn-sm" role="button">View</a></td>
+                                        <td><a href="/items/{{$item->category->slug}}/{{$item->id}}" class="btn btn-info btn-sm" role="button">View</a></td>
                                         <td>{{$item->name}}</td>
                                         <td>{{$item->description}}</td>
                                         <td>{{$item->requested_price}}</td>
