@@ -102,6 +102,9 @@
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Update</button>
+                                <button type="button" class="btn btn-info">Mark as sold</button>
+                                <button type="button" class="btn btn-danger" href="" style="float:right">Remove item</button>
+
                             </form>
 
                             <br><br>User is authorised to edit this item as they are the owner.<br>

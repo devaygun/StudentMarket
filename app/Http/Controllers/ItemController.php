@@ -69,6 +69,6 @@ class ItemController extends Controller
 
     public function deleteItem($id)
     {
-
+        Item::where('id'==$id)->delete();
     }
 }
