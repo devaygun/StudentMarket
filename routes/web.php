@@ -29,12 +29,7 @@ Route::get('/items', 'ItemController@index');
 Route::get('/items/{category}/{id}', 'ItemController@readItem');
 Route::post('/items/{category}/{id}', 'ItemController@updateItem');
 Route::post('/items/add', 'ItemController@createItem');
-
-
-Route::get('/{category}/items', 'ItemController@index'); // Change formatting of items? studentmarket.dev/items/{category or 'all'}
-Route::get('/{category}/item/{id}', 'ItemController@readItem'); // studentmarket.dev/items/{category}/{id}
-Route::post('/{category}/item/{id}', 'ItemController@updateItem'); // studentmarket.dev/items/{category}/{id}
-
+Route::post('/item/remove', 'ItemController@removeItem');
 
 /* Profile Routes */
 

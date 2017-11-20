@@ -79,7 +79,7 @@
                                 </div>
 
                                 <div class="form-group" style="display: inline-block">
-                                    <label class="radio-inline"><input onchange="checkedSellType()" type="radio" name="sellType">Sell</label>
+                                    <label class="radio-inline"><input onchange="checkedSellType()" type="radio" name="sellType" checked>Sell</label>
                                 </div>
                                 <div class="form-group" style="display: inline-block">
                                     <label class="radio-inline"><input onchange="checkedSwapType()" type="radio" name="sellType">Swap</label>
@@ -88,71 +88,80 @@
                                     <label class="radio-inline"><input onchange="checkedPEType()" type="radio" name="sellType">Part-Exchange</label>
                                 </div>
 
-                                <div id="sell-input-form" class="form-group">
+                                <div id="sell-form" class="form-group">
                                     <label for="price">Price (£)</label>
                                     <input type="number" class="form-control" id="price" min="1" max="100000" value="{{$item->price}}" name="price" required>
                                 </div>
-                                <div id="swap-input-form" class="form-group">
+                                <div id="swap-form" class="form-group">
                                     <label for="swap">Swap for</label>
                                     <input type="text" class="form-control" id="swap" min="1" max="255" value="{{$item->trade}}" name="swap" required>
                                 </div>
-                                <div id="pe-input-form" class="form-group">
+                                <div id="pe-form" class="form-group">
                                     <label for="part-exchange">Part-Exchange for</label>
                                     <input type="text" class="form-control" id="part-exchange" min="1" max="255" value="{{$item->trade}}" name="part-exchange" required>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Update</button>
                                 <button type="button" class="btn btn-info">Mark as sold</button>
-                                <button type="button" class="btn btn-danger" href="" style="float:right">Remove item</button>
 
+                            </form>
+
+                            <form method="POST" action="/item/{{$item->id}}/remove">
+                                {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
+                                <button type="submit" class="btn btn-danger" style="float:right">Remove item</button>
                             </form>
 
                             <br><br>User is authorised to edit this item as they are the owner.<br>
 
                             <script>
-                                var sell_input = document.getElementById("price");
-                                var swap_input = document.getElementById("swap");
-                                var part_exchange_input = document.getElementById("part-exchange");
-                                var sell_input_form = document.getElementById("price-input-form");
-                                var swap_input_form = document.getElementById("swap-input-form");
-                                var part_exchange_input_form = document.getElementById("pe-input-form");
+//                                var sellInput = document.getElementById('price');
+//                                var swapInput = document.getElementById('swap');
+//                                var partExchangeInput = document.getElementById('part-exchange');
+//                                var sellInputForm = document.getElementById('sell-form');
+//                                var swapInputForm = document.getElementById('swap-form');
+//                                var partExchangeInputForm = document.getElementById('pe-form');
 
-                                    window.onload = function() {
-                                        checkedSellType();
-                                    }
+                                window.onload = function() {
+                                    checkedSellType();
+                                    console.log("hello");
+                                }
 
                                 function checkedSellType() {
-                                        sell_input_form.style.display = "block";
-                                        sell_input.required = true;
-                                        swap_input.value = "";
-                                        swap_input.required = false;
-                                        swap_input_form.style.display = "none";
-                                        part_exchange_input.value = "";
-                                        part_exchange_input.required = false;
-                                        part_exchange_input_form.style.display = "none";
+                                    document.getElementById('sell-form').style.display = "block";
+                                    document.getElementById('price').required = true;
+                                    document.getElementById('swap').value = "";
+                                    document.getElementById('swap').required = false;
+                                    document.getElementById('swap-form').style.display = "none";
+                                    document.getElementById('part-exchange').value = "";
+                                    document.getElementById('part-exchange').required = false;
+                                    document.getElementById('pe-form').style.display = "none";
+                                    console.log("sell");
+                                    console.log(swapInput.value);
+
                                 }
 
                                 function checkedSwapType() {
-                                        sell_input.value = "";
-                                        sell_input.required = false;
-                                        sell_input_form.style.display = "none";
-                                        swap_input.value = "Anything...";
-                                        swap_input.required = true;
-                                        swap_input_form.style.display = "block";
-                                        part_exchange_input.value = "";
-                                        part_exchange_input.required = false;
-                                        part_exchange_input_form.style.display = "none";
+                                    document.getElementById('price').value = "";
+                                    document.getElementById('price').required = false;
+                                    document.getElementById('sell-form').style.display = "none";
+                                    document.getElementById('swap').value = "{{$item->trade}}";
+                                    document.getElementById('swap').required = true;
+                                    document.getElementById('swap-form').style.display = "block";
+                                    document.getElementById('part-exchange').value = "";
+                                    document.getElementById('part-exchange').required = false;
+                                    document.getElementById('pe-form').style.display = "none";
+                                    console.log("swap");
                                 }
 
                                 function checkedPEType() {
-                                        sell_input_form.style.display = "block";
-                                        sell_input.required = true;
-                                        swap_input.value = "";
-                                        swap_input.required = false;
-                                        swap_input_form.style.display = "none";
-                                        part_exchange_input.value = "Anything...";
-                                        part_exchange_input.required = true;
-                                        part_exchange_input_form.style.display = "block";
+                                    document.getElementById('sell-form').style.display = "block";
+                                    document.getElementById('price').required = true;
+                                    document.getElementById('swap').value = "";
+                                    document.getElementById('swap').required = false;
+                                    document.getElementById('swap-form').style.display = "none";
+                                    document.getElementById('part-exchange').value = "{{$item->trade}}";
+                                    document.getElementById('part-exchange').required = true;
+                                    document.getElementById('pe-form').style.display = "block";
                                 }
                             </script>
                         @endif

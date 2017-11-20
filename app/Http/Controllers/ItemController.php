@@ -86,8 +86,12 @@ class ItemController extends Controller
         return $this->readItem($category, $id);
     }
 
-    public function deleteItem($id)
+    public function removeItem($id)
     {
-        Item::where('id'==$id)->delete();
+//        if ($id) {
+            $item = Item::find($id);
+            $item->delete();
+            return view('item.index', ['items' => Item::with('category')->orderBy('created_at')->get()]); // View all items in all categories
+//        }
     }
 }
