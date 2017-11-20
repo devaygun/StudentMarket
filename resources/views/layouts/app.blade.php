@@ -119,18 +119,42 @@
                         {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                         <div class="form-group">
                             <label for="first_name">Name</label>
-                            <input type="text" class="form-control" id="name" value="{{old('name')}}" name="name" minlength="2" maxlength="255" required>
+                            <input type="text" class="form-control" value="" name="name" minlength="2" maxlength="255" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <input type="text" class="form-control" value="" name="description" minlength="2" maxlength="255" required>
                         </div>
 
-                        <button type="submit" class="btn btn-success">Update</button>
+                        <div class="form-group" style="display: inline-block">
+                            <label class="radio-inline"><input type="radio" name="sellType" checked>Sell</label>
+                        </div>
+                        <div class="form-group" style="display: inline-block">
+                            <label class="radio-inline"><input type="radio" name="sellType">Swap</label>
+                        </div>
+                        <div class="form-group" style="display: inline-block">
+                            <label class="radio-inline"><input type="radio" name="sellType">Part-Exchange</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price (£)</label>
+                            <input type="number" class="form-control" min="1" max="100000" value="" name="price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="swap">Swap for</label>
+                            <input type="text" class="form-control" min="1" max="255" value="" name="swap" required>
+                        </div>
+                        <div id="pe-form" class="form-group">
+                            <label for="part-exchange">Part-Exchange for</label>
+                            <input type="text" class="form-control" min="1" max="255" value="" name="part-exchange" required>
+                        </div>
+                        <button type="submit" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add item</button>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: left;"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
-                    <button type="button" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Save</button>
+                    {{--<button type="button" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Save</button>--}}
                 </div>
             </div>
-
         </div>
     </div>
 </body>

@@ -29,7 +29,7 @@ Route::get('/items', 'ItemController@index');
 Route::get('/items/{category}/{id}', 'ItemController@readItem');
 Route::post('/items/{category}/{id}', 'ItemController@updateItem');
 Route::post('/items/add', 'ItemController@createItem');
-Route::post('/item/remove', 'ItemController@removeItem');
+Route::post('/item/{id}/remove', 'ItemController@removeItem');
 
 /* Profile Routes */
 

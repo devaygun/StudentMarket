@@ -88,10 +88,8 @@ class ItemController extends Controller
 
     public function removeItem($id)
     {
-//        if ($id) {
-            $item = Item::find($id);
-            $item->delete();
-            return view('item.index', ['items' => Item::with('category')->orderBy('created_at')->get()]); // View all items in all categories
-//        }
+        $item = Item::find($id);
+        $item->delete();
+        return redirect('items');
     }
 }

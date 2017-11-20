@@ -61,7 +61,7 @@
                                     <div class="panel-body">{{$item->trade}}</div>
                                 </div>
                             @endif
-                            <a href="/{{$item->category->slug}}/items" class="btn btn-info" role="button">Return</a>
+                            <a href="/items" class="btn btn-info" role="button">Return</a>
                             <button type="submit" class="btn btn-primary">Make Offer</button>
 
                         @else
@@ -101,31 +101,19 @@
                                     <input type="text" class="form-control" id="part-exchange" min="1" max="255" value="{{$item->trade}}" name="part-exchange" required>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Update</button>
-                                <button type="button" class="btn btn-info">Mark as sold</button>
-
+                                <button type="submit" class="btn btn-success">Update</button>
+                                <button type="button" class="btn btn-primary">Mark as sold</button>
+                                <button data-toggle="modal" data-target="#removeModal" type="button" class="btn btn-danger" style="float:right">Remove item</button>
                             </form>
 
-                            <form method="POST" action="/item/{{$item->id}}/remove">
-                                {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
-                                <button type="submit" class="btn btn-danger" style="float:right">Remove item</button>
-                            </form>
 
                             <br><br>User is authorised to edit this item as they are the owner.<br>
 
                             <script>
-//                                var sellInput = document.getElementById('price');
-//                                var swapInput = document.getElementById('swap');
-//                                var partExchangeInput = document.getElementById('part-exchange');
-//                                var sellInputForm = document.getElementById('sell-form');
-//                                var swapInputForm = document.getElementById('swap-form');
-//                                var partExchangeInputForm = document.getElementById('pe-form');
-
                                 window.onload = function() {
                                     checkedSellType();
                                     console.log("hello");
                                 }
-
                                 function checkedSellType() {
                                     document.getElementById('sell-form').style.display = "block";
                                     document.getElementById('price').required = true;
@@ -137,9 +125,7 @@
                                     document.getElementById('pe-form').style.display = "none";
                                     console.log("sell");
                                     console.log(swapInput.value);
-
                                 }
-
                                 function checkedSwapType() {
                                     document.getElementById('price').value = "";
                                     document.getElementById('price').required = false;
@@ -152,7 +138,6 @@
                                     document.getElementById('pe-form').style.display = "none";
                                     console.log("swap");
                                 }
-
                                 function checkedPEType() {
                                     document.getElementById('sell-form').style.display = "block";
                                     document.getElementById('price').required = true;
@@ -164,6 +149,31 @@
                                     document.getElementById('pe-form').style.display = "block";
                                 }
                             </script>
+
+                            <!-- Modals -->
+                            <div id="removeModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content -->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Are you sure you want to remove this item?</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <label>This item will permanently be removed from Student Market</label>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal" style="float: left;"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
+                                            <form method="POST" action="/item/{{$item->id}}/remove">
+                                                {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
+                                                {{--<button type="button" class="btn btn-info" data-dismiss="modal" style="float: left;"><i class="fa fa-times" aria-hidden="true"></i>Cancel</button>--}}
+                                                <button type="submit" class="btn btn-danger" style="float:right">Remove item</button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         @endif
                     </div>
                 </div>
