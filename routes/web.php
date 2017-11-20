@@ -28,6 +28,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/items', 'ItemController@index');
 Route::get('/items/{category}/{id}', 'ItemController@readItem');
 Route::post('/items/{category}/{id}', 'ItemController@updateItem');
+Route::post('/items/add', 'ItemController@createItem');
 
 
 Route::get('/{category}/items', 'ItemController@index'); // Change formatting of items? studentmarket.dev/items/{category or 'all'}

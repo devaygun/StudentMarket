@@ -38,27 +38,27 @@
                                     <div class="panel-heading">
                                         <h3 class="panel-title">Price (£)</h3>
                                     </div>
-                                    <div class="panel-body">{{$item->requested_price}}</div>
+                                    <div class="panel-body">{{$item->price}}</div>
                                 </div>
                             @elseif ($item->exchange_type == "swap")
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h3 class="panel-title">Swap for</h3>
                                     </div>
-                                    <div class="panel-body">{{$item->requested_item}}</div>
+                                    <div class="panel-body">{{$item->trade}}</div>
                                 </div>
                             @elseif ($item->exchange_type == "part-exchange")
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h3 class="panel-title">Price (£)</h3>
                                     </div>
-                                    <div class="panel-body">{{$item->requested_price}}</div>
+                                    <div class="panel-body">{{$item->price}}</div>
                                 </div>
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h3 class="panel-title">Swap for</h3>
                                     </div>
-                                    <div class="panel-body">{{$item->requested_item}}</div>
+                                    <div class="panel-body">{{$item->trade}}</div>
                                 </div>
                             @endif
                             <a href="/{{$item->category->slug}}/items" class="btn btn-info" role="button">Return</a>
@@ -90,15 +90,15 @@
 
                                 <div id="sell-input-form" class="form-group">
                                     <label for="price">Price (£)</label>
-                                    <input type="number" class="form-control" id="price" min="1" max="100000" value="{{$item->requested_price}}" name="price" required>
+                                    <input type="number" class="form-control" id="price" min="1" max="100000" value="{{$item->price}}" name="price" required>
                                 </div>
                                 <div id="swap-input-form" class="form-group">
                                     <label for="swap">Swap for</label>
-                                    <input type="text" class="form-control" id="swap" min="1" max="255" value="{{$item->requested_item}}" name="swap" required>
+                                    <input type="text" class="form-control" id="swap" min="1" max="255" value="{{$item->trade}}" name="swap" required>
                                 </div>
                                 <div id="pe-input-form" class="form-group">
                                     <label for="part-exchange">Part-Exchange for</label>
-                                    <input type="text" class="form-control" id="part-exchange" min="1" max="255" value="{{$item->requested_item}}" name="part-exchange" required>
+                                    <input type="text" class="form-control" id="part-exchange" min="1" max="255" value="{{$item->trade}}" name="part-exchange" required>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Update</button>

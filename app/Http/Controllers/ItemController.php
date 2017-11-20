@@ -27,14 +27,33 @@ class ItemController extends Controller
         return view('items.index', ['items' => $items, 'category' => Category::where('slug', $category)->first()->name]);
     }
 
-    public function createItem()
+    public function createItem(Request $request)
     {
+        $request->validate([
+            'category_id' => 'required|integer|exists:category,id',
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'type' => 'required',
+            'price' => 'integer',
+            'trade' => 'string'
+        ]);
 
+        $item = new Item();
+        $item->category_id = $request->category_id;
+        $item->name = $request->name;
+        $item->description = $request->description;
+        $item->type = $request->type;
+        $item->price = $request->price;
+        $item->trade = $request->trade;
+        $item->save();
+
+        $this->readItem(null, $item->id);
     }
 
     public function readItem($category = null, $id = null)
     {
         $item = Item::with('category')->find($id);
+        $category = $category ?: $item->category->slug; // If the category is not passed through then retrieve it from the item
         $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
 
         return view('items.read', ['item' => $item, 'category' => $category, 'authorised' => $authorised]);
@@ -47,7 +66,7 @@ class ItemController extends Controller
         $item->name = $request->name;
         $item->description = $request->description;
         // TODO: Implement sellType logic
-        $item->requested_price = $request->price;
+        $item->price = $request->price;
         $item->save();
 
         /*

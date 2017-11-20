@@ -21,9 +21,9 @@ class CreateItemsTable extends Migration
             $table->foreign('category_id')->references('id')->on('categories');
             $table->string('name');
             $table->string('description');
-            $table->string('exchange_type'); // will be set to 'sell', 'swap' or 'part_exchange' based on radio button selected
-            $table->integer('requested_price')->nullable(); // will be set as null if 'swap' is set in 'exchange_type'
-            $table->string('requested_item')->nullable(); // will be set as null if 'sell' is set in 'exchange_type'
+            $table->string('type'); // Will be set to 'sell', 'swap' or 'part_exchange' based on radio button selected
+            $table->integer('price')->nullable(); // Will be set as null if 'swap' is set in 'type'
+            $table->string('trade')->nullable(); // Will be set as null if 'sell' is set in 'type'
             $table->timestamps();
         });
     }

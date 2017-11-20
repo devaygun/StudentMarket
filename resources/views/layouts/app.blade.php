@@ -43,6 +43,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;<li><a href=""></a></li>
+                        <li><a href="" data-toggle="modal" data-target="#sellModal"><i class="fa fa-plus" aria-hidden="true"></i> Sell Item</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -103,5 +104,34 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+
+    <!-- Modals -->
+    <div id="sellModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Sell Item</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="/items/add">
+                        {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
+                        <div class="form-group">
+                            <label for="first_name">Name</label>
+                            <input type="text" class="form-control" id="name" value="{{old('name')}}" name="name" minlength="2" maxlength="255" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">Update</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: left;"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
+                    <button type="button" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Save</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </body>
 </html>

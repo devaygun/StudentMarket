@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
-    protected $fillable = ['user_id', 'category_id', 'name', 'description', 'exchange_type', 'requested_price', 'requested_item'];
+    protected $fillable = ['user_id', 'category_id', 'name', 'description', 'type', 'price', 'trade'];
 
     public function user()
     {
@@ -21,5 +21,10 @@ class Item extends Model
     public function tags()
     {
         return $this->belongsToMany('App\Tag');
+    }
+
+    public function images()
+    {
+        return $this->hasMany('App\Image');
     }
 }
