@@ -28,7 +28,7 @@
                             <tbody>
                                 @foreach ($items as $item)
                                     <tr>
-                                        <td><a href="/items/{{$item->category->slug}}/{{$item->id}}" class="btn btn-info btn-sm" role="button">View</a></td>
+                                        <td><a href="/items/{{$item->category->slug}}/{{$item->id}}" class="btn btn-primary btn-sm" role="button">View</a></td>
                                         <td>{{$item->name}}</td>
                                         <td>{{$item->description}}</td>
                                         <td>
@@ -36,7 +36,7 @@
                                             @else £{{$item->price}} @endif
                                         </td>
                                         <td>
-                                            @if ($item->type == "swap") + @endif
+                                            @if ($item->type == "part-exchange") + @endif
                                             {{$item->trade}}
                                             @if ($item->type == "sell") -/- @endif
                                         </td>

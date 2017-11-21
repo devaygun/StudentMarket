@@ -59,6 +59,13 @@ class ItemController extends Controller
         return view('items.read', ['item' => $item, 'category' => $category, 'authorised' => $authorised]);
     }
 
+    public function editItem($id = null)
+    {
+        $item = Item::find($id);
+        $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
+        return view('items.update', ['item' => $item, 'authorised' => $authorised]);
+    }
+
     public function updateItem(Request $request, $category = null, $id = null)
     {
 
@@ -66,7 +73,9 @@ class ItemController extends Controller
         $item->name = $request->name;
         $item->description = $request->description;
         // TODO: Implement sellType logic
+        $item->type = $request->type;
         $item->price = $request->price;
+        $item->trade = $request->trade;
         $item->save();
 
         /*
