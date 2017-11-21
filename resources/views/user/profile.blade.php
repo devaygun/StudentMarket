@@ -75,16 +75,6 @@
 
                             </div>
                         </div>
-
-                        {{--<script>--}}
-                            {{--function openModal(){--}}
-                                {{--document.getElementById("upload-modal").style.display = "block";--}}
-                            {{--}--}}
-                            {{--function closeModal(){--}}
-                                {{--document.getElementById("upload-modal").style.display = "none";--}}
-                            {{--}--}}
-                        {{--</script>--}}
-
                     </div>
                 </div>
             </div>
