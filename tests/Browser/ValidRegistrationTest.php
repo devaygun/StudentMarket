@@ -9,22 +9,23 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class ValidRegistrationTest extends DuskTestCase
 {
     /**
-     * A Dusk test example.
+     * Check that user registration is working correctly
      *
      * @return void
      */
-            public function testBasicRegistration()
-            {
-                $this->browse(function ($browser) {
-                    $browser->visit('/register')
-                        ->type('first_name', 'TestGuy')
-                        ->type('last_name', 'Jumbo')
-                        ->type('email', 'testingemail@kent.ac.uk')
-                        ->keys('#date_of_birth', '1995-08-09')
-                        ->type('password', 'test123')
-                        ->type('password_confirmation', 'test123')
-                        ->clickLink('Register')
-                        ->assertPathIs('/Login');
+    public function testExample()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/register')
+                ->assertSee('Register')
+                ->type('first_name', 'testing')
+                ->type('last_name', ('testing2'))
+                ->type('email', 'testing5236@kent.ac.uk')
+                ->keys('#date_of_birth', '1995-08-09')
+                ->type('password', 'testing')
+                ->type('password_confirmation', 'testing')
+                ->clickLink('Register');
+                //->assertPathIs('/home'); //Check that the user has been authenticated and is on the homepage
         });
     }
 }

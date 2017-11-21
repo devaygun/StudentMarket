@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class ValidLoginTest extends DuskTestCase
 {
     /**
-     * A Dusk test example.
+     * Check to see that valid user credentials authorises the user
      *
      * @return void
      */
@@ -18,12 +18,12 @@ class ValidLoginTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/login')
                 ->assertSee('login')
-                ->type('email','rd339@kent.ac.uk')
-                ->type('password','richard123')
-                ->clickLink('Login')
-                ->waitUntil(10)
-                ->assertSee('Password')
-            ->assertPathIs('/login');
+                ->type('email','rd339@kent.ac.uk') //valid credentials
+                ->type('password','richard123')    //valid credentials
+                ->click('button[type="submit"]')
+                ->waitUntil(5)
+                ->assertSee('Item 1')  // Information seen on homepage
+            ->assertPathIs('/home'); //Check user is taken to the correct page
         });
     }
 }
