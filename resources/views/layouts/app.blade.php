@@ -128,13 +128,9 @@
                         <div class="form-group">
                             <label for="select" >Select a category</label>
                             <select class="form-control" id="select">
-                                {{--@foreach ($categories as $category)--}}
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                {{--@endforeach--}}
+                                @foreach (\App\Category::all() as $category)
+                                    <option value="{{$category->slug}}">{{$category->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group" style="display: inline-block">
