@@ -39,7 +39,7 @@ class ItemController extends Controller
         ]);
 
         $item = new Item();
-        $item->category_id = $request->category_id;
+        $item->category_id = '1';
         $item->name = $request->name;
         $item->description = $request->description;
         $item->type = $request->type;
@@ -47,7 +47,9 @@ class ItemController extends Controller
         $item->trade = $request->trade;
         $item->save();
 
-        $this->readItem(null, $item->id);
+//        $this->readItem($item->category->slug, $item->id);
+        return view('items.read', ['item' => $item, 'category' => $category]);
+//        return redirect('items');
     }
 
     public function readItem($category = null, $id = null)
@@ -71,29 +73,18 @@ class ItemController extends Controller
         return view('items.update', ['item' => $item, 'authorised' => $authorised]);
     }
 
-    public function updateItem(Request $request, $category = null, $id = null)
+    public function updateItem(Request $request, $id = null)
     {
-
         $item = Item::find($id);
-        $item->name = $request->name;
+        $item->name = $request->input('name');
         $item->description = $request->description;
         // TODO: Implement sellType logic
-        $item->type = $request->type;
-        $item->price = $request->price;
-        $item->trade = $request->trade;
+        $item->type = $request->input('sellType');
+        $item->price = $request->input('price');
+        $item->trade = $request->input('swap');
+//        $item->category_id = $request->input('category');
         $item->save();
-
-        /*
-         *
-         * "name" => "Panasonic Microwave"
-  "description" => "A large modern 1250W microwave."
-  "sellType" => "on"
-  "price" => "45"
-  "swap" => "test"
-  "part-exchange" => "test2"
-]
-         *
-         */
+        $category = $item->category->slug;
 
         $request->session()->flash('success', 'Successfully updated your item.');
 

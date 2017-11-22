@@ -115,7 +115,7 @@
                     <h4 class="modal-title">Sell Item</h4>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="/items/create">
+                    <form method="POST" action="/items/add">
                         {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -127,33 +127,29 @@
                         </div>
                         <div class="form-group">
                             <label for="select" >Select a category</label>
-                            <select class="form-control" id="select">
+                            <select class="form-control" id="select" name="category">
                                 @foreach (\App\Category::all() as $category)
                                     <option value="{{$category->slug}}">{{$category->name}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group" style="display: inline-block">
-                            <label class="radio-inline"><input onchange="checkedSellType()" type="radio" name="sellType" checked>Sell</label>
+                            <label class="radio-inline"><input onchange="createCheckedSellType()" value="sell" type="radio" name="sellType" checked>Sell</label>
                         </div>
                         <div class="form-group" style="display: inline-block">
-                            <label class="radio-inline"><input onchange="checkedSwapType()" type="radio" name="sellType">Swap</label>
+                            <label class="radio-inline"><input onchange="createCheckedSwapType()" value="swap" type="radio" name="sellType">Swap</label>
                         </div>
                         <div class="form-group" style="display: inline-block">
-                            <label class="radio-inline"><input onchange="checkedPEType()" type="radio" name="sellType">Part-Exchange</label>
+                            <label class="radio-inline"><input onchange="createCheckedPEType()" value="part-exchange" type="radio" name="sellType">Part-Exchange</label>
                         </div>
 
                         <div id="modalCreatePriceForm" class="form-group" style="display: none">
                             <label for="price">Price (£)</label>
-                            <input type="number" class="form-control" id="modalCreatePrice" min="1" max="100000" value="" name="price">
+                            <input type="number" class="form-control" id="modalCreatePrice" min="1" max="100000" value="" name="price" required>
                         </div>
                         <div id="modalCreateSwapForm" class="form-group" style="display: none">
                             <label for="swap">Swap for</label>
-                            <input type="text" class="form-control" id="modalCreateSwap" min="1" max="255" value="" name="swap">
-                        </div>
-                        <div id="modalCreatePartExchangeForm" class="form-group">
-                            <label for="part-exchange">Part-Exchange for</label>
-                            <input type="text" class="form-control" id="modalCreatePartExchange" min="1" max="255" value="" name="part-exchange" required>
+                            <input type="text" class="form-control" id="modalCreateSwap" min="1" max="255" value="" name="swap" required>
                         </div>
 
                         <button type="submit" class="btn btn-success">Add item</button>
@@ -166,36 +162,31 @@
                 <!-- Script -->
                 <script>
 
-                    function checkedSellType() {
+                    window.onload = function() {
+                        createCheckedSellType();
+                    }
+
+                    function createCheckedSellType() {
                         document.getElementById('modalCreatePriceForm').style.display = "block";
                         document.getElementById('modalCreatePrice').required = true;
                         document.getElementById('modalCreateSwap').value = "";
                         document.getElementById('modalCreateSwap').required = false;
                         document.getElementById('modalCreateSwapForm').style.display = "none";
-                        document.getElementById('modalCreatePartExchange').value = "";
-                        document.getElementById('modalCreatePartExchange').required = false;
-                        document.getElementById('modalCreatePartExchangeForm').style.display = "none";
                     }
-                    function checkedSwapType() {
+                    function createCheckedSwapType() {
                         document.getElementById('modalCreatePrice').value = "";
                         document.getElementById('modalCreatePrice').required = false;
                         document.getElementById('modalCreatePriceForm').style.display = "none";
                         document.getElementById('modalCreateSwap').value = "";
                         document.getElementById('modalCreateSwap').required = true;
                         document.getElementById('modalCreateSwapForm').style.display = "block";
-                        document.getElementById('modalCreatePartExchange').value = "";
-                        document.getElementById('modalCreatePartExchange').required = false;
-                        document.getElementById('modalCreatePartExchangeForm').style.display = "none";
                     }
-                    function checkedPEType() {
+                    function createCheckedPEType() {
                         document.getElementById('modalCreatePriceForm').style.display = "block";
                         document.getElementById('modalCreatePrice').required = true;
                         document.getElementById('modalCreateSwap').value = "";
                         document.getElementById('modalCreateSwap').required = false;
-                        document.getElementById('modalCreateSwapForm').style.display = "none";
-                        document.getElementById('modalCreatePartExchange').value = "";
-                        document.getElementById('modalCreatePartExchange').required = true;
-                        document.getElementById('modalCreatePartExchangeForm').style.display = "block";
+                        document.getElementById('modalCreateSwapForm').style.display = "block";
                     }
                 </script>
             </div>

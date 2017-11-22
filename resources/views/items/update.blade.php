@@ -34,19 +34,30 @@
                                     <label for="name">Name</label>
                                     <input type="text" class="form-control" id="name" value="{{old('name', $item->name)}}" name="name" minlength="2" maxlength="255" required>
                                 </div>
+                                {{--<div class="form-group">--}}
+                                    {{--<label for="name">Name</label>--}}
+                                    {{--<input type="text" class="form-control" id="name" value="Nameee" name="name" minlength="2" maxlength="255" required>--}}
+                                {{--</div>--}}
                                 <div class="form-group">
                                     <label for="description">Description</label>
                                     <input type="text" class="form-control" id="description" value="{{old('description', $item->description)}}" name="description" minlength="2" maxlength="255" required>
                                 </div>
-
-                                <div class="form-group" style="display: inline-block">
-                                    <label class="radio-inline"><input onchange="checkedSellType()" type="radio" name="sellType" checked>Sell</label>
+                                <div class="form-group">
+                                    <label for="select" >Select a category</label>
+                                    <select class="form-control" id="select" name="category">
+                                        @foreach (\App\Category::all() as $category)
+                                            <option value="{{$category->slug}}">{{$category->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="form-group" style="display: inline-block">
-                                    <label class="radio-inline"><input onchange="checkedSwapType()" type="radio" name="sellType">Swap</label>
+                                    <label class="radio-inline"><input id="updatePriceRadio" onchange="updateCheckedSellType()" value="sell" type="radio" name="sellType" checked>Sell</label>
                                 </div>
                                 <div class="form-group" style="display: inline-block">
-                                    <label class="radio-inline"><input onchange="checkedPEType()" type="radio" name="sellType">Part-Exchange</label>
+                                    <label class="radio-inline"><input id="updateSwapRadio" onchange="updateCheckedSwapType()" value="swap" type="radio" name="sellType">Swap</label>
+                                </div>
+                                <div class="form-group" style="display: inline-block">
+                                    <label class="radio-inline"><input id="updatePartExchangeRadio" onchange="updateCheckedPEType()" value="part-exchange" type="radio" name="sellType">Part-Exchange</label>
                                 </div>
 
                                 <div id="updatePriceForm" class="form-group">
@@ -57,11 +68,7 @@
                                     <label for="swap">Swap for</label>
                                     <input type="text" class="form-control" id="updateSwap" min="1" max="255" value="{{$item->trade}}" name="swap" required>
                                 </div>
-                                <div id="updatePartExchangeForm" class="form-group">
-                                    <label for="part-exchange">Part-Exchange for</label>
-                                    <input type="text" class="form-control" id="updatePartExchange" min="1" max="255" value="{{$item->trade}}" name="part-exchange" required>
-                                </div>
-
+                                <a href="/items" class="btn btn-default" role="button">Return</a>
                                 <button type="submit" class="btn btn-success">Update</button>
                                 <button type="button" class="btn btn-primary">Mark as sold</button>
                                 <button data-toggle="modal" data-target="#removeModal" type="button" class="btn btn-danger" style="float:right">Remove item</button>
@@ -73,36 +80,44 @@
                             <!-- Script -->
                             <script>
 
-                                function checkedSellType() {
+                                window.onload = function() {
+                                    if ("{{$item->type}}" == 'sell') {
+                                        updateCheckedSellType();
+                                    }
+                                    else if ("{{$item->type}}" == 'swap') {
+                                        updateCheckedSwapType();
+                                        document.getElementById("updateSwapRadio").checked = true;
+                                    }
+                                    else {
+                                        updateCheckedPEType();
+                                        document.getElementById("updatePartExchangeRadio").checked = true;
+                                    }
+                                }
+
+                                function updateCheckedSellType() {
                                     document.getElementById('updatePriceForm').style.display = "block";
                                     document.getElementById('updatePrice').required = true;
+                                    document.getElementById('updatePrice').value = "{{$item->price}}";
                                     document.getElementById('updateSwap').value = "";
                                     document.getElementById('updateSwap').required = false;
                                     document.getElementById('updateSwapForm').style.display = "none";
-                                    document.getElementById('updatePartExchange').value = "";
-                                    document.getElementById('updatePartExchange').required = false;
-                                    document.getElementById('updatePartExchangeForm').style.display = "none";
                                 }
-                                function checkedSwapType() {
+                                function updateCheckedSwapType() {
                                     document.getElementById('updatePrice').value = "";
                                     document.getElementById('updatePrice').required = false;
                                     document.getElementById('updatePriceForm').style.display = "none";
                                     document.getElementById('updateSwap').value = "{{$item->trade}}";
                                     document.getElementById('updateSwap').required = true;
                                     document.getElementById('updateSwapForm').style.display = "block";
-                                    document.getElementById('updatePartExchange').value = "";
-                                    document.getElementById('updatePartExchange').required = false;
-                                    document.getElementById('updatePartExchangeForm').style.display = "none";
+                                    console.log("swap");
                                 }
-                                function checkedPEType() {
+                                function updateCheckedPEType() {
                                     document.getElementById('updatePriceForm').style.display = "block";
                                     document.getElementById('updatePrice').required = true;
-                                    document.getElementById('updateSwap').value = "";
-                                    document.getElementById('updateSwap').required = false;
-                                    document.getElementById('updateSwapForm').style.display = "none";
-                                    document.getElementById('updatePartExchange').value = "{{$item->trade}}";
-                                    document.getElementById('updatePartExchange').required = true;
-                                    document.getElementById('updatePartExchangeForm').style.display = "block";
+                                    document.getElementById('updatePrice').value = "{{$item->price}}";
+                                    document.getElementById('updateSwap').value = "{{$item->trade}}";
+                                    document.getElementById('updateSwap').required = true;
+                                    document.getElementById('updateSwapForm').style.display = "block";
                                 }
                             </script>
 
