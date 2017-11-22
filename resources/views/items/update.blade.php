@@ -28,7 +28,7 @@
                         @if ($authorised)
                             {{-- TODO: Limit changes based on whether the item has received any offers or not. --}}
 
-                            <form method="POST" action="/items/{{$item->id}}/update">
+                            <form method="POST" action="/items/update/{{$item->id}}">
                                 {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                                 <div class="form-group">
                                     <label for="name">Name</label>

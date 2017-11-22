@@ -30,13 +30,12 @@ Route::post('/items/add', 'ItemController@createItem');
 Route::get('/items', 'ItemController@index');
 Route::get('/items/{category}/{id}', 'ItemController@readItem');
 /* ..Edit */
-Route::get('/item/{id}/update', 'ItemController@editItem');
-Route::post('/item/{id}/update', 'ItemController@updateItem');
-//Route::post('/items/{category}/{id}', 'ItemController@updateItem');
+Route::get('/items/update/{id}', 'ItemController@editItem');
+Route::post('/items/update/{id}', 'ItemController@updateItem');
 /* ..Delete */
 Route::post('/item/{id}/remove', 'ItemController@removeItem');
 
-/* Profile Routes */
 
+/* Profile Routes */
 Route::get('/profile', 'UserController@index');
 Route::post('/profile', 'UserController@update')->name('update_profile');

@@ -66,7 +66,7 @@
                         @endif
 
                         @if ($authorised)
-                            <a href="/items/{{$item->id}}/update" class="btn btn-primary">Edit</a>
+                            <a href="/items/update/{{$item->id}}" class="btn btn-primary">Edit</a>
                         @endif
                     </div>
                 </div>
