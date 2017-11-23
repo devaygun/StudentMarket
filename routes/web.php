@@ -32,6 +32,7 @@ Route::get('/items/{category}/{id}', 'ItemController@readItem');
 /* ..Edit */
 Route::get('/items/update/{id}', 'ItemController@editItem');
 Route::post('/items/update/{id}', 'ItemController@updateItem');
+Route::post('/items/sold/{id}', 'ItemController@soldItem');
 /* ..Delete */
 Route::post('/item/{id}/remove', 'ItemController@removeItem');
 
