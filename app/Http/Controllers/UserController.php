@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -46,7 +48,9 @@ class UserController extends Controller
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->date_of_birth = $request->date_of_birth;
-        $user->profile_picture = $request->profile_picture;
+
+        if ($request->profile_picture)
+            $user->profile_picture = $this->storeImage($request->file('profile_picture'));
         if ($request->password)
             $user->password = bcrypt($request->password);
         $user->save();
@@ -56,14 +60,15 @@ class UserController extends Controller
         return view('user.profile', ['user' => $user]);
     }
 
-    /**
-     * The uploadImg user function allows us to upload a profile picture to a user's profile
-     *
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function uploadImg(Request $request)
+    public function storeImage($image)
     {
-        return view('user.profile', ['user' => $user]);
+        Storage::putFile('profiles', $image);
+
+
+        Storage::put($image, 'Contents');
+
+
+        $url = Storage::url('file1.jpg');
+
     }
 }

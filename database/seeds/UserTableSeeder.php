@@ -35,7 +35,7 @@ class UserTableSeeder extends Seeder
 
         DB::table('users')->insert([
             'first_name' => 'Richard',
-            'last_name' => 'Dight',
+            'last_name' => 'Bassey-Dight',
             'email' => 'rd339@kent.ac.uk',
             'password' => bcrypt('richard123'),
             'date_of_birth' => Carbon::createFromDate(1995, 8, 9),
