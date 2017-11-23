@@ -70,12 +70,14 @@
                                 </div>
                                 <a href="/items" class="btn btn-default" role="button">Return</a>
                                 <button type="submit" class="btn btn-success">Update</button>
-                                <button type="button" class="btn btn-primary">Mark as sold</button>
                                 <button data-toggle="modal" data-target="#removeModal" type="button" class="btn btn-danger" style="float:right">Remove item</button>
                             </form>
+                            <form method="POST" action="/items/sold/{{$item->id}}">
+                                {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
+                                <button type="submit" class="btn btn-primary">Mark as sold</button>
+                            </form>
 
-
-                            <br><br>User is authorised to edit this item as they are the owner.<br>
+                                <br><br>User is authorised to edit this item as they are the owner.<br>
 
                             <!-- Script -->
                             <script>
@@ -137,7 +139,6 @@
                                             <button type="button" class="btn btn-default" data-dismiss="modal" style="float: left;"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
                                             <form method="POST" action="/item/{{$item->id}}/remove">
                                                 {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
-                                                {{--<button type="button" class="btn btn-info" data-dismiss="modal" style="float: left;"><i class="fa fa-times" aria-hidden="true"></i>Cancel</button>--}}
                                                 <button type="submit" class="btn btn-danger" style="float:right">Remove item</button>
                                             </form>
                                         </div>

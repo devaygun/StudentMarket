@@ -56,6 +56,8 @@ class ItemController extends Controller
     {
         if ($category == "update")
            return $this->editItem($id);
+        if ($category == "sold")
+            return $this->soldItem($id);
 
         $item = Item::with('category')->find($id);
         $category = $category ?: $item->category->slug; // If the category is not passed through then retrieve it from the item
@@ -91,6 +93,19 @@ class ItemController extends Controller
         return $this->readItem($category, $id);
     }
 
+    public function soldItem(Request $request, $id = null)
+    {
+        $item = Item::find($id);
+        $item->sold = true;
+        $item->save();
+        $category = $item->category->slug;
+
+        $request->session()->flash('success', 'Successfully marked as sold');
+
+        return $this->readItem($category, $id);
+//        return redirect('items');
+
+    }
     public function removeItem($id)
     {
         $item = Item::find($id);
