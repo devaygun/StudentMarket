@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Image;
 use App\User;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
@@ -39,7 +40,7 @@ class UserController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore(Auth::id())],
             'date_of_birth' => 'required|date',
-            'profile_picture' => 'image|dimensions:min_width=100,min_height=100,max_width=2000,max_height=2000',
+            'profile_picture' => 'image|dimensions:min_width=100,min_height=100,max_width=10000,max_height=10000,size:25000',
             'password' => $request->password ? 'required|string|min:6|confirmed' : '',
         ]);
 
@@ -60,15 +61,13 @@ class UserController extends Controller
         return view('user.profile', ['user' => $user]);
     }
 
-    public function storeImage($image)
+    public function storeImage($file)
     {
-        Storage::putFile('profiles', $image);
+        $image = new Image();
+        $image->path = Storage::putFile('profiles', $file);
+        $image->save();
 
-
-        Storage::put($image, 'Contents');
-
-
-        $url = Storage::url('file1.jpg');
+        return $image->path;
 
     }
 }
