@@ -30,7 +30,7 @@
                                     <input type="file" accept="image/*" class="form-control" id="profile_picture" value="{{old('profile_picture', $user->profile_picture)}}" name="profile_picture">
                                 </div>
                                 <div class="form-group">
-                                    <label for="first_name">First Names</label>
+                                    <label for="first_name">First Name</label>
                                     <input type="text" class="form-control" id="first_name" value="{{old('first_name', $user->first_name)}}" name="first_name" minlength="2" maxlength="255" required>
                                 </div>
                                 <div class="form-group">

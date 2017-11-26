@@ -11,8 +11,8 @@ class Image extends Model
         $this->belongsTo('App\User');
     }
     
-    public function item()
+    public function items()
     {
-        $this->belongsTo('App\Item');
+        $this->belongsToMany('App\Item');
     }
 }

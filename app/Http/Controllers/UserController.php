@@ -51,7 +51,7 @@ class UserController extends Controller
         $user->date_of_birth = $request->date_of_birth;
 
         if ($request->profile_picture)
-            $user->profile_picture = $this->storeImage($request->file('profile_picture'));
+            $user->profile_picture = Storage::putFile('profiles', $request->file('profile_picture'));
         if ($request->password)
             $user->password = bcrypt($request->password);
         $user->save();
@@ -59,15 +59,5 @@ class UserController extends Controller
         $request->session()->flash('success', 'Successfully updated your profile.');
 
         return view('user.profile', ['user' => $user]);
-    }
-
-    public function storeImage($file)
-    {
-        $image = new Image();
-        $image->path = Storage::putFile('profiles', $file);
-        $image->save();
-
-        return $image->path;
-
     }
 }

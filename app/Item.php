@@ -25,6 +25,6 @@ class Item extends Model
 
     public function images()
     {
-        return $this->hasMany('App\Image');
+        return $this->belongsToMany('App\Image');
     }
 }
