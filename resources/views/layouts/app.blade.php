@@ -17,6 +17,18 @@
         .space-right {
             margin-right: 15px;
         }
+        .nav-font {
+            font-size: 18px;
+        }
+        .avatar {
+            margin-right: 5px;
+            border: solid dimgray 2px;
+            height: 40px;
+            width: 40px;
+        }
+        body {
+            font-family: 'Nunito', sans-serif;
+        }
     </style>
 </head>
 <body>
@@ -42,7 +54,7 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;<li><a href=""></a></li>
+                        <li><a href=""></a></li>
                         <li><a href="" data-toggle="modal" data-target="#sellModal"><i class="fa fa-plus" aria-hidden="true"></i> Sell Item</a></li>
                     </ul>
 
@@ -56,7 +68,12 @@
 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->first_name . " " . Auth::user()->last_name }} <span class="caret"></span>
+                                    @php $user = \Illuminate\Support\Facades\Auth::user(); @endphp
+                                    <span class="nav-font">
+                                        <img src="{{asset('storage/' . $user->profile_picture)}}" class="img-circle avatar" alt="">
+                                        {{ "$user->first_name $user->last_name"}}
+                                        <span class="caret"></span>
+                                    </span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
