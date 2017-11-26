@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('page_title', 'Profile |')
 @section('content')
     <div class="container">
         <div class="row">
@@ -19,7 +19,7 @@
                 @endif
 
                 <div class="panel panel-default">
-                    <div class="panel-heading">My Profile</div>
+                    <div class="panel-heading">Update Profile</div>
 
                     <div class="panel-body">
                         <form method="POST" action="{{ route('update_profile') }}" enctype="multipart/form-data">
@@ -53,11 +53,13 @@
                                     <label for="password_confirmation">Password Confirmation</label>
                                     <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm new password..." minlength="6" maxlength="255">
                                 </div>
-                                <button type="submit" class="btn btn-success">Update</button>
+                                <div class="col-sm-12" style="text-align: right; margin-bottom: 10px;">
+                                    <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-check" aria-hidden="true"></i> Update</button>
+                                </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="panel">
-                                    <div class="panel-heading">Current Profile Picture</div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">@if ($user->profile_picture) Current Profile Picture @else No profile picture set @endif</div>
                                     <div class="panel-body">
                                         <img src="{{asset('storage/' . $user->profile_picture)}}" alt="" style="display: block; max-width:100%; max-height:50%; width: auto; height: auto;">
                                     </div>
