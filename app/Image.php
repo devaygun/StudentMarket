@@ -6,8 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
-    public function item()
+    public function user()
     {
-        $this->belongsTo('App\Item');
+        $this->belongsTo('App\User');
+    }
+    
+    public function items()
+    {
+        $this->belongsToMany('App\Item');
     }
 }

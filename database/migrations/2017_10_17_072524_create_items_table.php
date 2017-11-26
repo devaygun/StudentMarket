@@ -24,6 +24,7 @@ class CreateItemsTable extends Migration
             $table->string('type'); // Will be set to 'sell', 'swap' or 'part_exchange' based on radio button selected
             $table->integer('price')->nullable(); // Will be set as null if 'swap' is set in 'type'
             $table->string('trade')->nullable(); // Will be set as null if 'sell' is set in 'type'
+            $table->boolean('sold')->default(false);
             $table->timestamps();
         });
     }

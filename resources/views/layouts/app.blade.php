@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('page_title') {{ config('app.name', 'Student Market') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -16,6 +16,18 @@
     <style>
         .space-right {
             margin-right: 15px;
+        }
+        .nav-font {
+            font-size: 18px;
+        }
+        .avatar {
+            margin-right: 5px;
+            border: solid dimgray 2px;
+            height: 40px;
+            width: 40px;
+        }
+        body {
+            font-family: 'Nunito', sans-serif;
         }
     </style>
 </head>
@@ -42,7 +54,7 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;<li><a href=""></a></li>
+                        <li><a href=""></a></li>
                         <li><a href="" data-toggle="modal" data-target="#sellModal"><i class="fa fa-plus" aria-hidden="true"></i> Sell Item</a></li>
                     </ul>
 
@@ -56,11 +68,16 @@
 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->first_name . " " . Auth::user()->last_name }} <span class="caret"></span>
+                                    @php $user = \Illuminate\Support\Facades\Auth::user(); @endphp
+                                    <span class="nav-font">
+                                        <img src="{{asset('storage/' . $user->profile_picture)}}" class="img-circle avatar" alt="">
+                                        {{ "$user->first_name $user->last_name"}}
+                                        <span class="caret"></span>
+                                    </span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="/profile">My Profile</a></li>
+                                    <li><a href="/profile">Profile</a></li>
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -118,42 +135,77 @@
                     <form method="POST" action="/items/add">
                         {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                         <div class="form-group">
-                            <label for="first_name">Name</label>
-                            <input type="text" class="form-control" value="" name="name" minlength="2" maxlength="255" required>
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" value="" name="name" minlength="2" maxlength="255" required>
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <input type="text" class="form-control" value="" name="description" minlength="2" maxlength="255" required>
+                            <input type="text" class="form-control" id="description" value="" name="description" minlength="2" maxlength="255" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="select" >Select a category</label>
+                            <select class="form-control" id="select" name="category">
+                                @foreach (\App\Category::all() as $category)
+                                    <option value="{{$category->slug}}">{{$category->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group" style="display: inline-block">
+                            <label class="radio-inline"><input onchange="createCheckedSellType()" value="sell" type="radio" name="sellType" checked>Sell</label>
+                        </div>
+                        <div class="form-group" style="display: inline-block">
+                            <label class="radio-inline"><input onchange="createCheckedSwapType()" value="swap" type="radio" name="sellType">Swap</label>
+                        </div>
+                        <div class="form-group" style="display: inline-block">
+                            <label class="radio-inline"><input onchange="createCheckedPEType()" value="part-exchange" type="radio" name="sellType">Part-Exchange</label>
                         </div>
 
-                        <div class="form-group" style="display: inline-block">
-                            <label class="radio-inline"><input type="radio" name="sellType" checked>Sell</label>
-                        </div>
-                        <div class="form-group" style="display: inline-block">
-                            <label class="radio-inline"><input type="radio" name="sellType">Swap</label>
-                        </div>
-                        <div class="form-group" style="display: inline-block">
-                            <label class="radio-inline"><input type="radio" name="sellType">Part-Exchange</label>
-                        </div>
-                        <div class="form-group">
+                        <div id="modalCreatePriceForm" class="form-group" style="display: none">
                             <label for="price">Price (£)</label>
-                            <input type="number" class="form-control" min="1" max="100000" value="" name="price" required>
+                            <input type="number" class="form-control" id="modalCreatePrice" min="1" max="100000" value="" name="price" required>
                         </div>
-                        <div class="form-group">
+                        <div id="modalCreateSwapForm" class="form-group" style="display: none">
                             <label for="swap">Swap for</label>
-                            <input type="text" class="form-control" min="1" max="255" value="" name="swap" required>
+                            <input type="text" class="form-control" id="modalCreateSwap" min="1" max="255" value="" name="swap" required>
                         </div>
-                        <div id="pe-form" class="form-group">
-                            <label for="part-exchange">Part-Exchange for</label>
-                            <input type="text" class="form-control" min="1" max="255" value="" name="part-exchange" required>
-                        </div>
-                        <button type="submit" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add item</button>
+
+                        <button type="submit" class="btn btn-success">Add item</button>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: left;"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
-                    {{--<button type="button" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Save</button>--}}
                 </div>
+
+                <!-- Script -->
+                <script>
+
+                    window.onload = function() {
+                        createCheckedSellType();
+                    }
+
+                    function createCheckedSellType() {
+                        document.getElementById('modalCreatePriceForm').style.display = "block";
+                        document.getElementById('modalCreatePrice').required = true;
+                        document.getElementById('modalCreateSwap').value = "";
+                        document.getElementById('modalCreateSwap').required = false;
+                        document.getElementById('modalCreateSwapForm').style.display = "none";
+                    }
+                    function createCheckedSwapType() {
+                        document.getElementById('modalCreatePrice').value = "";
+                        document.getElementById('modalCreatePrice').required = false;
+                        document.getElementById('modalCreatePriceForm').style.display = "none";
+                        document.getElementById('modalCreateSwap').value = "";
+                        document.getElementById('modalCreateSwap').required = true;
+                        document.getElementById('modalCreateSwapForm').style.display = "block";
+                    }
+                    function createCheckedPEType() {
+                        document.getElementById('modalCreatePriceForm').style.display = "block";
+                        document.getElementById('modalCreatePrice').required = true;
+                        document.getElementById('modalCreateSwap').value = "";
+                        document.getElementById('modalCreateSwap').required = false;
+                        document.getElementById('modalCreateSwapForm').style.display = "block";
+                    }
+                </script>
             </div>
         </div>
     </div>

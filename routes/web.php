@@ -24,14 +24,19 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 /* Item Routes */
-
+/* ..Create */
+Route::post('/items/add', 'ItemController@createItem');
+/* ..Read */
 Route::get('/items', 'ItemController@index');
 Route::get('/items/{category}/{id}', 'ItemController@readItem');
-Route::post('/items/{category}/{id}', 'ItemController@updateItem');
-Route::post('/items/add', 'ItemController@createItem');
+/* ..Edit */
+Route::get('/items/update/{id}', 'ItemController@editItem');
+Route::post('/items/update/{id}', 'ItemController@updateItem');
+Route::post('/items/sold/{id}', 'ItemController@soldItem');
+/* ..Delete */
 Route::post('/item/{id}/remove', 'ItemController@removeItem');
 
-/* Profile Routes */
 
+/* Profile Routes */
 Route::get('/profile', 'UserController@index');
 Route::post('/profile', 'UserController@update')->name('update_profile');
