@@ -70,7 +70,11 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     @php $user = \Illuminate\Support\Facades\Auth::user(); @endphp
                                     <span class="nav-font">
-                                        <img src="{{asset('storage/' . $user->profile_picture)}}" class="img-circle avatar" alt="">
+                                        @if ($user->profile_picture)
+                                            <img src="{{asset('storage/' . $user->profile_picture)}}" class="img-circle avatar" alt="">
+                                        @else
+                                            <img src="{{asset('images/default_profile.jpg')}}" class="img-circle avatar" alt="">
+                                        @endif
                                         {{ "$user->first_name $user->last_name"}}
                                         <span class="caret"></span>
                                     </span>
