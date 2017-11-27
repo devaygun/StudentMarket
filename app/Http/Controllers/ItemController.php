@@ -29,27 +29,27 @@ class ItemController extends Controller
 
     public function createItem(Request $request)
     {
-        $request->validate([
-            'category_id' => 'required|integer|exists:category,id',
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'type' => 'required',
-            'price' => 'integer',
-            'trade' => 'string'
-        ]);
+//        $request->validate([
+//            'category_id' => 'required|integer|exists:category,id',
+//            'name' => 'required|string|max:255',
+//            'description' => 'required|string|max:255',
+//            'type' => 'required',
+//            'price' => 'integer',
+//            'trade' => 'string'
+//        ]);
+        $category = $request->input('category');
 
         $item = new Item();
-        $item->category_id = '1';
         $item->name = $request->name;
         $item->description = $request->description;
         $item->type = $request->type;
         $item->price = $request->price;
         $item->trade = $request->trade;
+        $item->category_id = Category::where('slug', $category)->first()->id;
         $item->save();
 
-//        $this->readItem($item->category->slug, $item->id);
-        return view('items.read', ['item' => $item, 'category' => $category]);
-//        return redirect('items');
+        return view('items.read', ['item' => $item, 'category' => null]);
+        dd('hit');
     }
 
     public function readItem($category = null, $id = null)
@@ -77,6 +77,8 @@ class ItemController extends Controller
 
     public function updateItem(Request $request, $id = null)
     {
+        $category = $request->input('category');
+
         $item = Item::find($id);
         $item->name = $request->input('name');
         $item->description = $request->description;
@@ -84,28 +86,19 @@ class ItemController extends Controller
         $item->type = $request->input('sellType');
         $item->price = $request->input('price');
         $item->trade = $request->input('swap');
-//        $item->category_id = $request->input('category');
+        $item->category_id = Category::where('slug', $category)->first()->id;
+        if ($request->input('sold')) { // if 'sold' checkbox is checked
+            $item->sold = true;
+        } else {
+            $item->sold = false;
+        }
+
         $item->save();
-        $category = $item->category->slug;
 
         $request->session()->flash('success', 'Successfully updated your item.');
-
         return $this->readItem($category, $id);
     }
 
-    public function soldItem(Request $request, $id = null)
-    {
-        $item = Item::find($id);
-        $item->sold = true;
-        $item->save();
-        $category = $item->category->slug;
-
-        $request->session()->flash('success', 'Successfully marked as sold');
-
-        return $this->readItem($category, $id);
-//        return redirect('items');
-
-    }
     public function removeItem($id)
     {
         $item = Item::find($id);

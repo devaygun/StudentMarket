@@ -46,7 +46,7 @@
                                     <label for="select" >Select a category</label>
                                     <select class="form-control" id="select" name="category">
                                         @foreach (\App\Category::all() as $category)
-                                            <option value="{{$category->slug}}">{{$category->name}}</option>
+                                            <option id="select{{$category->id}}" value="{{$category->slug}}">{{$category->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -68,29 +68,49 @@
                                     <label for="swap">Swap for</label>
                                     <input type="text" class="form-control" id="updateSwap" min="1" max="255" value="{{$item->trade}}" name="swap" required>
                                 </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input id="checkboxSold" type="checkbox" value="true" name="sold"> Mark as sold
+                                    </label>
+                                </div>
                                 <a href="/items" class="btn btn-default" role="button">Return</a>
                                 <button type="submit" class="btn btn-success">Update</button>
                                 <button data-toggle="modal" data-target="#removeModal" type="button" class="btn btn-danger" style="float:right">Remove item</button>
                             </form>
-                            <form method="POST" action="/items/sold/{{$item->id}}">
-                                {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
-                                <button type="submit" class="btn btn-primary">Mark as sold</button>
-                            </form>
 
-                                <br><br>User is authorised to edit this item as they are the owner.<br>
+                            <br><br>User is authorised to edit this item as they are the owner.<br>
 
                             <!-- Script -->
                             <script>
 
-                                window.onload = function() {
+                                window.addEventListener ?
+                                window.addEventListener("load",windowLoadfunctions,false) :
+                                window.attachEvent && window.attachEvent("onload",windowLoadfunctions);
+
+                                function windowLoadfunctions() {
+                                    console.log("working")
+                                    checkType();
+                                    checkSold();
+                                    checkCategory();
+                                }
+
+                                function checkCategory() {
+                                    var cat = "select{{$item->category_id}}";
+                                    document.getElementById(cat).selected = "selected";
+                                    console.log("cat = " + cat);
+                                }
+
+                                function checkSold() {
+                                    if ({{$item->sold}}) document.getElementById("checkboxSold").checked=true;
+                                }
+
+                                function checkType() {
                                     if ("{{$item->type}}" == 'sell') {
                                         updateCheckedSellType();
-                                    }
-                                    else if ("{{$item->type}}" == 'swap') {
+                                    } else if ("{{$item->type}}" == 'swap') {
                                         updateCheckedSwapType();
                                         document.getElementById("updateSwapRadio").checked = true;
-                                    }
-                                    else {
+                                    } else {
                                         updateCheckedPEType();
                                         document.getElementById("updatePartExchangeRadio").checked = true;
                                     }

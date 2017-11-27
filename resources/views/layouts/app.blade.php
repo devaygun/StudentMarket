@@ -166,7 +166,7 @@
                         </div>
                         <div id="modalCreateSwapForm" class="form-group" style="display: none">
                             <label for="swap">Swap for</label>
-                            <input type="text" class="form-control" id="modalCreateSwap" min="1" max="255" value="" name="swap" required>
+                            <input type="text" class="form-control" id="modalCreateSwap" min="1" max="255" value="" name="swap">
                         </div>
 
                         <button type="submit" class="btn btn-success">Add item</button>

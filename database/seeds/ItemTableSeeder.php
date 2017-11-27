@@ -51,7 +51,7 @@ class ItemTableSeeder extends Seeder
 
         DB::table('items')->insert([
             'user_id' => 2,
-            'category_id' => 1,
+            'category_id' => 2,
             'name' => 'Sony Speakers',
             'description' => "Best speakers in the world",
             'type' => 'swap',
