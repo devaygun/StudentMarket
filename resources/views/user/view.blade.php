@@ -12,9 +12,9 @@
                                 <thead>
                                 <tr>
                                     <th></th>
-                                    <tr>Email Address: {{$user->email}}</tr>
-                                    <tr>Rating:</tr>
-                                    <tr>Member since: {{$user->created_at->format('jS \\ F Y')}}</tr>
+                                    <td>Email Address: {{$user->email}}</td>
+                                    <td>Rating:</td>
+                                    <td>Member since: {{$user->created_at->format('jS \\ F Y')}}</td>
                                 </tr>
                                 </thead>
                         </div>
