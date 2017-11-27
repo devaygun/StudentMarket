@@ -63,7 +63,7 @@ class UserController extends Controller
 
     public function viewUser($id = null)
     {
-        $user = User::find($id);
+        $user = User::with('items')->find($id);
         dump($user);
         return view('user.view', ['user' => $user]);
     }
