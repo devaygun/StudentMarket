@@ -59,7 +59,7 @@ class ItemController extends Controller
         if ($category == "sold")
             return $this->soldItem($id);
 
-        $item = Item::with('category', 'images')->find($id);
+        $item = Item::with('category', 'images', 'user')->find($id);
         $category = $category ?: $item->category->slug; // If the category is not passed through then retrieve it from the item
         $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
 
