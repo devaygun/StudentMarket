@@ -29,6 +29,7 @@ Route::post('/items/add', 'ItemController@createItem');
 /* ..Read */
 Route::get('/items', 'ItemController@index');
 Route::get('/items/{category}/{id}', 'ItemController@readItem');
+Route::get('/items/my', 'ItemController@myItems');
 /* ..Edit */
 Route::get('/items/update/{id}', 'ItemController@editItem');
 Route::post('/items/update/{id}', 'ItemController@updateItem');

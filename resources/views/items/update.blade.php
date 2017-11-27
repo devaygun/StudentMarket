@@ -70,7 +70,7 @@
                                         <input id="checkboxSold" type="checkbox" value="true" name="sold"> Mark as sold
                                     </label>
                                 </div>
-                                <a href="/items" class="btn btn-default" role="button">Return</a>
+                                <a href="/items/{{$item->category->slug}}/{{$item->id}}" class="btn btn-default" role="button">Return</a>
                                 <button type="submit" class="btn btn-success">Update</button>
                                 <button data-toggle="modal" data-target="#removeModal" type="button" class="btn btn-danger" style="float:right">Remove item</button>
                             </form>

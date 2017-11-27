@@ -54,6 +54,7 @@ class ItemController extends Controller
             'price' => $request->price,
             'trade' => $request->trade,
         ]);
+
         $item->save();
 
         return view('items.read', ['item' => $item, 'category' => null]);

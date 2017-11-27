@@ -18,6 +18,9 @@
                                 <img src="{{asset('storage/' . $item->user->profile_picture)}}" alt="" style="display: block; max-width:100%; max-height:50%; width: auto; height: auto;">
                             </div>
                         </div>
+                        @if (!$authorised)
+                            <button type="button" class="btn btn-primary">Message seller</button>
+                        @endif
                     </div>
                 </div>
             </div>
