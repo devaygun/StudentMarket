@@ -37,6 +37,7 @@ Route::post('/items/sold/{id}', 'ItemController@soldItem');
 Route::post('/item/{id}/remove', 'ItemController@removeItem');
 
 
-/* Profile Routes */
+/* User Routes */
+Route::get('/view/{id}', 'UserController@viewUser');
 Route::get('/profile', 'UserController@index');
 Route::post('/profile', 'UserController@update')->name('update_profile');

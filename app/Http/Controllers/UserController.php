@@ -60,4 +60,11 @@ class UserController extends Controller
 
         return view('user.profile', ['user' => $user]);
     }
+
+    public function viewUser($id = null)
+    {
+        $user = User::find($id);
+        dump($user);
+        return view('user.view', ['user' => $user]);
+    }
 }
