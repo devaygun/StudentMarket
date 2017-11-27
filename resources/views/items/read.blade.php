@@ -3,7 +3,33 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-sm-12">
+            {{--SELLER INFORMATION--}}
+            <div class="col-lg-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 style="display:inline-block" class="panel-title">Seller Profile</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Name: {{$item->user_id}} (ID)</h3>
+                            </div>
+                            <div class="panel-body">
+                                {{--<img src="{{asset('storage/' . $user->profile_picture)}}" alt="" style="display: block; max-width:100%; max-height:50%; width: auto; height: auto;">--}}
+                                <img src="http://profile.actionsprout.com/default.jpeg" alt="" style="display: block; max-width:100%; max-height:50%; width: auto; height: auto;">
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Rating:</h3>
+                            </div>
+                            <div class="panel-body"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{--ITEM INFORMATION--}}
+            <div class="col-lg-8">
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         @foreach ($errors->all() as $error)

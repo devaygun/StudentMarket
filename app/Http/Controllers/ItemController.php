@@ -29,23 +29,31 @@ class ItemController extends Controller
 
     public function createItem(Request $request)
     {
-//        $request->validate([
-//            'category_id' => 'required|integer|exists:category,id',
-//            'name' => 'required|string|max:255',
-//            'description' => 'required|string|max:255',
-//            'type' => 'required',
-//            'price' => 'integer',
-//            'trade' => 'string'
-//        ]);
-        $category = $request->input('category');
+        $request->validate([
+            'category_id' => 'required|integer|exists:category,id',
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'type' => 'required',
+            'price' => 'integer',
+            'trade' => 'string'
+        ]);
 
-        $item = new Item();
-        $item->name = $request->name;
-        $item->description = $request->description;
-        $item->type = $request->type;
-        $item->price = $request->price;
-        $item->trade = $request->trade;
-        $item->category_id = Category::where('slug', $category)->first()->id;
+        $category = $request->input('category');
+//        $item->name = $request->name;
+//        $item->description = $request->description;
+//        $item->type = $request->type;
+//        $item->price = $request->price;
+//        $item->trade = $request->trade;
+//        $item->category_id = Category::where('slug', $category)->first()->id;
+
+        $item = Item::create([
+            'category_id' => Category::where('slug', $category)->first()->id,
+            'name' => $request->name,
+            'description' => $request->description,
+            'type' => $request->type,
+            'price' => $request->price,
+            'trade' => $request->trade,
+        ]);
         $item->save();
 
         return view('items.read', ['item' => $item, 'category' => null]);

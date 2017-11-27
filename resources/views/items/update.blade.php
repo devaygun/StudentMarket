@@ -28,16 +28,13 @@
                         @if ($authorised)
                             {{-- TODO: Limit changes based on whether the item has received any offers or not. --}}
 
+                            {{--UPDATE ITEM FORM--}}
                             <form method="POST" action="/items/update/{{$item->id}}">
                                 {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                                 <div class="form-group">
                                     <label for="name">Name</label>
                                     <input type="text" class="form-control" id="name" value="{{old('name', $item->name)}}" name="name" minlength="2" maxlength="255" required>
                                 </div>
-                                {{--<div class="form-group">--}}
-                                    {{--<label for="name">Name</label>--}}
-                                    {{--<input type="text" class="form-control" id="name" value="Nameee" name="name" minlength="2" maxlength="255" required>--}}
-                                {{--</div>--}}
                                 <div class="form-group">
                                     <label for="description">Description</label>
                                     <input type="text" class="form-control" id="description" value="{{old('description', $item->description)}}" name="description" minlength="2" maxlength="255" required>
@@ -83,10 +80,12 @@
                             <!-- Script -->
                             <script>
 
+//                                TEMPORARY EVENT LISTENER - THIS WILL LOAD INITIAL PAGE FUNCTIONS
                                 window.addEventListener ?
                                 window.addEventListener("load",windowLoadfunctions,false) :
                                 window.attachEvent && window.attachEvent("onload",windowLoadfunctions);
 
+//                                THESE ARE THE FUNCTIONS TO LOAD WITH THE PAGE
                                 function windowLoadfunctions() {
                                     console.log("working")
                                     checkType();
@@ -94,16 +93,19 @@
                                     checkCategory();
                                 }
 
+//                                CHANGE THE DEFAULT CATEGORY SELECT VALUE TO MATCH THE ITEM
                                 function checkCategory() {
                                     var cat = "select{{$item->category_id}}";
                                     document.getElementById(cat).selected = "selected";
                                     console.log("cat = " + cat);
                                 }
 
+//                                CHANGE THE SOLD TOGGLE TO MATCH IF THE ITEM HAS BEEN SOLD
                                 function checkSold() {
                                     if ({{$item->sold}}) document.getElementById("checkboxSold").checked=true;
                                 }
 
+//                                CHECK THE TYPE OF TRADE OF THE ITEM - HIDE IRRELEVANT INPUTS
                                 function checkType() {
                                     if ("{{$item->type}}" == 'sell') {
                                         updateCheckedSellType();
@@ -116,6 +118,7 @@
                                     }
                                 }
 
+//                                HIDE IRRELEVANT INPUTS
                                 function updateCheckedSellType() {
                                     document.getElementById('updatePriceForm').style.display = "block";
                                     document.getElementById('updatePrice').required = true;
@@ -124,6 +127,7 @@
                                     document.getElementById('updateSwap').required = false;
                                     document.getElementById('updateSwapForm').style.display = "none";
                                 }
+//                                HIDE IRRELEVANT INPUTS
                                 function updateCheckedSwapType() {
                                     document.getElementById('updatePrice').value = "";
                                     document.getElementById('updatePrice').required = false;
@@ -133,6 +137,7 @@
                                     document.getElementById('updateSwapForm').style.display = "block";
                                     console.log("swap");
                                 }
+//                                HIDE IRRELEVANT INPUTS
                                 function updateCheckedPEType() {
                                     document.getElementById('updatePriceForm').style.display = "block";
                                     document.getElementById('updatePrice').required = true;
@@ -141,8 +146,10 @@
                                     document.getElementById('updateSwap').required = true;
                                     document.getElementById('updateSwapForm').style.display = "block";
                                 }
+
                             </script>
 
+                            {{--WARNING MODAL FOR DELETE ITEM--}}
                             <!-- Modals -->
                             <div id="removeModal" class="modal fade" role="dialog">
                                 <div class="modal-dialog">
