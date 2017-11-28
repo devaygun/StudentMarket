@@ -19,7 +19,7 @@
                             </div>
                         </div>
                         @if (!$authorised)
-                            <button type="button" class="btn btn-primary">Message seller</button>
+                            <button type="button" class="btn btn-primary">Message Seller</button>
                         @endif
                     </div>
                 </div>

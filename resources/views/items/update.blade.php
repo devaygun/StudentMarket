@@ -62,8 +62,8 @@
                                     <input type="number" class="form-control" id="updatePrice" min="1" max="100000" value="{{$item->price}}" name="price" required>
                                 </div>
                                 <div id="updateSwapForm" class="form-group">
-                                    <label for="swap">Swap for</label>
-                                    <input type="text" class="form-control" id="updateSwap" min="1" max="255" value="{{$item->trade}}" name="swap" required>
+                                    <label for="trade">Swap for</label>
+                                    <input type="text" class="form-control" id="updateSwap" min="1" max="255" value="{{$item->trade}}" name="trade" required>
                                 </div>
                                 <div class="checkbox">
                                     <label>
