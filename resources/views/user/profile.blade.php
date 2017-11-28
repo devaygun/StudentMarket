@@ -64,6 +64,11 @@
                                         <img src="{{asset('storage/' . $user->profile_picture)}}" alt="" style="display: block; max-width:100%; max-height:50%; width: auto; height: auto;">
                                     </div>
                                 </div>
+                                <example-component></example-component>
+
+
+                                <avatar-form></avatar-form>
+
                             </div>
                         </form>
 
