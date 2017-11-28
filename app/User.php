@@ -32,4 +32,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Review');
     }
+
+    public function getProfilePicture()
+    {
+        return asset($this->profile_picture ? "storage/$this->profile_picture" : 'images/default_profile.jpg');
+    }
 }
