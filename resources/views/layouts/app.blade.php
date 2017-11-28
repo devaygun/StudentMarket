@@ -103,6 +103,19 @@
         @guest
 
         @else
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                @foreach ($errors->all() as $error)
+                    <i class="fa fa-times" aria-hidden="true"></i> {{ $error }}<br>
+                @endforeach
+            </div>
+        @endif
+
+        @if (\Illuminate\Support\Facades\Session::has('success'))
+            <div class="alert alert-success">
+                <i class="fa fa-check" aria-hidden="true"></i> {{ session('success') }}
+            </div>
+        @endif
         <div class="container">
             <div class="col-sm-8 col-sm-offset-2" style="margin-bottom: 20px;">
                 <form class="navbar-form navbar-left" role="search">
@@ -148,20 +161,20 @@
                         </div>
                         <div class="form-group">
                             <label for="select" >Select a category</label>
-                            <select class="form-control" id="select" name="category">
+                            <select class="form-control" id="select" name="category_id">
                                 @foreach (\App\Category::all() as $category)
-                                    <option value="{{$category->slug}}">{{$category->name}}</option>
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group" style="display: inline-block">
-                            <label class="radio-inline"><input onchange="createCheckedSellType()" value="sell" type="radio" name="sellType" checked>Sell</label>
+                            <label class="radio-inline"><input onchange="createCheckedSellType()" value="sell" type="radio" name="type" checked>Sell</label>
                         </div>
                         <div class="form-group" style="display: inline-block">
-                            <label class="radio-inline"><input onchange="createCheckedSwapType()" value="swap" type="radio" name="sellType">Swap</label>
+                            <label class="radio-inline"><input onchange="createCheckedSwapType()" value="swap" type="radio" name="type">Swap</label>
                         </div>
                         <div class="form-group" style="display: inline-block">
-                            <label class="radio-inline"><input onchange="createCheckedPEType()" value="part-exchange" type="radio" name="sellType">Part-Exchange</label>
+                            <label class="radio-inline"><input onchange="createCheckedPEType()" value="part-exchange" type="radio" name="type">Part-Exchange</label>
                         </div>
 
                         <div id="modalCreatePriceForm" class="form-group" style="display: none">

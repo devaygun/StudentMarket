@@ -41,20 +41,20 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="select" >Select a category</label>
-                                    <select class="form-control" id="select" name="category">
+                                    <select class="form-control" id="select" name="category_id">
                                         @foreach (\App\Category::all() as $category)
-                                            <option id="select{{$category->id}}" value="{{$category->slug}}">{{$category->name}}</option>
+                                            <option id="select{{$category->id}}" value="{{$category->id}}">{{$category->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group" style="display: inline-block">
-                                    <label class="radio-inline"><input id="updatePriceRadio" onchange="updateCheckedSellType()" value="sell" type="radio" name="sellType" checked>Sell</label>
+                                    <label class="radio-inline"><input id="updatePriceRadio" onchange="updateCheckedSellType()" value="sell" type="radio" name="type" checked>Sell</label>
                                 </div>
                                 <div class="form-group" style="display: inline-block">
-                                    <label class="radio-inline"><input id="updateSwapRadio" onchange="updateCheckedSwapType()" value="swap" type="radio" name="sellType">Swap</label>
+                                    <label class="radio-inline"><input id="updateSwapRadio" onchange="updateCheckedSwapType()" value="swap" type="radio" name="type">Swap</label>
                                 </div>
                                 <div class="form-group" style="display: inline-block">
-                                    <label class="radio-inline"><input id="updatePartExchangeRadio" onchange="updateCheckedPEType()" value="part-exchange" type="radio" name="sellType">Part-Exchange</label>
+                                    <label class="radio-inline"><input id="updatePartExchangeRadio" onchange="updateCheckedPEType()" value="part-exchange" type="radio" name="type">Part-Exchange</label>
                                 </div>
 
                                 <div id="updatePriceForm" class="form-group">
