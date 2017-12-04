@@ -97,6 +97,34 @@ class ItemController extends Controller
 
     public function updateItem(Request $request, $id = null)
     {
+        if ($request->type == "sell") {
+            $request->validate([
+                'category_id' => 'required|exists:categories,id',
+                'name' => 'required|string|max:255',
+                'description' => 'required|string|max:255',
+                'type' => 'required|string',
+                'price' => 'required|integer',
+                'trade' => 'nullable|string'
+            ]);
+        } else if ($request->type == "swap") {
+            $request->validate([
+                'category_id' => 'required|exists:categories,id',
+                'name' => 'required|string|max:255',
+                'description' => 'required|string|max:255',
+                'type' => 'required|string',
+                'price' => 'nullable|integer',
+                'trade' => 'required|string'
+            ]);
+        } else {
+            $request->validate([
+                'category_id' => 'required|exists:categories,id',
+                'name' => 'required|string|max:255',
+                'description' => 'required|string|max:255',
+                'type' => 'required|string',
+                'price' => 'required|integer',
+                'trade' => 'required|string'
+            ]);
+        }
 
         // TODO: Implement sellType logic
         $item = Item::find($id);
@@ -121,7 +149,14 @@ class ItemController extends Controller
     public function removeItem($id)
     {
         $item = Item::find($id);
-        $item->delete();
+
+        $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
+
+        // only delete if user is authorised
+        if ($authorised) {
+            $item->delete();
+        }
+
         return redirect('items');
     }
 }
