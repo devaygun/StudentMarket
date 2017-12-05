@@ -20,7 +20,7 @@ class editItemTest extends DuskTestCase
                 ->assertSee('login')
                 ->type('email','rd339@kent.ac.uk') //valid credentials
                 ->type('password','richard123')    //valid credentials
-                ->visit('/items/books/5')
+                ->visit('/items/books/4')
                 ->assertSee('An old book')
                 ->visit('/items/update/5')
                 ->type('description', 'A shiny old book')

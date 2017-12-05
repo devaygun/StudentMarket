@@ -20,9 +20,9 @@ class RemoveItemTest extends DuskTestCase
                 ->assertSee('login')
                 ->type('email','rd339@kent.ac.uk') //valid credentials
                 ->type('password','richard123')    //valid credentials
-                ->visit('/items/books/5')
+                ->visit('/items/books/4')
                 ->assertSee('An old book')
-                ->visit('/items/update/5')
+                ->visit('/items/update/4')
                 ->press('Remove item')
                 ->assertDontSee('Book');
         });
