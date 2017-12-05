@@ -22,7 +22,7 @@ class ItemEditValidation extends DuskTestCase
                 ->type('password','richard123')    //valid credentials
                 ->visit('/items/books/5')
                 ->press('Edit')
-                ->assertSee('User is authorised to edit this item as they are the owner.');
+                ->assertDontSee('User is authorised to edit this item as they are the owner.');
         });
     }
     /**
