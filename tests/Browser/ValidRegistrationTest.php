@@ -13,14 +13,14 @@ class ValidRegistrationTest extends DuskTestCase
      *
      * @return void
      */
-    public function testExample()
+    public function simpleItemSale()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/register')
                 ->assertSee('Register')
                 ->type('first_name', 'testing')
                 ->type('last_name', ('testing2'))
-                ->type('email', 'testing523636@kent.ac.uk')
+                ->type('email', 'testing52364367@kent.ac.uk')
                 ->keys('#date_of_birth', '19950809')
                 ->type('password', 'testing')
                 ->type('password_confirmation', 'testing')

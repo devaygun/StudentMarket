@@ -26,7 +26,8 @@ class TestItemSales extends DuskTestCase
                 ->type('description', 'An old book')
                 ->select('category_id', '3')
                 ->type('price', '5')
-                ->press('Add item');
+                ->press('Add item')
+                ->assertSee('Seller Profile');
         });
     }
 }

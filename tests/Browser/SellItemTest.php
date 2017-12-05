@@ -21,8 +21,7 @@ class SellItemTest extends DuskTestCase
                 ->type('email','rd339@kent.ac.uk') //valid credentials
                 ->type('password','richard123')    //valid credentials
                 ->click('button[type="submit"]')
-                ->clickLink('Sell Item')
-                ->assertSee('price');
+                ->clickLink('Sell Item');
         });
     }
 }
