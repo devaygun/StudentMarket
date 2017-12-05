@@ -22,7 +22,12 @@ class TestItemSales extends DuskTestCase
                 ->type('password','richard123')    //valid credentials
                 ->click('button[type="submit"]')
                 ->clickLink('Sell Item')
-                ->assertSee('price');
+                ->type('name', 'Book')
+                ->type('description', 'An old book')
+                ->select('category_id', '3')
+                ->type('price', '5')
+                ->press('Add item')
+                ->assertSee('Seller Profile');
         });
     }
 }
