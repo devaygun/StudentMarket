@@ -6,6 +6,7 @@ use App\Category;
 use App\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
@@ -57,6 +58,9 @@ class ItemController extends Controller
                 'trade' => 'required|string'
             ]);
         }
+
+        dump($request->file('images'));
+        dd($request->all());
 
         $item = Item::create([
             'category_id' => $request->category_id,
@@ -131,6 +135,8 @@ class ItemController extends Controller
         $item->name = $request->input('name');
         $item->description = $request->description;
         $item->category_id = $request->category_id;
+        if ($request->profile_picture)
+            $user->profile_picture = Storage::putFile('profiles', $request->file('images'));
         $item->type = $request->type;
         $item->price = $request->price;
         $item->trade = $request->trade;

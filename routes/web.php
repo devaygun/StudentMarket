@@ -41,3 +41,8 @@ Route::post('/item/{id}/remove', 'ItemController@removeItem');
 Route::get('/view/{id}', 'UserController@viewUser');
 Route::get('/profile', 'UserController@index');
 Route::post('/profile', 'UserController@update')->name('update_profile');
+
+
+Route::get('blade', function () {
+    return view('items.add_modal');
+});
