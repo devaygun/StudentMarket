@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Image;
 use App\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -59,8 +60,18 @@ class ItemController extends Controller
             ]);
         }
 
-        dump($request->file('images'));
-        dd($request->all());
+        $item = new Item();
+        $item->category_id = $request->category_id;
+        $item->user_id = Auth::id();
+        $item->name = $request->name;
+        $item->description = $request->description;
+        $item->type = $request->type;
+        $item->price = $request->price;
+        $item->trade = $request->trade;
+        $item->save();
+
+        if ($request->images)
+            $this->storeImages($item, $request->file('images'));
 
         $item = Item::create([
             'category_id' => $request->category_id,
@@ -135,8 +146,8 @@ class ItemController extends Controller
         $item->name = $request->input('name');
         $item->description = $request->description;
         $item->category_id = $request->category_id;
-        if ($request->profile_picture)
-            $user->profile_picture = Storage::putFile('profiles', $request->file('images'));
+        if ($request->images)
+            $this->storeImages($item, $request->images);
         $item->type = $request->type;
         $item->price = $request->price;
         $item->trade = $request->trade;
@@ -164,5 +175,15 @@ class ItemController extends Controller
         }
 
         return redirect('items');
+    }
+
+    public function storeImages($item, $images)
+    {
+        foreach ($images as $image) {
+            $img = new Image();
+            $img->item_id = $item->id;
+            $img->path = Storage::putFile("/item/{$item->id}", $image);
+            $img->save();
+        }
     }
 }

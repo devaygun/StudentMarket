@@ -10,10 +10,16 @@
 
     <title>@yield('page_title') {{ config('app.name', 'Student Market') }}</title>
 
-    <!-- Styles -->
+    <!-- Stylesheets -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
     <style>
         .space-right {
             margin-right: 15px;
@@ -30,7 +36,29 @@
         body {
             font-family: 'Nunito', sans-serif;
         }
+        .image_preview {
+            margin: 15px;
+            display: block;
+            max-width: 100%;
+            max-height: 50%;
+            width: auto;
+            height: auto;
+            cursor: pointer;
+        }
+        .large_image {
+            display: block;
+            max-width: 100%;
+            max-height: 50%;
+            width: auto;
+            height: auto;
+        }
     </style>
+    <script>
+        $(document).ready(function(){
+            $('.dropdown-toggle').dropdown();
+            $('[data-toggle_tooltip="tooltip"]').tooltip();
+        });
+    </script>
 </head>
 <body>
     <div id="app">
@@ -135,7 +163,14 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        $('.image_preview').on("click", function () {
+            var source_url = $(this).attr('src');
+            $('#large_image').html('<img src="'+source_url+'" alt="" class="large_image">');
+            $('#largerImageModal').modal('toggle');
 
+        });
+    </script>
     <!-- Modals -->
     @include('modals.add_item')
 </body>
