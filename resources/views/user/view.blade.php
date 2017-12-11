@@ -14,13 +14,15 @@
                                 <img src="{{asset('images/default_profile.jpg')}}" class="img-responsive" alt="">
                             @endif
                         </div>
-                        <div class="col-sm-8"><table class="table table-striped">
+                        <div class="col-sm-8">
+                            <table class="table table-striped">
                                 <thead>
                                     <th></th>
                                     <tr><th>Email Address: {{$user->email}}</th></tr>
                                     <tr><th>Rating:</th></tr>
                                     <tr><th>Member since: {{$user->created_at->format('jS \\ F Y')}}</th></tr>
                                 </thead>
+                            </table>
                         </div>
 
                     <div class="panel-body">
