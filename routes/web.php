@@ -37,6 +37,9 @@ Route::post('/items/update/{id}', 'ItemController@updateItem');
 Route::post('/item/{id}/remove', 'ItemController@removeItem');
 
 
+Route::post('/images/remove', 'ImageController@delete');
+
+
 /* User Routes */
 Route::get('/view/{id}', 'UserController@viewUser');
 Route::get('/profile', 'UserController@index');

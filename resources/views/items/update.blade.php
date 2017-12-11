@@ -11,26 +11,38 @@
                         @endforeach
                     </div>
                 @endif
-
                 @if (\Illuminate\Support\Facades\Session::has('success'))
                     <div class="alert alert-success">
                         <i class="fa fa-check" aria-hidden="true"></i> {{ session('success') }}
                     </div>
                 @endif
-
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3 class="panel-title">{{$item->name}}</h3>
                     </div>
-
                     <div class="panel-body">
-
                         @if ($authorised)
-                            {{-- TODO: Limit changes based on whether the item has received any offers or not. --}}
+                            @if ($item->images->isNotEmpty())
+                                <div class="row">
+                                    @foreach ($item->images as $image)
+                                        <div class="col-sm-3 image_{{$image->id}}">
+                                            <img src="{{asset("storage/$image->path")}}" alt="" class="image_preview" style="margin: 0 0 10px 0;" data-toggle_tooltip="tooltip" title="Click to view larger">
+                                            <button class="btn btn-danger btn-sm remove_image_btn center-block" id="{{$image->id}}"><i class="fa fa-times" aria-hidden="true"></i> Remove</button>
 
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <hr>
+                            @endif
+                            {{-- TODO: Limit changes based on whether the item has received any offers or not. --}}
                             {{--UPDATE ITEM FORM--}}
-                            <form method="POST" action="/items/update/{{$item->id}}">
+                            <form method="POST" action="/items/update/{{$item->id}}" enctype="multipart/form-data">
                                 {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
+                                <div class="form-group">
+                                    <label for="images">Select Images</label>
+                                    <p>Press <kbd>Ctrl</kbd> or <kbd>command ⌘</kbd> to select multiple images.</p>
+                                    <input type="file" accept="image/*" class="form-control" id="images" value="{{old('images')}}" name="images[]" multiple>
+                                </div>
                                 <div class="form-group">
                                     <label for="name">Name</label>
                                     <input type="text" class="form-control" id="name" value="{{old('name', $item->name)}}" name="name" minlength="2" maxlength="255" required>
@@ -79,6 +91,20 @@
 
                             <!-- Script -->
                             <script>
+                                $(document).on('click', '.remove_image_btn', function(){
+                                    var id = $(this).attr('id');
+                                    console.log("clicked");
+
+                                    $.ajax({
+                                        type:'POST',
+                                        url:'/images/remove',
+                                        data: {_token: '{{ csrf_token() }}', id: id},
+                                        success: function(data) {
+                                            $(".image_" + id).remove();
+                                        }
+                                    });
+                                });
+
 
 //                                TEMPORARY EVENT LISTENER - THIS WILL LOAD INITIAL PAGE FUNCTIONS
                                 window.addEventListener ?

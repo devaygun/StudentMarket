@@ -146,8 +146,7 @@ class ItemController extends Controller
         $item->name = $request->input('name');
         $item->description = $request->description;
         $item->category_id = $request->category_id;
-        if ($request->images)
-            $this->storeImages($item, $request->images);
+
         $item->type = $request->type;
         $item->price = $request->price;
         $item->trade = $request->trade;
@@ -157,6 +156,10 @@ class ItemController extends Controller
             $item->sold = false;
         }
         $item->save();
+
+        if ($request->images)
+            $this->storeImages($item, $request->file('images'));
+
         $category = Category::find($item->category_id)->slug;
 
         $request->session()->flash('success', 'Successfully updated your item.');
