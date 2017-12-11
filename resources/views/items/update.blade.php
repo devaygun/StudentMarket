@@ -101,6 +101,9 @@
                                         data: {_token: '{{ csrf_token() }}', id: id},
                                         success: function(data) {
                                             $(".image_" + id).remove();
+                                        },
+                                        error: function(data) {
+                                            console.log(data.responseJSON);
                                         }
                                     });
                                 });

@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Item extends Model
 {
+    use Searchable;
+
     protected $fillable = ['user_id', 'category_id', 'name', 'description', 'type', 'price', 'trade'];
 
     public function user()

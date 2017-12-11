@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
@@ -13,9 +14,13 @@ class ImageController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * Deletes the image database entry and the physical stored copy as well.
+     */
     public function delete(Request $request)
     {
         $image = Image::find($request->id);
+
         Storage::delete($image);
         $image->delete();
 
