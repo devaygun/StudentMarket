@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 class updateEmailTest extends DuskTestCase
 {
     /**
-     * A Dusk test example.
+     * A Dusk test example.test
      *
      * @return void
      */
