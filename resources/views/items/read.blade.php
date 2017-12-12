@@ -15,7 +15,7 @@
                                 <h3 class="panel-title">Name: {{$item->user->first_name}}</h3>
                             </div>
                             <div class="panel-body">
-                                <img src="{{asset('storage/' . $item->user->profile_picture)}}" alt="" style="display: block; max-width:100%; max-height:50%; width: auto; height: auto;">
+                                <img  src="{{$item->user->getProfilePicture()}}" alt="" style="display: block; max-width:100%; max-height:50%; width: auto; height: auto;">
                             </div>
                         </div>
                         @if (!$authorised)
@@ -32,6 +32,15 @@
                         <h3 style="display:inline-block" class="panel-title">{{$item->name}}</h3>
                         @if ($item->sold == true) <label class="label label-default">Note: This item has been sold</label> @endif
                     </div>
+                        @if ($item->images->isNotEmpty())
+                            <div class="row">
+                                @foreach ($item->images as $image)
+                                    <div class="col-sm-3" >
+                                        <img src="{{asset("storage/$image->path")}}" alt="" class="image_preview" data-toggle_tooltip="tooltip" title="Click to view larger">
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
 
                     <div class="panel-body">
                         <div class="panel panel-default">
@@ -83,4 +92,15 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <div id="largerImageModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id="large_image"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection

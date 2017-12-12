@@ -61,7 +61,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">@if ($user->profile_picture) Current Profile Picture @else No profile picture set @endif</div>
                                     <div class="panel-body">
-                                        <img src="{{asset('storage/' . $user->profile_picture)}}" alt="" style="display: block; max-width:100%; max-height:50%; width: auto; height: auto;">
+                                        <img src="{{asset("storage/$user->profile_picture")}}" alt="" style="display: block; max-width:100%; max-height:50%; width: auto; height: auto;">
                                     </div>
                                 </div>
                             </div>
