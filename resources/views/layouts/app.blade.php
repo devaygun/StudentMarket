@@ -152,6 +152,7 @@
 
         });
     </script>
+
     <!-- Modals -->
     @include('modals.add_item')
 </body>
