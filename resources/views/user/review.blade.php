@@ -20,12 +20,12 @@
                             <th></th>
                             <tr><th>Email Address: {{$user->email}}</th></tr>
                             <tr>
-                                <th>Rating:
+                                <th id="calcRating">Rating:
                                     <span class="fa fa-star rating1"></span>
-                                    <span class="fa fa-star rating1"></span>
-                                    <span class="fa fa-star rating1"></span>
-                                    <span class="fa fa-star rating1"></span>
-                                    <span class="fa fa-star rating1"></span>
+                                    <span class="fa fa-star rating2"></span>
+                                    <span class="fa fa-star rating3"></span>
+                                    <span class="fa fa-star rating4"></span>
+                                    <span class="fa fa-star rating5"></span>
                                 </th>
                             </tr>
                             <tr><th>Member since: {{$user->created_at->format('jS \\ F Y')}}</th></tr>
@@ -90,26 +90,75 @@
     @include('modals.create_review')
 
     {{--Scripts--}}
-    {{--<script>--}}
+    <script>
 
-        {{--window.onload = function() {--}}
-            {{--loadRating();--}}
-        {{--}--}}
+        $( document ).ready(function() {
+            loadRating();
+            calcUserRating();
+        });
 
-        {{--// INSERT STAR RATING INTO REVIEW--}}
-        {{--function loadRating() {--}}
-            {{--var ratings1 = document.getElementsByClassName("user-rating-5");--}}
-            {{--alert("found rating");--}}
-            {{--for (var i=0; i<ratings1.length; i++) {--}}
-                {{--ratings1[i].innerHTML =--}}
-                    {{--"<span class=\"fa fa-star checked\"></span>" +--}}
-                    {{--"<span class=\"fa fa-star\"></span>" +--}}
-                    {{--"<span class=\"fa fa-star\"></span>" +--}}
-                    {{--"<span class=\"fa fa-star\"></span>" +--}}
-                    {{--"<span class=\"fa fa-star\"></span>";--}}
-            {{--}--}}
-        {{--}--}}
-    {{--</script>--}}
+        // INSERT STAR RATING INTO BUYER'S REVIEWS
+        function loadRating() {
+//            ONE STAR RATING
+            var ratings1 = document.getElementsByClassName("user-rating-1");
+            for (var i=0; i<ratings1.length; i++) {
+                ratings1[i].innerHTML =
+                    "<span class=\"fa fa-star checked\"></span>" +
+                    "<span class=\"fa fa-star\"></span>" +
+                    "<span class=\"fa fa-star\"></span>" +
+                    "<span class=\"fa fa-star\"></span>" +
+                    "<span class=\"fa fa-star\"></span>";
+            }
+//            TWO STAR RATING
+            var ratings2 = document.getElementsByClassName("user-rating-2");
+            for (var i=0; i<ratings2.length; i++) {
+                ratings2[i].innerHTML =
+                    "<span class=\"fa fa-star checked\"></span>" +
+                    "<span class=\"fa fa-star checked\"></span>" +
+                    "<span class=\"fa fa-star\"></span>" +
+                    "<span class=\"fa fa-star\"></span>" +
+                    "<span class=\"fa fa-star\"></span>";
+            }
+//            THREE STAR RATING
+            var ratings3 = document.getElementsByClassName("user-rating-3");
+            for (var i=0; i<ratings3.length; i++) {
+                ratings3[i].innerHTML =
+                    "<span class=\"fa fa-star checked\"></span>" +
+                    "<span class=\"fa fa-star checked\"></span>" +
+                    "<span class=\"fa fa-star checked\"></span>" +
+                    "<span class=\"fa fa-star\"></span>" +
+                    "<span class=\"fa fa-star\"></span>";
+            }
+            var ratings4 = document.getElementsByClassName("user-rating-4");
+            for (var i=0; i<ratings4.length; i++) {
+                ratings4[i].innerHTML =
+                    "<span class=\"fa fa-star checked\"></span>" +
+                    "<span class=\"fa fa-star checked\"></span>" +
+                    "<span class=\"fa fa-star checked\"></span>" +
+                    "<span class=\"fa fa-star checked\"></span>" +
+                    "<span class=\"fa fa-star\"></span>";
+            }
+            var ratings5 = document.getElementsByClassName("user-rating-5");
+            for (var i=0; i<ratings5.length; i++) {
+                ratings5[i].innerHTML =
+                    "<span class=\"fa fa-star checked\"></span>" +
+                    "<span class=\"fa fa-star checked\"></span>" +
+                    "<span class=\"fa fa-star checked\"></span>" +
+                    "<span class=\"fa fa-star checked\"></span>" +
+                    "<span class=\"fa fa-star checked\"></span>";
+            }
+        }
+
+        function calcUserRating() {
+
+        }
+    </script>
+
+    <style>
+        .fa.fa-star.checked {
+            color: orange;
+        }
+    </style>
 
 
 @endsection
