@@ -14,6 +14,11 @@ class SearchController extends Controller
 
     public function index($string)
     {
+        dump(Item::search('Kitten')->get());
+
+        // Display search logo/icon
+        Item::find(5)->save();
+
         $search = Item::search($string)->get();
         dump($string);
         dd($search);

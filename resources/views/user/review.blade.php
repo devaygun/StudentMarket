@@ -35,16 +35,19 @@
                 </div>
             </div>
 
-            <h2>Reviews</h2>
-            @foreach(\App\Review::all() as $review)
-            <div class="panel panel-default">
-                <div class="panel-heading">Panel heading</div>
-                <div class="panel-body">
-                    Panel content
-                </div>
-            </div>
-            @endforeach
-
+            @if (\App\Review::all()->where('seller_id', $user->id))
+                <h2>Reviews</h2>
+                @foreach(\App\Review::all()->where('seller_id', $user->id) as $review)
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">{{\App\User::where('id', ($review->buyer_id))->first()->first_name}}</div>
+                            <div class="panel-body">
+                                {{$review->review}}
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
         </div>
     </div>
 @endsection
