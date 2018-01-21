@@ -71,8 +71,8 @@ class UserController extends Controller
     public function getReviews($id = null)
     {
         $user = User::with('items')->find($id);
-//        $reviews = $user->reviews;
-        return view('user.review', ['user' => $user]);
+        $canReview = (User::find(Auth::id())->id != $id);
+        return view('user.review', ['user' => $user, 'canReview' => $canReview]);
     }
 
     public function createReview($id = null)
