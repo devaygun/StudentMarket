@@ -93,7 +93,6 @@
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
-
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     @php $user = \Illuminate\Support\Facades\Auth::user(); @endphp
@@ -108,12 +107,7 @@
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="/profile">Profile</a></li>
                                     <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
+                                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> Logout</a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
@@ -141,22 +135,9 @@
                 <i class="fa fa-check" aria-hidden="true"></i> {{ session('success') }}
             </div>
         @endif
-        <div class="container">
-            <div class="col-sm-8 col-sm-offset-2">
-                <form role="search" style="margin-bottom: 20px;">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-9">
-                            <input type="text" class="form-control" placeholder="I'm looking for..." style="width: 100%; margin-bottom: 5px;">
-                        </div>
-                        <div class="col-xs-12 col-sm-3">
-                            <button type="submit" class="btn btn-primary" style="width: 100%;">
-                                <i class="fa fa-search" aria-hidden="true"></i> Search
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+
+        @include('components.search') {{-- Includes the search box component area --}}
+
         @endguest
         @yield('content')
     </div>
