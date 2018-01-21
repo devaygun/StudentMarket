@@ -15,8 +15,7 @@
                     </div>
                     <div class="form-group">
                         <label for="review" class="control-label">Review</label>
-                        <textarea class="form-control" rows="4" id="review" style="max-height: 500px; max-width: 100%; min-height: 90px"></textarea>
-                        <span class="help-block">A longer block of help text that breaks onto a new line and may extend beyond one line.</span>
+                        <textarea class="form-control" name="review" rows="4" id="review" style="max-height: 500px; max-width: 100%; min-height: 90px"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Image;
+use App\Review;
 use App\User;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
@@ -70,15 +71,45 @@ class UserController extends Controller
 
     public function getReviews($id = null)
     {
-        $user = User::with('items')->find($id);
-        $canReview = (User::find(Auth::id())->id != $id);
-        return view('user.review', ['user' => $user, 'canReview' => $canReview]);
+        $viewUser = User::with('items')->find($id); // FIND SEARCHED USER
+        $user = User::find(Auth::id()); // CURRENT LOGGED IN USER
+        $canReview = (User::find(Auth::id())->id != $id); // CHECK IF SEARCHED USER IS LOGGED IN
+        $userReviews = \App\Review::all()->where('seller_id', $id); // ARRAY OF REVIEWS FOR USER
+
+        // CALCULATE AVERAGE RATING
+        $totalRatingValue = 0;
+        $numRatings = 0;
+        $avgRating = 0;
+        foreach ($userReviews as $review) {
+            $numRatings ++;
+            $totalRatingValue += $review->rating;
+        }
+        if ($numRatings != 0) $avgRating = number_format(($totalRatingValue / $numRatings), 1);
+
+        return view('user.review', ['user' => $user, 'viewUser' => $viewUser, 'canReview' => $canReview, 'userReviews' => $userReviews, 'avgRating' => $avgRating]);
     }
 
-    public function createReview($id = null)
+    public function createReview($id = null, Request $request)
     {
-        $user = User::with('items')->find($id);
+        $viewUser = User::with('items')->find($id); // FIND SEARCHED USER
+        $user = User::find(Auth::id()); // CURRENT LOGGED IN USER
 
-        return view('user.review', ['user' => $user]);
+        $request->validate([
+//            'seller_id' => 'required|exists:users,id',
+//            'buyer_id' => 'required|exists:users,id',
+            'review' => 'required|string|max:255',
+            'rating' => 'required|integer|min:1|max:5'
+        ]);
+
+
+
+        $review = new Review();
+        $review->seller_id = $viewUser->id;
+        $review->buyer_id = $user->id;
+        $review->review = $request->review;
+        $review->rating = $request->rating;
+        $review->save();
+
+        return $this->getReviews($id);
     }
 }
