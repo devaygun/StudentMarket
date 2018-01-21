@@ -142,18 +142,18 @@
             </div>
         @endif
         <div class="container">
-            <div class="col-sm-8 col-sm-offset-2" style="margin-bottom: 20px;">
-                <form class="navbar-form navbar-left" role="search">
-                    <div class="form-group">
-                        <input type="text" class="form-control space-right" placeholder="I'm looking for..." style="width: 300px;">
+            <div class="col-sm-8 col-sm-offset-2">
+                <form role="search" style="margin-bottom: 20px;">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-9">
+                            <input type="text" class="form-control" placeholder="I'm looking for..." style="width: 100%; margin-bottom: 5px;">
+                        </div>
+                        <div class="col-xs-12 col-sm-3">
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                <i class="fa fa-search" aria-hidden="true"></i> Search
+                            </button>
+                        </div>
                     </div>
-                    <div class="form-group space-right">
-                        in
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control space-right" placeholder="Location or Postcode">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Search</button>
                 </form>
             </div>
         </div>
