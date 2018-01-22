@@ -14,21 +14,7 @@
                             </div>
                         @endif
 
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th>Item</th>
-                                <th>Description</th>
-                                <th>Price</th>
-                                <th>Trade</th>
-                                <th>Added on</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                @include('components.item', ['items' => $items])
-                            </tbody>
-                        </table>
+                        @include('components.item', ['items' => $items])
                     </div>
                 </div>
             </div>
