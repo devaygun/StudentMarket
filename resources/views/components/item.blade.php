@@ -2,6 +2,7 @@
     <thead>
     <tr>
         <th></th>
+        <th>Image</th>
         <th>Item</th>
         <th>Description</th>
         <th>Price</th>
@@ -14,6 +15,12 @@
         @if ($item->sold == false)
             <tr>
                 <td><a href="/items/{{$item->category->slug}}/{{$item->id}}" class="btn btn-primary btn-sm" role="button">View</a></td>
+                <td>
+                    @if($item->images->isNotEmpty())
+
+                                <img src="{{asset("storage/{$item->images->first()->path} ")}}" alt="Item Image Preview" class="panel" data-toggle_tooltip="tooltip" title="View item for more details" height="100px" width="100px">
+                        @endif
+                </td>
                 <td>{{$item->name}}</td>
                 <td>{{$item->description}}</td>
                 <td>
