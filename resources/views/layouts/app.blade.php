@@ -101,6 +101,7 @@
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="/profile">Profile</a></li>
+                                    <li><a href="/messages">Messages</a></li>
                                     <li>
                                         <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> Logout</a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
