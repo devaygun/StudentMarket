@@ -19,7 +19,7 @@ class ItemController extends Controller
     public function index($category = null)
     {
         if ($category == null)
-            return view('items.index', ['items' => Item::with('category')->orderBy('created_at')->paginate(1)]); // View all items in all categories
+            return view('items.index', ['items' => Item::with('category')->orderBy('created_at')->paginate(15)]); // View all items in all categories
 
         $items = Item::whereHas('category', function ($query) use ($category) { // Limiting our results based on whether a relationship to the specific category exists or not
             $query->where('slug', $category);
@@ -73,15 +73,6 @@ class ItemController extends Controller
         if ($request->images)
             $this->storeImages($item, $request->file('images'));
 
-        $item = Item::create([
-            'category_id' => $request->category_id,
-            'user_id' => Auth::id(),
-            'name' => $request->name,
-            'description' => $request->description,
-            'type' => $request->type,
-            'price' => $request->price,
-            'trade' => $request->trade,
-        ]);
 
         $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
         return view('items.read', ['item' => $item, 'category' => null, 'authorised' => $authorised]);
