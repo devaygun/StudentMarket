@@ -26,10 +26,24 @@
             font-size: 24px;
         }
         .avatar {
-            margin-right: 5px;
-            border: solid dimgray 2px;
             height: 40px;
             width: 40px;
+            margin-right: 5px;
+            border: 2px solid darkgrey;
+        }
+        .avatar-wrapper {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            border: 2px solid darkgrey;
+            overflow: hidden;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+        }
+
+        img.cropped {
+            width: 100%;
         }
         body {
             font-family: 'Nunito', sans-serif;
@@ -50,6 +64,9 @@
             width: auto;
             height: auto;
         }
+        .v-align td {
+            vertical-align: middle!important;
+        }
     </style>
     <script>
         $(document).ready(function(){
@@ -62,7 +79,7 @@
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
-                <div class="navbar-header" style="@auth padding-top: 10px; @else padding-top: 5px; @endauth">
+                <div class="navbar-header" style="@auth padding-top: 12px; @else padding-top: 5px; @endauth">
                 <!-- Collapsed Hamburger -->
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
                         <span class="sr-only">Toggle Navigation</span>
@@ -79,9 +96,9 @@
 
                 {{-- Navbar --}}
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <ul class="nav navbar-nav" style="padding-top: 10px;">
+                    <ul class="nav navbar-nav" style="padding-top: 12px;">
                         @auth
-                            <li><a href="" data-toggle="modal" data-target="#sellModal"><i class="fa fa-plus" aria-hidden="true"></i> Sell Item</a></li>
+                            <li><a href="/items"><i class="fa fa-shopping-cart" aria-hidden="true"></i> All Items</a></li>
                         @endauth
                     </ul>
                     <ul class="nav navbar-nav navbar-right" style="padding-top: 3px;">
@@ -89,11 +106,17 @@
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
+                            <li style="padding-top: 10px;"><a href="" data-toggle="modal" data-target="#sellModal"><i class="fa fa-plus" aria-hidden="true"></i> Sell Item</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     @php $user = \Illuminate\Support\Facades\Auth::user(); @endphp
                                     <span class="nav-font">
-                                        <img src="{{$user->getProfilePicture()}}" class="img-circle avatar" alt="">
+                                        {{--<span class="avatar-wrapper">--}}
+                                            {{--<img class="cropped" src="{{$user->getProfilePicture()}}">--}}
+                                        {{--</span>--}}
+
+                                        <img class="avatar img-circle" src="{{$user->getProfilePicture()}}">
+
 
                                         {{ "$user->first_name $user->last_name"}}
                                         <span class="caret"></span>
@@ -117,19 +140,19 @@
         @guest
 
         @else
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                @foreach ($errors->all() as $error)
-                    <i class="fa fa-times" aria-hidden="true"></i> {{ $error }}<br>
-                @endforeach
-            </div>
-        @endif
+        {{--@if ($errors->any())--}}
+            {{--<div class="alert alert-danger">--}}
+                {{--@foreach ($errors->all() as $error)--}}
+                    {{--<i class="fa fa-times" aria-hidden="true"></i> {{ $error }}<br>--}}
+                {{--@endforeach--}}
+            {{--</div>--}}
+        {{--@endif--}}
 
-        @if (\Illuminate\Support\Facades\Session::has('success'))
-            <div class="alert alert-success">
-                <i class="fa fa-check" aria-hidden="true"></i> {{ session('success') }}
-            </div>
-        @endif
+        {{--@if (\Illuminate\Support\Facades\Session::has('success'))--}}
+            {{--<div class="alert alert-success">--}}
+                {{--<i class="fa fa-check" aria-hidden="true"></i> {{ session('success') }}--}}
+            {{--</div>--}}
+        {{--@endif--}}
 
         @include('components.search') {{-- Includes the search box component area --}}
 

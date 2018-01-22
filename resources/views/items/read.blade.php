@@ -36,19 +36,15 @@
                             <div class="row">
                                 @foreach ($item->images as $image)
                                     <div class="col-sm-3" >
-                                        <img src="{{asset("storage/$image->path")}}" alt="" class="image_preview" data-toggle_tooltip="tooltip" title="Click to view larger">
+                                        <img src="{{asset("storage/$image->path")}}" alt="" class="image_preview panel" data-toggle_tooltip="tooltip" title="Click to view larger">
                                     </div>
                                 @endforeach
                             </div>
                         @endif
 
                     <div class="panel-body">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Description</h3>
-                            </div>
-                            <div class="panel-body">{{old('description', $item->description)}}</div>
-                        </div>
+                        <h3>Description</h3>
+                        {{old('description', $item->description)}}
 
                         @if ($item->type == "sell")
                             <div class="panel panel-default">

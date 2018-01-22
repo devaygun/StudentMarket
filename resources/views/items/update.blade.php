@@ -4,18 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        @foreach ($errors->all() as $error)
-                            <i class="fa fa-times" aria-hidden="true"></i> {{ $error }}<br>
-                        @endforeach
-                    </div>
-                @endif
-                @if (\Illuminate\Support\Facades\Session::has('success'))
-                    <div class="alert alert-success">
-                        <i class="fa fa-check" aria-hidden="true"></i> {{ session('success') }}
-                    </div>
-                @endif
+                @include('components.status')
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3 class="panel-title">{{$item->name}}</h3>
