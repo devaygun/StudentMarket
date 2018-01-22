@@ -4,21 +4,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>@yield('page_title') {{ config('app.name', 'Student Market') }}</title>
-
     <!-- Stylesheets -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="/css/font-awesome.min.css" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
 
     <style>
         .space-right {
@@ -26,6 +21,9 @@
         }
         .nav-font {
             font-size: 18px;
+        }
+        .navbar-brand {
+            font-size: 24px;
         }
         .avatar {
             margin-right: 5px;
@@ -64,7 +62,7 @@
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
-                <div class="navbar-header">
+                <div class="navbar-header" style="@auth padding-top: 10px; @else padding-top: 5px; @endauth">
                 <!-- Collapsed Hamburger -->
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
                         <span class="sr-only">Toggle Navigation</span>
@@ -75,20 +73,18 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name', 'Student Market') }}
                     </a>
                 </div>
 
+                {{-- Navbar --}}
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        <li><a href=""></a></li>
-                        <li><a href="" data-toggle="modal" data-target="#sellModal"><i class="fa fa-plus" aria-hidden="true"></i> Sell Item</a></li>
+                    <ul class="nav navbar-nav" style="padding-top: 10px;">
+                        @auth
+                            <li><a href="" data-toggle="modal" data-target="#sellModal"><i class="fa fa-plus" aria-hidden="true"></i> Sell Item</a></li>
+                        @endauth
                     </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
+                    <ul class="nav navbar-nav navbar-right" style="padding-top: 3px;">
                         @guest
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
@@ -103,7 +99,6 @@
                                         <span class="caret"></span>
                                     </span>
                                 </a>
-
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="/profile">Profile</a></li>
                                     <li>

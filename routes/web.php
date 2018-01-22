@@ -20,32 +20,28 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index');
 
+/* Items */
+    /* Create */
+        Route::post('/items/add', 'ItemController@createItem');
+    /* Read */
+        Route::get('/items', 'ItemController@index');
+        Route::get('/items/{category}/{id}', 'ItemController@readItem');
+        Route::get('/items/my', 'ItemController@myItems');
+    /* Edit */
+        Route::get('/items/update/{id}', 'ItemController@editItem');
+        Route::post('/items/update/{id}', 'ItemController@updateItem');
+    /* Delete */
+        Route::post('/item/{id}/remove', 'ItemController@removeItem');
 
-/* Item Routes */
-/* ..Create */
-Route::post('/items/add', 'ItemController@createItem');
-/* ..Read */
-Route::get('/items', 'ItemController@index');
-Route::get('/items/{category}/{id}', 'ItemController@readItem');
-Route::get('/items/my', 'ItemController@myItems');
-/* ..Edit */
-Route::get('/items/update/{id}', 'ItemController@editItem');
-Route::post('/items/update/{id}', 'ItemController@updateItem');
-/* ..Delete */
-Route::post('/item/{id}/remove', 'ItemController@removeItem');
-
-
+/* Images */
 Route::post('/images/remove', 'ImageController@delete');
 
-
-
-/* Search Routes */
+/* Search */
 Route::get('/search', 'SearchController@index');
 
-
-/* User Routes */
+/* User */
 Route::get('/view/{id}', 'UserController@viewUser');
 Route::get('/view/{id}/reviews', 'UserController@getReviews');
 Route::post('/view/{id}/reviews', 'UserController@createReview');
