@@ -42,7 +42,7 @@ Route::post('/images/remove', 'ImageController@delete');
 
 
 /* Search Routes */
-Route::get('/search/{string}', 'SearchController@index');
+Route::get('/search', 'SearchController@index');
 
 
 /* User Routes */
