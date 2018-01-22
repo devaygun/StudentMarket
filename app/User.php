@@ -28,6 +28,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Item');
     }
 
+    public function messages()
+    {
+        return $this->hasMany('App\Message');
+    }
+
     public function reviews()
     {
         return $this->hasMany('App\Review');

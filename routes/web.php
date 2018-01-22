@@ -41,6 +41,10 @@ Route::post('/images/remove', 'ImageController@delete');
 /* Search */
 Route::get('/search', 'SearchController@index');
 
+/* Messages */
+Route::get('/messages', 'MessageController@index');
+Route::get('/messages/{$id}', 'MessageController@viewMessages');
+
 /* User */
 Route::get('/view/{id}', 'UserController@viewUser');
 Route::get('/view/{id}/reviews', 'UserController@getReviews');
