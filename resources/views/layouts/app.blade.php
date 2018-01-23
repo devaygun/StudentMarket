@@ -29,17 +29,21 @@
             height: 40px;
             width: 40px;
             margin-right: 5px;
-            border: 2px solid darkgrey;
+            border: 0.14em solid lightgrey;
         }
         .avatar-wrapper {
             height: 40px;
             width: 40px;
             border-radius: 50%;
-            border: 2px solid darkgrey;
+            border: 0.14em solid lightgrey;
             overflow: hidden;
             box-sizing: border-box;
             display: flex;
             align-items: center;
+        }
+
+        .nav-font:hover > .avatar-wrapper {
+            border: 0.14em solid #777;
         }
 
         img.cropped {
@@ -110,16 +114,16 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     @php $user = \Illuminate\Support\Facades\Auth::user(); @endphp
-                                    <span class="nav-font">
-                                        {{--<span class="avatar-wrapper">--}}
-                                            {{--<img class="cropped" src="{{$user->getProfilePicture()}}">--}}
-                                        {{--</span>--}}
+                                    <span class="nav-font" style="display: flex;">
+                                        <span class="avatar-wrapper">
+                                            <img class="cropped" src="{{$user->getProfilePicture()}}">
+                                        </span>
 
-                                        <img class="avatar img-circle" src="{{$user->getProfilePicture()}}">
+                                        <span style="margin: 9px 0 0 5px; vert-align: middle;">
+                                            {{ "$user->first_name $user->last_name"}}
+                                            <span class="caret"></span>
+                                        </span>
 
-
-                                        {{ "$user->first_name $user->last_name"}}
-                                        <span class="caret"></span>
                                     </span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
