@@ -9,12 +9,25 @@
             <form method="POST" action="/view/1/reviews" enctype="multipart/form-data">
                 <div class="modal-body">
                     {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
-                    <div class="form-group">
-                        <label for="rating" class="control-label">Rating</label>
-                        <input type="number" class="form-control" id="review" min="1" max="5" value="" name="rating" required>
+                    <label class="control-label rating-title">Rating</label>
+                    <div class="form-group star-rating-form">
+                        <input type="radio" class="form-control" id="star5" value="5" name="rating" required>
+                        <label for="star5" class="control-label" title="Excellent - 5 Stars"></label>
+
+                        <input type="radio" class="form-control" id="star4" value="4" name="rating" required>
+                        <label for="star4" class="control-label" title="Good - 4 Stars"></label>
+
+                        <input type="radio" class="form-control" id="star3" value="3" name="rating" required>
+                        <label for="star3" class="control-label" title="Okay - 3 Stars"></label>
+
+                        <input type="radio" class="form-control" id="star2" value="2" name="rating" required>
+                        <label for="star2" class="control-label" title="Poor - 2 Stars"></label>
+
+                        <input type="radio" class="form-control" id="star1" value="1" name="rating" required>
+                        <label for="star1" class="control-label" title="Terrible - 1 Star"></label>
                     </div>
                     <div class="form-group">
-                        <label for="review" class="control-label">Review</label>
+                        <label for="review" class="control-label review-title">Review</label>
                         <textarea class="form-control" name="review" rows="4" id="review" style="max-height: 500px; max-width: 100%; min-height: 90px"></textarea>
                     </div>
                 </div>
@@ -27,3 +40,50 @@
     </div>
 </div>
 
+<style>
+
+    .rating-title,
+    .review-title{
+        display: block;
+        float: left;
+        clear: both;
+    }
+
+    .star-rating-form {
+        width: auto;
+        float: left;
+        clear: none;
+        padding-left: 30px;
+    }
+
+    .star-rating-form input {
+        display: none;
+    }
+
+    .star-rating-form label {
+        float: right;
+    }
+
+    .star-rating-form label:before {
+        display: inline;
+        width: auto;
+        margin-right: 5px;
+        content: "\f005";
+        font: normal normal normal 14px/1 FontAwesome;
+    }
+
+    .star-rating-form input:hover ~ label:before {
+        color: orange;
+        cursor: pointer;
+    }
+
+    .star-rating-form input:checked ~ label:before {
+        color: orange;
+    }
+
+    .star-rating-form > input:checked ~ label:hover:before,
+    .star-rating-form > input:checked ~ label:hover ~label:before {
+        color: #ffc966;
+    }
+
+</style>

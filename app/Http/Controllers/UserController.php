@@ -74,7 +74,7 @@ class UserController extends Controller
         $viewUser = User::with('items')->find($id); // FIND SEARCHED USER
         $user = User::find(Auth::id()); // CURRENT LOGGED IN USER
         $canReview = (User::find(Auth::id())->id != $id); // CHECK IF SEARCHED USER IS LOGGED IN
-        $userReviews = \App\Review::all()->where('seller_id', $id); // ARRAY OF REVIEWS FOR USER
+        $userReviews = Review::all()->where('seller_id', $id); // ARRAY OF REVIEWS FOR USER
 
         // CALCULATE AVERAGE RATING
         $totalRatingValue = 0;

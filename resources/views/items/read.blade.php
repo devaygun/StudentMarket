@@ -18,6 +18,7 @@
                                 <img  src="{{$item->user->getProfilePicture()}}" alt="" style="display: block; max-width:100%; max-height:50%; width: auto; height: auto;">
                             </div>
                         </div>
+                        <a href="/view/{{$item->user_id}}" class="btn btn-primary">View Profile</a>
                         @if (!$authorised)
                             <button type="button" class="btn btn-primary">Message Seller</button>
                         @endif
