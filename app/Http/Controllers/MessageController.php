@@ -17,6 +17,8 @@ class MessageController extends Controller
     public function index()
     {
         $messages = Message::all()->where('receiver_id', User::find(Auth::id())->id);
+//        $messages = Message::where('receiver_id', User::find(Auth::id())->id)->groupBy('receiver_id')->get();
+
 //        $messages = Message::where('sender_id', User::find(Auth::id())->id)
 //            ->orWhere('receiver_id', User::find(Auth::id())->id)
 //            ->orderBy('created_at')
