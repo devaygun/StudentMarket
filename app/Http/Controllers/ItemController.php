@@ -154,7 +154,11 @@ class ItemController extends Controller
         $category = Category::find($item->category_id)->slug;
 
         $request->session()->flash('success', 'Successfully updated your item.');
-        return $this->readItem($category, $id);
+//        return $this->readItem($category, $id);
+
+        return redirect()->action(
+            'ItemController@readItem', ['category' => $category, 'id' => $id]
+        )->with('status', 'Successfully updated your item!');
     }
 
     public function removeItem($id)
@@ -168,7 +172,7 @@ class ItemController extends Controller
             $item->delete();
         }
 
-        return redirect('items');
+        return redirect()->action('ItemController@index');
     }
 
     public function storeImages($item, $images)

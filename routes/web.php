@@ -43,7 +43,8 @@ Route::get('/search', 'SearchController@index');
 
 /* Messages */
 Route::get('/messages', 'MessageController@index');
-Route::get('/messages/{$id}', 'MessageController@viewMessages');
+Route::get('/messages/{id}', 'MessageController@viewMessages');
+Route::post('/messages/{id}', 'MessageController@sendMessage');
 
 /* User */
 Route::get('/view/{id}', 'UserController@viewUser');
