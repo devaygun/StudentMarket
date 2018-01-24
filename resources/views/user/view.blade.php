@@ -17,7 +17,6 @@
                     <div class="col-sm-8">
                         <table class="table table-striped">
                             <thead>
-                            <th></th>
                             <tr><th>Email Address: {{$viewUser->email}}</th></tr>
                             <tr>
                                 <th id="avgRating" value="{{$avgRating}}">Rating:
@@ -56,12 +55,40 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12" style="padding-bottom: 20px">
+                <h2>Items</h2>
+                <table class="table table-striped">
+                @if ($viewUser->items->isEmpty())
+                        <td>No items listed</td>
+                    @endif
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach ($viewUser->items as $item)
+                                @if ($item->sold == false)
+                                    <tr>
+                                        <td><a href="/items/{{$item->category->slug}}/{{$item->id}}" class="btn btn-primary btn-sm" role="button">View</a></td>
+                                        <td>
+                                            @if($item->images->isNotEmpty())
 
-            {{--REVIEW SECTION--}}
-
+                                                <img src="{{asset("storage/{$item->images->first()->path} ")}}" alt="Item Image Preview" class="panel" data-toggle_tooltip="tooltip" title="View item for more details" height="100px" width="100px">
+                                            @endif
+                                        </td>
+                                        <td>{{$item->name}}</td>
+                                        <td>{{$item->description}}</td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                            </tbody>
+                        </table>
+            </div>
             <div class="col-md-12" style="padding-bottom: 20px">
                 <h2>Reviews</h2>
-
                 {{--If profile does NOT belong to user, show Create Review button--}}
                 @if ($canReview)
                     <a href="" class="btn btn-default" data-toggle="modal" data-target="#reviewModal"><i class="fa fa-plus" aria-hidden="true"></i> Write Review</a>
