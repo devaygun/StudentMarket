@@ -52,6 +52,7 @@ class UserTableSeeder extends Seeder
             'last_name' => 'Test',
             'email' => 'testUser@kent.ac.uk',
             'password' => bcrypt('test123'),
+            'api_token' => str_random(60),
             'date_of_birth' => Carbon::createFromDate(1995, 8, 9),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
