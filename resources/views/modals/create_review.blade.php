@@ -11,19 +11,19 @@
                     {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                     <label class="control-label rating-title">Rating</label>
                     <div class="form-group star-rating-form">
-                        <input type="radio" class="form-control" id="star5" value="5" name="rating" required>
+                        <input type="radio" class="form-control" id="star5" value="5" name="rating" required="required">
                         <label for="star5" class="control-label" title="Excellent - 5 Stars"></label>
 
-                        <input type="radio" class="form-control" id="star4" value="4" name="rating" required>
+                        <input type="radio" class="form-control" id="star4" value="4" name="rating" >
                         <label for="star4" class="control-label" title="Good - 4 Stars"></label>
 
-                        <input type="radio" class="form-control" id="star3" value="3" name="rating" required>
+                        <input type="radio" class="form-control" id="star3" value="3" name="rating" >
                         <label for="star3" class="control-label" title="Okay - 3 Stars"></label>
 
-                        <input type="radio" class="form-control" id="star2" value="2" name="rating" required>
+                        <input type="radio" class="form-control" id="star2" value="2" name="rating" >
                         <label for="star2" class="control-label" title="Poor - 2 Stars"></label>
 
-                        <input type="radio" class="form-control" id="star1" value="1" name="rating" required>
+                        <input type="radio" class="form-control" id="star1" value="1" name="rating" >
                         <label for="star1" class="control-label" title="Terrible - 1 Star"></label>
                     </div>
                     <div class="form-group">
@@ -57,7 +57,10 @@
     }
 
     .star-rating-form input {
-        display: none;
+        height: 0 !important;
+        width: 0 !important;
+        position: absolute;
+        z-index: -1;
     }
 
     .star-rating-form label {
