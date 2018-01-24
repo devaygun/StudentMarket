@@ -18,6 +18,7 @@ class UserTableSeeder extends Seeder
             'last_name' => 'Aygun',
             'email' => 'da332@kent.ac.uk',
             'password' => bcrypt('deniz123'),
+            'api_token' => str_random(60),
             'date_of_birth' => Carbon::createFromDate(1996, 05, 27),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -28,6 +29,7 @@ class UserTableSeeder extends Seeder
             'last_name' => 'Wood',
             'email' => 'sw517@kent.ac.uk',
             'password' => bcrypt('sam123'),
+            'api_token' => str_random(60),
             'date_of_birth' => Carbon::createFromDate(1994, 04, 18),
             'profile_picture' => 'profiles/zo04EiMA6jYHDxJqTkB5TsT8BxyThfGddWlptNMy.jpeg',
             'created_at' => Carbon::now(),
@@ -39,6 +41,7 @@ class UserTableSeeder extends Seeder
             'last_name' => 'Bassey-Dight',
             'email' => 'rd339@kent.ac.uk',
             'password' => bcrypt('richard123'),
+            'api_token' => str_random(60),
             'date_of_birth' => Carbon::createFromDate(1995, 8, 9),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()

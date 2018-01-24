@@ -15,32 +15,8 @@ use App\User;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login', 'ApiAuthController@login');
+
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('/items', 'ItemController@index');
 });
-
-//Route::group([
-//
-//    'middleware' => 'api',
-//    'prefix' => 'auth'
-//
-//], function ($router) {
-//
-//    Route::post('login', 'AuthController@login');
-//    Route::post('logout', 'AuthController@logout');
-//    Route::post('refresh', 'AuthController@refresh');
-//    Route::get('me', 'AuthController@me');
-//
-//});
-
-Route::post('login', 'AuthController@tokenFromCredentials');
-
-//Route::post('register', 'AuthController@register');
-//Route::post('login', 'AuthController@login');
-//Route::post('recover', 'AuthController@recover');
-//Route::group(['middleware' => ['jwt.auth']], function() {
-//    Route::get('logout', 'AuthController@logout');
-//    Route::get('test', function(){
-//        return response()->json(['foo'=>'bar']);
-//    });
-//});

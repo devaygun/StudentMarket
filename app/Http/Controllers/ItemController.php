@@ -16,22 +16,32 @@ class ItemController extends Controller
         $this->middleware('auth');
     }
 
-    public function apiResponse()
+    public function apiResponse($success, $message, $data, $status = 200)
     {
-        
+        return response()->json(['success' => $success, 'message' => $message, 'data' => $data], $status);
     }
-    
-    public function index($category = null)
+
+    public function index(Request $request, $category = null)
     {
-        if ($category == null)
-            return view('items.index', ['items' => Item::with('category')->orderBy('created_at')->paginate(15)]); // View all items in all categories
+        if ($category == null) {
+            $data = ['items' => Item::with('category')->orderBy('created_at')->paginate(15)];
+
+            if ($request->is('api/*'))
+               return $this->apiResponse(true, 'Success (items index with no category)', $data);
+
+            return view('items.index', $data); // View all items in all categories
+        }
 
         $items = Item::whereHas('category', function ($query) use ($category) { // Limiting our results based on whether a relationship to the specific category exists or not
             $query->where('slug', $category);
-        })->get();
+        })->paginate(15);
 
+        $data = ['items' => $items, 'category' => Category::where('slug', $category)->first()->name];
 
-        return view('items.index', ['items' => $items, 'category' => Category::where('slug', $category)->first()->name]);
+        if ($request->is('api/*'))
+            return $this->apiResponse(true, 'Success (items index)', $data);
+
+        return view('items.index', $data);
     }
 
     public function createItem(Request $request)
