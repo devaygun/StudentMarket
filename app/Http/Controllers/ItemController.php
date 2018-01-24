@@ -16,6 +16,11 @@ class ItemController extends Controller
         $this->middleware('auth');
     }
 
+    public function apiResponse()
+    {
+        
+    }
+    
     public function index($category = null)
     {
         if ($category == null)
