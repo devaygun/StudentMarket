@@ -16,9 +16,9 @@ class CreateReviewsTable extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('seller_id')->unsigned();
-            $table->foreign('seller_id')->references('id')->on('users');
+            $table->foreign('seller_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('buyer_id')->unsigned();
-            $table->foreign('buyer_id')->references('id')->on('users');
+            $table->foreign('buyer_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('review'); // Stores up to 255 characters, add frontend visual display and limit?
             $table->integer('rating'); // Users can rate from 1 to 5 stars
             $table->timestamps();
