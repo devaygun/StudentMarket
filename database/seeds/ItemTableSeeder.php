@@ -50,18 +50,6 @@ class ItemTableSeeder extends Seeder
         ]);
 
         DB::table('items')->insert([
-            'user_id' => 3,
-            'category_id' => 3,
-            'name' => 'Book',
-            'description' => "An old book",
-            'type' => 'sell',
-            'price' => 5,
-            'trade' => null,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
-        DB::table('items')->insert([
             'user_id' => 2,
             'category_id' => 2,
             'name' => 'Sony Speakers',
@@ -69,6 +57,18 @@ class ItemTableSeeder extends Seeder
             'type' => 'swap',
             'price' => null,
             'trade' => "Puppy",
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('items')->insert([
+            'user_id' => 3,
+            'category_id' => 3,
+            'name' => 'Book',
+            'description' => "An old book",
+            'type' => 'sell',
+            'price' => 5,
+            'trade' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
