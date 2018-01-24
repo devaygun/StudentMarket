@@ -37,5 +37,33 @@ class MessageTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
+        DB::table('messages')->insert([
+            'sender_id' => '3',
+            'receiver_id' => '2',
+            'message' => 'Hey',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        DB::table('messages')->insert([
+            'sender_id' => '2',
+            'receiver_id' => '3',
+            'message' => 'Hi!',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        DB::table('messages')->insert([
+            'sender_id' => '3',
+            'receiver_id' => '2',
+            'message' => 'Do you want a puppy?',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        DB::table('messages')->insert([
+            'sender_id' => '2',
+            'receiver_id' => '3',
+            'message' => 'Yes please!',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
     }
 }

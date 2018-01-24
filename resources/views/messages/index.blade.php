@@ -10,12 +10,22 @@
             {{--MESSAGE LIST--}}
             <div class="col-sm-12">
                 <ul class="nav nav-pills nav-stacked">
-                    @foreach ($messages as $message)
+                    @foreach ($userList as $mUser)
                         <li class="active">
-                            <a href="messages/{{$message->sender_id}}">
-                                <span>{{\App\User::where('id', ($message->sender_id))->first()->first_name}}</span>
-                                <span style="float: right">Last message recieved: {{$message->created_at->format('d/m/y H:i')}}</span>
+
+                            @if ($mUser->sender_id != null)
+                            <a href="/messages/{{$mUser->sender_id}}">
+                                <span>{{\App\User::where('id', ($mUser->sender_id))->first()->first_name}}</span>
+                                {{--<span style="float: right">Last message received: {{$mUser->created_at->format('d/m/y H:i')}}</span>--}}
                             </a>
+                            @endif
+                            @if ($mUser->receiver_id != null))
+                                <a href="/messages/{{$mUser->receiver_id}}">
+                                    <span>{{\App\User::where('id', ($mUser->receiver_id))->first()->first_name}}</span>
+                                    {{--<span style="float: right">Last message received: {{$mUser->created_at->format('d/m/y H:i')}}</span>--}}
+                                </a>
+                            @endif
+
                         </li>
                     @endforeach
                 </ul>
