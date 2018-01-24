@@ -12,10 +12,10 @@ class SearchController extends Controller
         $this->middleware('auth');
     }
 
-    public function index($string)
+    public function index(Request $request)
     {
-        $search = Item::search($string)->get();
-        dump($string);
-        dd($search);
+        $results = Item::search($request->value)->paginate(15);
+
+        return view('search_results', ['query' => $request->value, 'results' => $results]);
     }
 }

@@ -18,8 +18,9 @@
                                 <img  src="{{$item->user->getProfilePicture()}}" alt="" style="display: block; max-width:100%; max-height:50%; width: auto; height: auto;">
                             </div>
                         </div>
+                        <a href="/view/{{$item->user_id}}" class="btn btn-primary">View Profile</a>
                         @if (!$authorised)
-                            <button type="button" class="btn btn-primary">Message Seller</button>
+                            <button data-toggle="modal" data-target="#messageModal" type="button" class="btn btn-primary">Message Seller</button>
                         @endif
                     </div>
                 </div>
@@ -36,19 +37,15 @@
                             <div class="row">
                                 @foreach ($item->images as $image)
                                     <div class="col-sm-3" >
-                                        <img src="{{asset("storage/$image->path")}}" alt="" class="image_preview" data-toggle_tooltip="tooltip" title="Click to view larger">
+                                        <img src="{{asset("storage/$image->path")}}" alt="" class="image_preview panel" data-toggle_tooltip="tooltip" title="Click to view larger">
                                     </div>
                                 @endforeach
                             </div>
                         @endif
 
                     <div class="panel-body">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Description</h3>
-                            </div>
-                            <div class="panel-body">{{old('description', $item->description)}}</div>
-                        </div>
+                        <h3>Description</h3>
+                        {{old('description', $item->description)}}
 
                         @if ($item->type == "sell")
                             <div class="panel panel-default">
@@ -92,6 +89,10 @@
             </div>
         </div>
     </div>
+
+    <!-- Modals -->
+    @include('modals.create_message')
+
     <!-- Modal -->
     <div id="largerImageModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">

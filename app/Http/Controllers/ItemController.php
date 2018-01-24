@@ -16,10 +16,15 @@ class ItemController extends Controller
         $this->middleware('auth');
     }
 
+    public function apiResponse()
+    {
+        
+    }
+    
     public function index($category = null)
     {
         if ($category == null)
-            return view('items.index', ['items' => Item::with('category')->orderBy('created_at')->get()]); // View all items in all categories
+            return view('items.index', ['items' => Item::with('category')->orderBy('created_at')->paginate(15)]); // View all items in all categories
 
         $items = Item::whereHas('category', function ($query) use ($category) { // Limiting our results based on whether a relationship to the specific category exists or not
             $query->where('slug', $category);
@@ -73,15 +78,6 @@ class ItemController extends Controller
         if ($request->images)
             $this->storeImages($item, $request->file('images'));
 
-        $item = Item::create([
-            'category_id' => $request->category_id,
-            'user_id' => Auth::id(),
-            'name' => $request->name,
-            'description' => $request->description,
-            'type' => $request->type,
-            'price' => $request->price,
-            'trade' => $request->trade,
-        ]);
 
         $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
         return view('items.read', ['item' => $item, 'category' => null, 'authorised' => $authorised]);
@@ -163,7 +159,11 @@ class ItemController extends Controller
         $category = Category::find($item->category_id)->slug;
 
         $request->session()->flash('success', 'Successfully updated your item.');
-        return $this->readItem($category, $id);
+//        return $this->readItem($category, $id);
+
+        return redirect()->action(
+            'ItemController@readItem', ['category' => $category, 'id' => $id]
+        )->with('status', 'Successfully updated your item!');
     }
 
     public function removeItem($id)
@@ -177,7 +177,7 @@ class ItemController extends Controller
             $item->delete();
         }
 
-        return redirect('items');
+        return redirect()->action('ItemController@index');
     }
 
     public function storeImages($item, $images)

@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">{{$category or 'Recently added items'}}</div>
+                    <div class="panel-heading">{{$category or 'Recently Added'}}</div>
 
                     <div class="panel-body">
                         @if (session('status'))
@@ -14,39 +14,7 @@
                             </div>
                         @endif
 
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th>Item</th>
-                                <th>Description</th>
-                                <th>Price</th>
-                                <th>Trade</th>
-                                <th>Added on</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($items as $item)
-                                    @if ($item->sold == false)
-                                        <tr>
-                                            <td><a href="/items/{{$item->category->slug}}/{{$item->id}}" class="btn btn-primary btn-sm" role="button">View</a></td>
-                                            <td>{{$item->name}}</td>
-                                            <td>{{$item->description}}</td>
-                                            <td>
-                                                @if ($item->type == "swap") -/-
-                                                @else £{{$item->price}} @endif
-                                            </td>
-                                            <td>
-                                                @if ($item->type == "part-exchange") + @endif
-                                                {{$item->trade}}
-                                                @if ($item->type == "sell") -/- @endif
-                                            </td>
-                                            <td>{{$item->created_at->format('d/m/y \\a\\t H:i')}}</td>
-                                        </tr>
-                                    @endif
-                                @endforeach
-                            </tbody>
-                        </table>
+                        @include('components.item', ['items' => $items])
                     </div>
                 </div>
             </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Image;
+use App\Review;
 use App\User;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
@@ -63,22 +64,67 @@ class UserController extends Controller
 
     public function viewUser($id = null)
     {
-        $user = User::with('items')->find($id);
-        dump($user);
-        return view('user.view', ['user' => $user]);
+        $viewUser = User::with('items')->find($id); // FIND SEARCHED USER (This is who the profile belongs to)
+        $user = User::find(Auth::id()); // CURRENT LOGGED IN USER
+        $canReview = (User::find(Auth::id())->id != $id); // CHECK IF SEARCHED USER IS LOGGED IN (Only show review button if profile does not belong to user)
+        $userReviews = Review::all()->where('seller_id', $id); // ARRAY OF REVIEWS FOR USER
+
+        // CALCULATE AVERAGE RATING
+        $totalRatingValue = 0;
+        $numRatings = 0;
+        $avgRating = 0;
+        foreach ($userReviews as $review) {
+            $numRatings ++;
+            $totalRatingValue += $review->rating;
+        }
+        if ($numRatings != 0) $avgRating = number_format(($totalRatingValue / $numRatings), 1);
+
+        return view('user.view', ['user' => $user, 'viewUser' => $viewUser, 'canReview' => $canReview, 'userReviews' => $userReviews, 'avgRating' => $avgRating]);
     }
 
-    public function getReviews($id = null)
-    {
-        $user = User::with('items')->find($id);
-//        $reviews = $user->reviews;
-        return view('user.review', ['user' => $user]);
-    }
+//    BACKUP IF MERGE BREAKS
 
-    public function createReview($id = null)
-    {
-        $user = User::with('items')->find($id);
+//    public function getReviews($id = null)
+//    {
+//        $viewUser = User::with('items')->find($id); // FIND SEARCHED USER (This is who the profile belongs to)
+//        $user = User::find(Auth::id()); // CURRENT LOGGED IN USER
+//        $canReview = (User::find(Auth::id())->id != $id); // CHECK IF SEARCHED USER IS LOGGED IN (Only show review button if profile does not belong to user)
+//        $userReviews = Review::all()->where('seller_id', $id); // ARRAY OF REVIEWS FOR USER
+//
+//        // CALCULATE AVERAGE RATING
+//        $totalRatingValue = 0;
+//        $numRatings = 0;
+//        $avgRating = 0;
+//        foreach ($userReviews as $review) {
+//            $numRatings ++;
+//            $totalRatingValue += $review->rating;
+//        }
+//        if ($numRatings != 0) $avgRating = number_format(($totalRatingValue / $numRatings), 1);
+//
+//        return view('user.view', ['user' => $user, 'viewUser' => $viewUser, 'canReview' => $canReview, 'userReviews' => $userReviews, 'avgRating' => $avgRating]);
+//    }
 
-        return view('user.review', ['user' => $user]);
+    public function createReview($id = null, Request $request)
+    {
+        $viewUser = User::with('items')->find($id); // FIND SEARCHED USER
+        $user = User::find(Auth::id()); // CURRENT LOGGED IN USER
+
+        $request->validate([
+//            'seller_id' => 'required|exists:users,id',
+//            'buyer_id' => 'required|exists:users,id',
+            'review' => 'required|string|max:255',
+            'rating' => 'required|integer|min:1|max:5'
+        ]);
+
+
+
+        $review = new Review();
+        $review->seller_id = $viewUser->id;
+        $review->buyer_id = $user->id;
+        $review->review = $request->review;
+        $review->rating = $request->rating;
+        $review->save();
+
+        return redirect()->action('UserController@viewUser', ['id' => $id]);
     }
 }
