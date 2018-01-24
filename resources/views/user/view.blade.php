@@ -87,6 +87,8 @@
                             </tbody>
                         </table>
             </div>
+
+            {{--REVIEW SECTION--}}
             <div class="col-md-12" style="padding-bottom: 20px">
                 <h2>Reviews</h2>
                 {{--If profile does NOT belong to user, show Create Review button--}}
