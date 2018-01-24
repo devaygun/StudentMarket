@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Sell Item</h4>
+                <h4 class="modal-title">Write Review</h4>
             </div>
             <form method="POST" action="/view/1/reviews" enctype="multipart/form-data">
                 <div class="modal-body">

@@ -20,7 +20,7 @@
                         </div>
                         <a href="/view/{{$item->user_id}}" class="btn btn-primary">View Profile</a>
                         @if (!$authorised)
-                            <button type="button" class="btn btn-primary">Message Seller</button>
+                            <button data-toggle="modal" data-target="#messageModal" type="button" class="btn btn-primary">Message Seller</button>
                         @endif
                     </div>
                 </div>
@@ -89,6 +89,10 @@
             </div>
         </div>
     </div>
+
+    <!-- Modals -->
+    @include('modals.create_message')
+
     <!-- Modal -->
     <div id="largerImageModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
