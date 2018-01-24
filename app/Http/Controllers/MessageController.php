@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use App\Message;
 use App\User;
@@ -16,20 +17,37 @@ class MessageController extends Controller
 
     public function index()
     {
-        $messages = Message::all()->where('receiver_id', User::find(Auth::id())->id);
-//        $messages = Message::where('receiver_id', User::find(Auth::id())->id)->groupBy('receiver_id')->get();
+//        GENERATE ALL MESSAGES FROM OR TO THE LOGGED IN USER
+        $messages = Message::where('sender_id', User::find(Auth::id())->id)
+            ->orWhere('receiver_id', User::find(Auth::id())->id)
+            ->orderBy('created_at')
+            ->get();
 
-//        $messages = Message::where('sender_id', User::find(Auth::id())->id)
-//            ->orWhere('receiver_id', User::find(Auth::id())->id)
-//            ->orderBy('created_at')
-//            ->get();
-//        $messages = $messages->groupBy('sender_id')->get();
+//        GENERATE LIST OF MESSAGED USERS
+        $userList = Message::select('sender_id')
+            ->where('receiver_id', User::find(Auth::id())->id)
+            ->distinct()
+            ->orderBy('created_at')
+            ->get();
 
-        return view('messages.index', ['messages' => $messages]);
+        $userList2 = Message::select('receiver_id')
+            ->where('sender_id', User::find(Auth::id())->id)
+            ->distinct()
+            ->orderBy('created_at')
+            ->get();
+
+        foreach ($userList2 as $u) {
+            if (!$userList->contains('sender_id', $u->receiver_id)) {
+                $userList->push($u);
+            }
+        }
+
+        return view('messages.index', ['messages' => $messages, 'userList' => $userList]);
     }
 
     public function viewMessages($id = null)
     {
+//        IF USER TRIES TO MESSAGE THEMSELVES, REDIRECT
         if ($id == User::find(Auth::id())->id) {
             return redirect()->action('MessageController@index');
         }
@@ -40,8 +58,27 @@ class MessageController extends Controller
             ->orderBy('created_at')
             ->get();
 
+        //        GENERATE LIST OF MESSAGED USERS
+        $userList = Message::select('sender_id')
+            ->where('receiver_id', User::find(Auth::id())->id)
+            ->distinct()
+            ->orderBy('created_at')
+            ->get();
 
-        return view('messages.read', ['messages' => $messages, 'recipient' => $id]);
+        $userList2 = Message::select('receiver_id')
+            ->where('sender_id', User::find(Auth::id())->id)
+            ->distinct()
+            ->orderBy('created_at')
+            ->get();
+
+        foreach ($userList2 as $u) {
+            if (!$userList->contains('sender_id', $u->receiver_id)) {
+                $userList->push($u);
+                dump('working');
+            }
+        }
+
+        return view('messages.read', ['messages' => $messages, 'recipient' => $id, 'userList' => $userList]);
     }
 
     public function sendMessage($id = null, Request $request)
