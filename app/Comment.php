@@ -8,18 +8,6 @@ class Comment extends Model
 
 {
 
-    //
-
-    /**
-
-     * Fillable fields for a course
-
-     *
-
-     * @return array
-
-     */
-
     protected $fillable = ['comment','reply_id','item_id','user_id'];
 
     protected $dates = ['created_at', 'updated_at'];
