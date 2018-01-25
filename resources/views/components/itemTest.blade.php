@@ -94,6 +94,9 @@
     .item-type {
         line-height: 22px;
         height: 22px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .cost,

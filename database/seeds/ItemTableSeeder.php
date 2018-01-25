@@ -72,5 +72,17 @@ class ItemTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
+
+        DB::table('items')->insert([
+            'user_id' => 2,
+            'category_id' => 3,
+            'name' => 'Apollo Bike',
+            'description' => "Fairly new apollo bike. Ridden a few times, looks brand new.",
+            'type' => 'part-exchange',
+            'price' => 40,
+            'trade' => 'Skateboard',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
     }
 }
