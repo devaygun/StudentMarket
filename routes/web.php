@@ -34,6 +34,10 @@ Route::get('/', 'ItemController@index');
         Route::post('/items/update/{id}', 'ItemController@updateItem');
     /* Delete */
         Route::post('/item/{id}/remove', 'ItemController@removeItem');
+    /* Comments */
+    Route::get('comments/{itemId}', 'CommentController@index');
+    Route::post('comments', 'CommentController@store');
+
 
 /* Images */
 Route::post('/images/remove', 'ImageController@delete');

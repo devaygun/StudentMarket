@@ -32,13 +32,11 @@
                                 <th>Member since: {{$viewUser->created_at->format('jS \\ F Y')}}</th>
                             </tr>
                             <tr>
-                                <th>Items:
+                                <th>Advertised Items:
                                     @if ($viewUser->items->isEmpty())
                                         No items listed
                                     @else
-                                        @foreach($viewUser->items->pluck('name') as $item)
-                                            {{$item}},
-                                        @endforeach
+                                            {{$viewUser->items->count()}}
                                     @endif
                                 </th>
                             </tr>
@@ -59,7 +57,7 @@
                 <h2>Items</h2>
                 <table class="table table-striped">
                 @if ($viewUser->items->isEmpty())
-                        <td>No items listed</td>
+                        <td>No items from this Seller</td>
                     @endif
                             <thead>
                             <tr>

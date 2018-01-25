@@ -90,6 +90,18 @@
         </div>
     </div>
 
+    {{--Comment Section--}}
+    <div class="col-lg-8">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 style="display:inline-block" class="panel-title">Comments</h3>
+                @if ($item->sold == true) <label class="label label-default">Note: This item has been sold</label> @endif
+            </div>
+                </div>
+        </div>
+
+
     <!-- Modals -->
     @include('modals.create_message')
 
