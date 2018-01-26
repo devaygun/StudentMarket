@@ -35,11 +35,15 @@
                     </div>
                         @if ($item->images->isNotEmpty())
                             <div class="row">
-                                @foreach ($item->images as $image)
-                                    <div class="col-sm-3" >
-                                        <img src="{{asset("storage/$image->path")}}" alt="" class="image_preview panel" data-toggle_tooltip="tooltip" title="Click to view larger">
-                                    </div>
-                                @endforeach
+                                <div class="col-sm-12">
+                                    @foreach ($item->images as $image)
+                                        <div class="col-sm-4 col-md-3 image-frame">
+                                            <div class="item-thumb" style="background-image: url({{asset("storage/$image->path")}})">
+                                                <img src="{{asset("storage/$image->path")}}" alt="" class="image_preview panel" data-toggle_tooltip="tooltip" title="Click to view larger">
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         @endif
 
@@ -116,4 +120,25 @@
         </div>
     </div>
 
+    {{--STYLE--}}
+
+    <style>
+
+        .item-thumb {
+            position: relative;
+            width: 100%;
+            background-position: center;
+            -webkit-background-size: cover;
+            background-size: cover;
+            background-color: #ccc;
+            border-radius: 6px;
+        }
+
+        .item-thumb img.image_preview {
+            height: 0;
+            width: 100%;
+            padding-bottom: 100%;
+            opacity: 0;
+        }
+    </style>
 @endsection
