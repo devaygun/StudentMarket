@@ -6,7 +6,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Write Review</h4>
             </div>
-            <form method="POST" action="/view/1/reviews" enctype="multipart/form-data">
+            <form method="POST" action="/view/{{$viewUser->id}}/reviews" enctype="multipart/form-data">
                 <div class="modal-body">
                     {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                     <label class="control-label rating-title">Rating</label>

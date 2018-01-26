@@ -39,7 +39,7 @@
                             @if ($message->sender_id != Auth::id())) from="recipient" @endif
                         >
                             <div class="panel-heading">
-                                <h3 class="panel-title">{{\App\User::where('id', ($message->sender_id))->first()->first_name}}</h3>
+                                <h3 class="panel-title"><a href="/view/{{$message->sender_id}}" title="View Profile">{{\App\User::where('id', ($message->sender_id))->first()->first_name}}</a></h3>
                             </div>
                             <div class="panel-body">
                                 {{$message->message}}
