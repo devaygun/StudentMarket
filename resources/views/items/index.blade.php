@@ -14,7 +14,7 @@
                             </div>
                         @endif
 
-                        @include('components.item', ['items' => $items])
+                        {{--@include('components.item', ['items' => $items])--}}
                         @include('components.itemTest', ['items' => $items])
                     </div>
                 </div>
