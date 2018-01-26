@@ -140,5 +140,11 @@
             padding-bottom: 100%;
             opacity: 0;
         }
+
+        .large_image {
+            max-width: 88vh;
+            max-height: 88vh;
+            margin: 0 auto;
+        }
     </style>
 @endsection
