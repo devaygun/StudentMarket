@@ -53,12 +53,23 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12" style="padding-bottom: 20px">
-                <h2>Items</h2>
-                <table class="table table-striped">
-                @if ($viewUser->items->isEmpty())
-                        <td>No items from this Seller</td>
-                    @endif
+
+            {{--TABS--}}
+
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#itemTab" data-toggle="tab" aria-expanded="true">Items</a></li>
+                <li class=""><a href="#reviewTab" data-toggle="tab" aria-expanded="false">Reviews</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade active in" id="itemTab">
+
+                    {{--ITEM SECTION--}}
+                    <div class="col-md-12" style="padding-bottom: 20px">
+                        <h2>Items</h2>
+                        <table class="table table-striped">
+                            @if ($viewUser->items->isEmpty())
+                                <td>No items from this Seller</td>
+                            @endif
                             <thead>
                             <tr>
                                 <th></th>
@@ -84,45 +95,43 @@
                             @endforeach
                             </tbody>
                         </table>
-            </div>
-
-            {{--REVIEW SECTION--}}
-            <div class="col-md-12" style="padding-bottom: 20px">
-                <h2>Reviews</h2>
-                {{--If profile does NOT belong to user, show Create Review button--}}
-                @if ($canReview)
-                    <a href="" class="btn btn-default" data-toggle="modal" data-target="#reviewModal"><i class="fa fa-plus" aria-hidden="true"></i> Write Review</a>
-
-                    {{--IF NO REVIEWS & USER IS NOT SELLER--}}
-                    @if (!$userReviews->count())
-                        <label style="padding-left: 30px">Be the first to review this seller!</label>
-                    @endif
-
-                @endif
-
-                {{--IF NO REVIEWS--}}
-                @if (!$userReviews->count())
-                    <h4>No Reviews for this seller</h4>
-                @endif
-
-            </div>
-
-
-            {{--DISPLAY REVIEWS--}}
-            @foreach($userReviews as $review)
-                <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">{{\App\User::where('id', ($review->buyer_id))->first()->first_name}}
-                            <span class="user-rating-{{$review->rating}}" style="float: right"></span>
-                        </div>
-                        <div class="panel-body">
-                            {{$review->review}}
-                        </div>
                     </div>
+
                 </div>
-            @endforeach
+                <div class="tab-pane fade" id="reviewTab">
+                    {{--REVIEW SECTION--}}
+                    <div class="col-md-12" style="padding-bottom: 20px">
+                        <h2>Reviews</h2>
+                        {{--If profile does NOT belong to user, show Create Review button--}}
+                        @if ($canReview)
+                            <a href="" class="btn btn-default" data-toggle="modal" data-target="#reviewModal"><i class="fa fa-plus" aria-hidden="true"></i> Write Review</a>
+                            {{--IF NO REVIEWS & USER IS NOT SELLER--}}
+                            @if (!$userReviews->count())
+                                <label style="padding-left: 30px">Be the first to review this seller!</label>
+                            @endif
+                        @endif
+                        {{--IF NO REVIEWS--}}
+                        @if (!$userReviews->count())
+                            <h4>No Reviews for this seller</h4>
+                        @endif
+                    </div>
 
+                    {{--DISPLAY REVIEWS--}}
+                    @foreach($userReviews as $review)
+                        <div class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">{{\App\User::where('id', ($review->buyer_id))->first()->first_name}}
+                                    <span class="user-rating-{{$review->rating}}" style="float: right"></span>
+                                </div>
+                                <div class="panel-body">
+                                    {{$review->review}}
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
 
+                </div>
+            </div>
         </div>
     </div>
 
@@ -213,8 +222,13 @@
 
     {{--STYLES--}}
     <style>
+
         .fa.fa-star.checked {
             color: orange;
+        }
+
+        .nav-tabs > li > a:focus {
+            outline: 0;
         }
     </style>
 
