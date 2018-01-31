@@ -83,7 +83,7 @@
                     document.getElementById('modalCreatePriceForm').style.display = "block";
                     document.getElementById('modalCreatePrice').required = true;
                     document.getElementById('modalCreateSwap').value = "";
-                    document.getElementById('modalCreateSwap').required = false;
+                    document.getElementById('modalCreateSwap').required = true;
                     document.getElementById('modalCreateSwapForm').style.display = "block";
                 }
             </script>
