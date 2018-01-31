@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -25,7 +26,6 @@ class CommentController extends Controller
         $comment = Comment::create($request->all());
 
         if($comment)
-
             return [ "status" => "true","commentId" => $comment->id ];
 
     }
