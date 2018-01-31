@@ -18,5 +18,8 @@ use App\User;
 Route::post('login', 'ApiAuthController@login');
 
 Route::group(['middleware' => 'auth:api'], function () {
+    Route::post('logout', 'ApiAuthController@logout');
+
     Route::get('/items', 'ItemController@index');
+    Route::get('/items/{category}/{id}', 'ItemController@readItem');
 });

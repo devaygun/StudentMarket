@@ -93,7 +93,7 @@ class ItemController extends Controller
         return view('items.read', ['item' => $item, 'category' => null, 'authorised' => $authorised]);
     }
 
-    public function readItem($category = null, $id = null)
+    public function readItem(Request $request, $category = null, $id = null)
     {
         if ($category == "update")
            return $this->editItem($id);
@@ -104,7 +104,12 @@ class ItemController extends Controller
         $category = $category ?: $item->category->slug; // If the category is not passed through then retrieve it from the item
         $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
 
-        return view('items.read', ['item' => $item, 'category' => $category, 'authorised' => $authorised]);
+        $data = ['item' => $item, 'category' => $category, 'authorised' => $authorised];
+
+        if ($request->is('api/*'))
+            return $this->apiResponse(true, 'Success (individual item)', $data);
+
+        return view('items.read', $data);
 
     }
 

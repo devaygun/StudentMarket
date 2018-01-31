@@ -33,13 +33,17 @@ class ApiAuthController extends Controller
     }
 
     /**
-     * Logs out the user and invalidates the token
+     * Logs out the user, invalidates and refreshes the API token
      */
     public function logout()
     {
+        $user = User::find(Auth::id());
+        $user->api_token = str_random(60);
+        $user->save();
+
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return $this->response(true, 'Successfully logged out.', null);
     }
 
     /**
