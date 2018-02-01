@@ -96,11 +96,38 @@
 
     {{--Comment Section--}}
     <div class="col-lg-12">
-
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 style="display:inline-block" class="panel-title">Comments</h3>
-                @if ($item->sold == true) <label class="label label-default">Note: This item has been sold</label> @endif
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped v-align">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>User</th>
+                        <th>Comment</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($item->comments as $comment)
+                    <td><img src="{{User::find($comment->user_id)->getProfilePicture()}}" alt="User Image Preview" class="panel" data-toggle_tooltip="tooltip" title="Click to view user's profile" height="100px" width="100px"></td>
+                        @endforeach
+                    </tbody>
+                </table>
+                <div class="comment-form">
+                    <div class="col-sm-4 user-avatar" style="background-image: url{{Auth::User()->getProfilePicture()}}">
+                        <img src="{{Auth::User()->getProfilePicture()}}" alt="Profile Image Preview" class="panel" height="100px" width="100px">
+                    </div>
+                    <form class="form" name="form">
+                    <div class="form-row">
+                        <div class="col-sm-8">
+                <textarea class="form-control" placeholder="Add comment..." required rows="5" id="comment"></textarea>
+                        </div>
+                    </div>
+                    </form>
+                </div>
             </div>
                 </div>
         </div>
