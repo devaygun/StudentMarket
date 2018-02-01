@@ -15,11 +15,11 @@ class ApiAuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     /**
-     * A basic "login" function for the API which
+     * Login function with validation and upon success returns the authenticated user object
      */
     public function login(Request $request)
     {
@@ -33,13 +33,42 @@ class ApiAuthController extends Controller
     }
 
     /**
-     * Logs out the user and invalidates the token
+     * Registration function
+     */
+    public function register(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'date_of_birth' => 'required|date',
+            'profile_picture' => 'image|dimensions:min_width=100,min_height=100,max_width=2000,max_height=2000',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $user = new User();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->date_of_birth = $request->date_of_birth;
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        return $this->response(true, 'Successfully registered.', $user);
+    }
+
+    /**
+     * Logs out the user, invalidates and refreshes the API token
      */
     public function logout()
     {
+        $user = User::find(Auth::id());
+        $user->api_token = str_random(60);
+        $user->save();
+
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return $this->response(true, 'Successfully logged out.', null);
     }
 
     /**
