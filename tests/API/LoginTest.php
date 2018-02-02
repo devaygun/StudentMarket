@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginTest extends TestCase
 {
+    // use RefreshDatabase; (Resets the database after each test so that there isn't any interference)
+
     /**
      * Performs a simple login using existing credentials provided from a seed
      */
