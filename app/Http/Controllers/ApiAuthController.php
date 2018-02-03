@@ -26,6 +26,12 @@ class ApiAuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = User::where('email', $request->email)->first();
 
+            if ($user->api_token === null) { // If there's no api_token set for the user then one will be generated
+                $api_token = str_random(60);
+                User::where('email', $request->email)->update(['api_token' => $api_token]);
+                $user->api_token = $api_token;
+            }
+
             return $this->response(true, 'Successfully logged in.', $user);
         }
 
@@ -43,7 +49,7 @@ class ApiAuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'date_of_birth' => 'required|date',
             'profile_picture' => 'image|dimensions:min_width=100,min_height=100,max_width=2000,max_height=2000',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|confirmed', // This also means that in the API request a "password_confirmation" input must be supplied
         ]);
 
         $user = new User();

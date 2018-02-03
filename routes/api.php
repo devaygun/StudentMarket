@@ -16,6 +16,8 @@ use App\User;
 */
 
 Route::post('login', 'ApiAuthController@login');
+Route::post('register', 'ApiAuthController@register');
+
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'ApiAuthController@logout');
