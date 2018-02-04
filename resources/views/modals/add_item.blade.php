@@ -60,32 +60,33 @@
             <!-- Script -->
             <script>
 
-                window.onload = function() {
+                $( document ).ready(function() {
                     createCheckedSellType();
-                }
+                });
 
                 function createCheckedSellType() {
-                    document.getElementById('modalCreatePriceForm').style.display = "block";
-                    document.getElementById('modalCreatePrice').required = true;
-                    document.getElementById('modalCreateSwap').value = "";
-                    document.getElementById('modalCreateSwap').required = false;
-                    document.getElementById('modalCreateSwapForm').style.display = "none";
+                    $('#modalCreatePriceForm').css("display", "block");
+                    $('#modalCreatePrice').prop("required", true);
+                    $('#modalCreateSwap').val('');
+                    $('#modalCreateSwap').prop("required", false);
+                    $('#modalCreateSwapForm').css("display", "none");
                 }
                 function createCheckedSwapType() {
-                    document.getElementById('modalCreatePrice').value = "";
-                    document.getElementById('modalCreatePrice').required = false;
-                    document.getElementById('modalCreatePriceForm').style.display = "none";
-                    document.getElementById('modalCreateSwap').value = "";
-                    document.getElementById('modalCreateSwap').required = true;
-                    document.getElementById('modalCreateSwapForm').style.display = "block";
+                    $('#modalCreatePrice').val('');
+                    $('#modalCreatePrice').prop("required", false);
+                    $('#modalCreatePriceForm').css("display", "none");
+                    $('#modalCreateSwap').val('');
+                    $('#modalCreateSwap').prop("required", true);
+                    $('#modalCreateSwapForm').css("display", "block");
                 }
                 function createCheckedPEType() {
-                    document.getElementById('modalCreatePriceForm').style.display = "block";
-                    document.getElementById('modalCreatePrice').required = true;
-                    document.getElementById('modalCreateSwap').value = "";
-                    document.getElementById('modalCreateSwap').required = true;
-                    document.getElementById('modalCreateSwapForm').style.display = "block";
+                    $('#modalCreatePriceForm').css("display", "block");
+                    $('#modalCreatePrice').prop("required", true);
+                    $('#modalCreateSwap').val('');
+                    $('#modalCreateSwap').prop("required", true);
+                    $('#modalCreateSwapForm').css("display", "block");
                 }
+
             </script>
         </div>
     </div>

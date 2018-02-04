@@ -97,19 +97,11 @@
                                     });
                                 });
 
-
-//                                TEMPORARY EVENT LISTENER - THIS WILL LOAD INITIAL PAGE FUNCTIONS
-                                window.addEventListener ?
-                                window.addEventListener("load",windowLoadfunctions,false) :
-                                window.attachEvent && window.attachEvent("onload",windowLoadfunctions);
-
-//                                THESE ARE THE FUNCTIONS TO LOAD WITH THE PAGE
-                                function windowLoadfunctions() {
-                                    console.log("working");
+                                $( document ).ready(function() {
                                     checkType();
                                     checkSold();
                                     checkCategory();
-                                }
+                                });
 
 //                                CHANGE THE DEFAULT CATEGORY SELECT VALUE TO MATCH THE ITEM
                                 function checkCategory() {
