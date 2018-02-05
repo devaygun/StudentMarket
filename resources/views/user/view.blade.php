@@ -42,6 +42,10 @@
                             </tr>
                             </thead>
                         </table>
+                        {{--IF PROFILE DOES NOT BELONG TO AUTHORISED USER--}}
+                        @if ($canReview)
+                            <button data-toggle="modal" data-target="#messageModal" type="button" class="btn btn-primary">Message Seller</button>
+                        @endif
                     </div>
 
                     <div class="panel-body">
@@ -138,6 +142,7 @@
 
     <!-- Modals -->
     @include('modals.create_review')
+    @include('modals.create_message')
 
     {{--Scripts--}}
     <script>
