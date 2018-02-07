@@ -58,6 +58,7 @@ class ApiAuthController extends Controller
         $user->email = $request->email;
         $user->date_of_birth = $request->date_of_birth;
         $user->password = bcrypt($request->password);
+        $user->api_token = str_random(60);
         $user->save();
 
         return $this->response(true, 'Successfully registered.', $user);
