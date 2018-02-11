@@ -88,6 +88,8 @@ class ItemController extends Controller
         if ($request->images)
             $this->storeImages($item, $request->file('images'));
 
+        // DISPLAY SUCCESS MESSAGE
+        $request->session()->flash('success', 'Successfully added item.');
 
         $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
         return view('items.read', ['item' => $item, 'category' => null, 'authorised' => $authorised]);
@@ -113,13 +115,13 @@ class ItemController extends Controller
 
     }
 
-    public function editItem($id = null)
-    {
-        $item = Item::find($id);
-        $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
-
-        return view('items.update', ['item' => $item, 'authorised' => $authorised]);
-    }
+//    public function editItem($id = null)
+//    {
+//        $item = Item::find($id);
+//        $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
+//
+//        return view('items.update', ['item' => $item, 'authorised' => $authorised]);
+//    }
 
     public function updateItem(Request $request, $id = null)
     {
@@ -174,7 +176,6 @@ class ItemController extends Controller
         $category = Category::find($item->category_id)->slug;
 
         $request->session()->flash('success', 'Successfully updated your item.');
-//        return $this->readItem($category, $id);
 
         return redirect()->action(
             'ItemController@readItem', ['category' => $category, 'id' => $id]

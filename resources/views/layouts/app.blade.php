@@ -143,15 +143,29 @@
                 </div>
             </div>
         </nav>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    @include('components.status')
+                </div>
+            </div>
+        </div>
+
         @auth
             @include('components.search') {{-- Includes the search box component area --}}
         @endauth
+
         @yield('content')
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
+
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
         $('.image_preview').on("click", function () {
             var source_url = $(this).attr('src');
             $('#large_image').html('<img src="'+source_url+'" alt="" class="large_image">');

@@ -101,6 +101,9 @@ class UserController extends Controller
         $review->rating = $request->rating;
         $review->save();
 
+        // DISPLAY SUCCESS MESSAGE
+        $request->session()->flash('success', 'Successfully added review.');
+
         return redirect()->action('UserController@viewUser', ['id' => $id]);
     }
 }

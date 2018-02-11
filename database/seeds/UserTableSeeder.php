@@ -31,7 +31,6 @@ class UserTableSeeder extends Seeder
             'password' => bcrypt('sam123'),
             'api_token' => str_random(60),
             'date_of_birth' => Carbon::createFromDate(1994, 04, 18),
-            'profile_picture' => 'profiles/zo04EiMA6jYHDxJqTkB5TsT8BxyThfGddWlptNMy.jpeg',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
