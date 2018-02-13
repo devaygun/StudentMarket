@@ -5,7 +5,12 @@
 
         <div class="col-sm-12">
             <div class="panel panel-default">
-                <div class="panel-heading">{{$viewUser->first_name}} {{$viewUser->last_name}}</div>
+                <div class="panel-heading">
+                    <span>{{$viewUser->first_name}} {{$viewUser->last_name}}</span>
+                    @if (!$canReview)
+                        <a href="/profile" class="btn btn-primary btn-xs" style="float: right;"><i class="fa fa-pencil"></i></a>
+                    @endif
+                </div>
                 <div class="row">
                     <div class="col-sm-4">
                         @if ($viewUser->profile_picture)

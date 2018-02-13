@@ -31,19 +31,14 @@
         </div>
     </div>
 
+    {{--STYLE--}}
     <style>
-
-        .inline-block {
-            display: inline-block;
-        }
 
         .legend {
             float: right;
-            color: #8c8c8c;
+            padding-top: 0 !important;
         }
 
-        .legend .fa-pad {
-            padding-left: 15px;
-        }
     </style>
+
 @endsection

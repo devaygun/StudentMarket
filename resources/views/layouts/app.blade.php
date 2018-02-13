@@ -174,6 +174,24 @@
         });
     </script>
 
+    {{--STYLE--}}
+    <style>
+
+        /*GLOBAL STYLES - DO NOT REMOVE*/
+        .inline-block {
+            display: inline-block;
+        }
+
+        .legend {
+            color: #8c8c8c;
+            padding-top: 10px;
+        }
+
+        .legend .fa-pad:not(:first-child) {
+            padding-left: 15px;
+        }
+    </style>
+
     <!-- Modals -->
     @include('modals.add_item')
 </body>
