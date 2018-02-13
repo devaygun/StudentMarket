@@ -53,5 +53,6 @@ Route::post('/messages/{id}', 'MessageController@sendMessage');
 /* User */
 Route::get('/view/{id}', 'UserController@viewUser');
 Route::post('/view/{id}/reviews', 'UserController@createReview');
+
 Route::get('/profile', 'UserController@index');
 Route::post('/profile', 'UserController@update')->name('update_profile');

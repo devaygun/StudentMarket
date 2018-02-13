@@ -16,6 +16,9 @@ class ItemController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * Provides a response to API requests in JSON with a consistent formatting
+     */
     public function apiResponse($success, $message, $data, $status = 200)
     {
         return response()->json(['success' => $success, 'message' => $message, 'data' => $data], $status);

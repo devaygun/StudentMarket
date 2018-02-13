@@ -23,9 +23,20 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->is('api/*'))
+            return $this->apiResponse(true, "Successfully retrieved user profile.", User::where('api_token', $request->api_token)->first());
+
         return view('user.profile', ['user' => Auth::user()]);
+    }
+
+    /**
+     * Provides a response to API requests in JSON with a consistent formatting
+     */
+    public function apiResponse($success, $message, $data, $status = 200)
+    {
+        return response()->json(['success' => $success, 'message' => $message, 'data' => $data], $status);
     }
 
     /**
@@ -45,7 +56,10 @@ class UserController extends Controller
             'password' => $request->password ? 'required|string|min:6|confirmed' : '',
         ]);
 
-        $user = User::find(Auth::id());
+
+        $id = $request->is('api/*') ? User::where('api_token', $request->api_token)->first()->id : Auth::id(); // Retrieve the user's ID based on if the request is from the API or not
+
+        $user = User::find($id);
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->email = $request->email;
@@ -56,6 +70,9 @@ class UserController extends Controller
         if ($request->password)
             $user->password = bcrypt($request->password);
         $user->save();
+
+        if ($request->is('api/*'))
+            return $this->apiResponse(true, "Successfully updated user profile.", $user);
 
         $request->session()->flash('success', 'Successfully updated your profile.');
 
