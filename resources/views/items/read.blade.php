@@ -10,17 +10,17 @@
                         <h3 style="display:inline-block" class="panel-title">Seller Profile</h3>
                     </div>
                     <div class="panel-body">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Name: {{$item->user->first_name}}</h3>
-                            </div>
-                            <div class="panel-body">
-                                <img  src="{{$item->user->getProfilePicture()}}" alt="" style="display: block; max-width:100%; max-height:50%; width: auto; height: auto;">
-                            </div>
-                        </div>
+                        {{--<div class="panel panel-default">--}}
+                            {{--<div class="panel-heading">--}}
+                                <h3 class="panel-title seller-name">Name: {{$item->user->first_name}}</h3>
+                            {{--</div>--}}
+                            {{--<div class="panel-body">--}}
+                                <img class="seller-pp"  src="{{$item->user->getProfilePicture()}}" alt="" style="display: block; max-width:100%; max-height:50%; width: auto; height: auto;">
+                            {{--</div>--}}
+                        {{--</div>--}}
                         <a href="/view/{{$item->user_id}}" class="btn btn-primary">View Profile</a>
                         @if (!$authorised)
-                            <button data-toggle="modal" data-target="#messageModal" type="button" class="btn btn-primary">Message Seller</button>
+                            <button id="msgModalBtn" data-toggle="modal" data-target="#messageModal" type="button" class="btn btn-primary">Message Seller</button>
                         @endif
                     </div>
                 </div>
@@ -124,6 +124,11 @@
 
     <style>
 
+        .seller-name,
+        .seller-pp {
+            padding-bottom: 10px;
+        }
+
         .item-thumb {
             position: relative;
             width: 100%;
@@ -145,6 +150,13 @@
             max-width: 88vh;
             max-height: 88vh;
             margin: 0 auto;
+        }
+
+        @media screen and (min-device-width: 768px) and (max-device-width: 991px) {
+
+            #msgModalBtn {
+                margin-top: 15px;
+            }
         }
     </style>
 @endsection
