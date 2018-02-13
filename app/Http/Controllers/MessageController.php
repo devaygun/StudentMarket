@@ -74,7 +74,7 @@ class MessageController extends Controller
         foreach ($userList2 as $u) {
             if (!$userList->contains('sender_id', $u->receiver_id)) {
                 $userList->push($u);
-                dump('working');
+//                dump('working');
             }
         }
 
@@ -91,8 +91,6 @@ class MessageController extends Controller
         $recip = User::find($id); // FIND SEARCHED USER
 
         $request->validate([
-//            'seller_id' => 'required|exists:users,id',
-//            'buyer_id' => 'required|exists:users,id',
             'message' => 'required|string|max:1000'
         ]);
 
