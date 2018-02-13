@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             {{--SELLER INFORMATION--}}
-            <div class="col-lg-4">
+            <div class="col-sm-4">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3 style="display:inline-block" class="panel-title">Seller Profile</h3>
@@ -26,7 +26,7 @@
                 </div>
             </div>
             {{--ITEM INFORMATION--}}
-            <div class="col-lg-8">
+            <div class="col-sm-8">
 
                 <div class="panel panel-primary">
                     <div class="panel-heading">

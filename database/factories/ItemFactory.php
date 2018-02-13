@@ -9,7 +9,7 @@ $factory->define(App\Item::class, function (Faker $faker) {
         array_push($userArray, $i);
     }
     return [
-        'user_id' => '1',
+        'user_id' => $faker->numberBetween(1, 30),// rand($min = 1, $max = 30), // '1',
         'category_id' => 1,
         'name' => $faker->sentence(2),
         'description' => $faker->realText(50),
