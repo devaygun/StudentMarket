@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Image;
 use App\Item;
+use App\SavedItem;
 use App\Tag;
 use App\ItemTag;
 use Illuminate\Http\Request;
@@ -139,7 +140,14 @@ class ItemController extends Controller
         $category = $category ?: $item->category->slug; // If the category is not passed through then retrieve it from the item
         $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
 
-        $data = ['item' => $item, 'category' => $category, 'authorised' => $authorised];
+        $saved = false;
+        if (Auth::id() != $item->seller_id) {
+            if (SavedItem::where(['item_id' => $item->id, 'user_id' => Auth::id()])->count()) {
+                $saved = true;
+            }
+        }
+
+        $data = ['item' => $item, 'category' => $category, 'authorised' => $authorised, 'saved' => $saved];
 
         if ($request->is('api/*'))
             return $this->apiResponse(true, 'Success (individual item)', $data);
@@ -163,6 +171,33 @@ class ItemController extends Controller
 
         return view('items.update', ['item' => $item, 'authorised' => $authorised, 'tags' => $tags]);
     }
+
+    // SAVE ITEM
+    public function save($id = null)
+    {
+        $item = Item::find($id);
+        $category = $item->category;
+        $saved = false;
+
+        if (Auth::id() != $item->seller_id) {
+            if (!SavedItem::where(['item_id' => $item->id, 'user_id' => Auth::id()])->count()) {
+                $savedItem = new SavedItem();
+                $savedItem->item_id = $item->id;
+                $savedItem->user_id = Auth::id();
+                $savedItem->save();
+                $saved = true;
+            } else {
+                $savedID = SavedItem::where(['item_id' => $item->id, 'user_id' => Auth::id()])->first();
+                $savedItem = SavedItem::find($savedID->id);
+                $savedItem->delete();
+            }
+        }
+
+        return redirect()->action(
+            'ItemController@readItem', ['category' => $category, 'id' => $id, 'saved' => $saved]
+        );
+    }
+
 
     public function updateItem(Request $request, $id = null)
     {
@@ -252,7 +287,7 @@ class ItemController extends Controller
 
         return redirect()->action(
             'ItemController@readItem', ['category' => $category, 'id' => $id]
-        )->with('status', 'Successfully updated your item!');
+        );//->with('status', 'Successfully updated your item!');
     }
 
     public function removeItem($id)

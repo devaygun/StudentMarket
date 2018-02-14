@@ -25,6 +25,22 @@
                 {{--TITLE--}}
                 <div class="panel panel-primary">
                     <div class="panel-heading item-heading">
+
+                        @if (!$authorised)
+                            <form class="saveForm" method="POST" action="/items/save/{{$item->id}}" enctype="multipart/form-data">
+                                {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
+                                @if ($saved)
+                                    <button title="Remove from saved" class="remove" name="saveItem btn btn-primary" type="submit" value="remove">
+                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                    </button>
+                                @else
+                                    <button title="Save item" class="save" name="saveItem btn btn-primary" type="submit" value="save">
+                                        <i class="fa fa-heart" aria-hidden="true"></i>
+                                    </button>
+                                @endif
+                            </form>
+                        @endif
+
                         <div>
                             <h3 class="panel-title item-title">{{$item->name}}</h3>
                             @if ($item->sold == true) <label class="label label-default">Note: This item has been sold</label> @endif
@@ -132,11 +148,42 @@
         .seller-pp {
             padding-bottom: 10px;
         }
+        
+        .saveForm {
+            position: relative;
+        }
+        
+        .saveForm button {
+            outline: 0;
+            background: none;
+            border: none;
+            position: absolute;
+            top: 0;
+            right: 0;
+            line-height: 30px;
+            -webkit-transition: color ease 0.2s;
+            -moz-transition:  color ease 0.2s;
+            -ms-transition:  color ease 0.2s;
+            -o-transition:  color ease 0.2s;
+            transition:  color ease 0.2s;
+        }
+
+        .saveForm button.save:hover {
+            color: red;
+        }
+
+        .saveForm button.remove {
+            color: red;
+        }
+
+        .saveForm button.remove:hover {
+            color: #000;
+        }
 
         .item-heading .item-title,
         .item-heading .item-cost {
             display: inline-block;
-            line-height:20px;
+            line-height:30px;
             font-size: 22px;
         }
 
