@@ -114,7 +114,6 @@ class ItemController extends Controller
                 $newItemTag->tag_id = Tag::where('name', $tag)->first()->id;
                 $newItemTag->item_id = $item->id;
                 $newItemTag->save();
-                dump($newItemTag);
             }
         }
 
@@ -174,7 +173,8 @@ class ItemController extends Controller
                 'description' => 'required|string|max:255',
                 'type' => 'required|string',
                 'price' => 'required|integer',
-                'trade' => 'nullable|string'
+                'trade' => 'nullable|string',
+                'tags' => 'nullable|string'
             ]);
         } else if ($request->type == "swap") {
             $request->validate([
@@ -183,7 +183,8 @@ class ItemController extends Controller
                 'description' => 'required|string|max:255',
                 'type' => 'required|string',
                 'price' => 'nullable|integer',
-                'trade' => 'required|string'
+                'trade' => 'required|string',
+                'tags' => 'nullable|string'
             ]);
         } else {
             $request->validate([
@@ -192,11 +193,12 @@ class ItemController extends Controller
                 'description' => 'required|string|max:255',
                 'type' => 'required|string',
                 'price' => 'required|integer',
-                'trade' => 'required|string'
+                'trade' => 'required|string',
+                'tags' => 'nullable|string'
             ]);
         }
 
-        // TODO: Implement sellType logic
+        // UPDATE ITEM
         $item = Item::find($id);
         $item->name = $request->input('name');
         $item->description = $request->description;
@@ -212,6 +214,35 @@ class ItemController extends Controller
         }
         $item->save();
 
+        // UPDATE TAGS
+        if (trim($request->tags)) {
+            $tagString = trim($request->tags);
+            $tagArray = explode(" ", $tagString); // SPLIT AND TRIM TAGS
+
+            $itemTagList = ItemTag::all();
+            foreach ($itemTagList as $itemTag) {
+                if ($itemTag->item_id == $item->id) $itemTag->delete(); // REMOVE OLD TAGS
+            }
+
+            foreach ($tagArray as $tag) {
+                $tag = trim($tag);
+
+                // ADD TAG TO TABLE IF DOESN'T EXIST
+                if (!Tag::where('name', $tag)->count()) {
+                    $newTag = new Tag();
+                    $newTag->name = $tag;
+                    $newTag->save();
+                }
+
+                // LINK ITEM TAG TO TAG TABLE
+                $newItemTag = new ItemTag();
+                $newItemTag->tag_id = Tag::where('name', $tag)->first()->id;
+                $newItemTag->item_id = $item->id;
+                $newItemTag->save();
+            }
+        }
+
+        // UPDATED IMAGES
         if ($request->images)
             $this->storeImages($item, $request->file('images'));
 

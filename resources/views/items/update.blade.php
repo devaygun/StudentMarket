@@ -70,7 +70,7 @@
                                     <label for="tags">Tags (Separate with spaces e.g Red Car New)</label>
                                     <input type="text" class="form-control" id="tags"
                                            value="@foreach($tags as $tag){{$tag}} @endforeach"
-                                           name="description" maxlength="255">
+                                           name="tags" maxlength="255">
                                 </div>
                                 <div class="checkbox">
                                     <label>
