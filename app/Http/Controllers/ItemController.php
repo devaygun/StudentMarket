@@ -97,7 +97,7 @@ class ItemController extends Controller
         // ADD TAGS
         if (trim($request->tags)) {
             $tagString = trim($request->tags);
-            $tagArray = explode(",", $tagString); // SPLIT AND TRIM TAGS
+            $tagArray = explode(" ", $tagString); // SPLIT AND TRIM TAGS
 
             foreach ($tagArray as $tag) {
                 $tag = trim($tag);
@@ -153,8 +153,13 @@ class ItemController extends Controller
     public function editItem($id = null)
     {
         $item = Item::find($id);
-        $tags = ItemTag::where('item_id', $item->id)->get();
-        dump($tags);
+        $tagsArray = ItemTag::where('item_id', $item->id)->get();
+        $tags = [];
+        foreach ($tagsArray as $itemTag) {
+            $tag = Tag::find($itemTag->tag_id);
+            array_push($tags, $tag->name);
+        }
+
         $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
 
         return view('items.update', ['item' => $item, 'authorised' => $authorised, 'tags' => $tags]);

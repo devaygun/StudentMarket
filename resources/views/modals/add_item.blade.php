@@ -50,7 +50,7 @@
                         <input type="file" accept="image/*" class="form-control" id="images" value="{{old('images')}}" name="images[]" multiple>
                     </div>
                     <div class="form-group">
-                        <label for="tags">Tags (Separate tags with commas e.g red, bike, new)</label>
+                        <label for="tags">Tags (Separate with spaces e.g red bike new)</label>
                         <input type="text" class="form-control" id="tags" value="" name="tags" maxlength="150">
                     </div>
                 </div>
