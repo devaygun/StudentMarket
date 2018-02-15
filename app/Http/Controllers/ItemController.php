@@ -198,6 +198,19 @@ class ItemController extends Controller
         );
     }
 
+    public function savedItems(Request $request)
+    {
+        $user_id = Auth::id();
+        $items = Item::whereHas('saved_items', function ($q) use($user_id){
+            $q->where('user_id', $user_id);
+        })->paginate(15);
+        $saved = true;
+
+        $data = ['items' => $items, 'saved' => $saved];
+
+        return view('items.index', $data);
+    }
+
 
     public function updateItem(Request $request, $id = null)
     {

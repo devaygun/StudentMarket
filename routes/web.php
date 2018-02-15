@@ -39,7 +39,7 @@ Route::get('/', 'ItemController@index');
         Route::post('comments', 'CommentController@store');
     /* Saved Items */
         Route::post('/items/save/{id}', 'ItemController@save');
-        Route::post('/items/saved', 'ItemController@savedItems');
+        Route::get('/items/saved', 'ItemController@savedItems');
 
 
 /* Images */
