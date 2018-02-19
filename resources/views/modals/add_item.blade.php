@@ -49,6 +49,10 @@
                         <p>Press <kbd>Ctrl</kbd> or <kbd>command ⌘</kbd> to select multiple images.</p>
                         <input type="file" accept="image/*" class="form-control" id="images" value="{{old('images')}}" name="images[]" multiple>
                     </div>
+                    <div class="form-group">
+                        <label for="tags">Tags (Separate with spaces e.g red bike new)</label>
+                        <input type="text" class="form-control" id="tags" value="" name="tags" maxlength="150">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Add item</button>
