@@ -79,11 +79,13 @@ class UserController extends Controller
         return view('user.profile', ['user' => $user]);
     }
 
-    public function viewUser($id = null)
+    public function viewUser(Request $request, $id = null)
     {
+        $current_id = $request->is('api/*') ? User::where('api_token', $request->api_token)->first()->id : Auth::id(); // Retrieve the user's ID based on if the request is from the API or not
+
         $viewUser = User::with('items')->find($id); // FIND SEARCHED USER (This is who the profile belongs to)
-        $user = User::find(Auth::id()); // CURRENT LOGGED IN USER
-        $canReview = (User::find(Auth::id())->id != $id); // CHECK IF SEARCHED USER IS LOGGED IN (Only show review button if profile does not belong to user)
+        $user = User::find($current_id); // CURRENT LOGGED IN USER
+        $canReview = ($current_id != $id); // CHECK IF SEARCHED USER IS LOGGED IN (Only show review button if profile does not belong to user)
         $userReviews = Review::all()->where('seller_id', $id); // ARRAY OF REVIEWS FOR USER
 
         // CALCULATE AVERAGE RATING
@@ -96,13 +98,19 @@ class UserController extends Controller
         }
         if ($numRatings != 0) $avgRating = number_format(($totalRatingValue / $numRatings), 1);
 
+        if ($request->is('api/*'))
+            return $this->apiResponse(true, "Successfully retrieved user view.", ['user' => $user, 'viewUser' => $viewUser, 'canReview' => $canReview, 'userReviews' => $userReviews, 'avgRating' => $avgRating]);
+
+
         return view('user.view', ['user' => $user, 'viewUser' => $viewUser, 'canReview' => $canReview, 'userReviews' => $userReviews, 'avgRating' => $avgRating]);
     }
 
-    public function createReview($id = null, Request $request)
+    public function createReview(Request $request, $id = null)
     {
+        $current_id = $request->is('api/*') ? User::where('api_token', $request->api_token)->first()->id : Auth::id(); // Retrieve the user's ID based on if the request is from the API or not
+
         $viewUser = User::find($id); // FIND SEARCHED USER
-        $user = User::find(Auth::id()); // CURRENT LOGGED IN USER
+        $user = User::find($current_id); // CURRENT LOGGED IN USER
 
         $request->validate([
 //            'seller_id' => 'required|exists:users,id',
@@ -111,12 +119,24 @@ class UserController extends Controller
             'rating' => 'required|integer|min:1|max:5'
         ]);
 
+        if ($id == $current_id) // Backend check for a user trying to review themselves
+            if ($request->is('api/*')) {
+                return $this->apiResponse(false, "You cannot review yourself.", null, 400);
+            } else {
+                $request->session()->flash('failure', 'You cannot review yourself.');
+
+                return redirect()->action('UserController@viewUser', ['id' => $id]);
+            }
+
         $review = new Review();
         $review->seller_id = $viewUser->id;
         $review->buyer_id = $user->id;
         $review->review = $request->review;
         $review->rating = $request->rating;
         $review->save();
+
+        if ($request->is('api/*'))
+            return $this->apiResponse(true, "Successfully created review.", null);
 
         // DISPLAY SUCCESS MESSAGE
         $request->session()->flash('success', 'Successfully added review.');
