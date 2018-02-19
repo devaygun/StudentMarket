@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Image;
 use App\Item;
+use App\SavedItem;
+use App\Tag;
+use App\ItemTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -56,7 +59,8 @@ class ItemController extends Controller
                 'description' => 'required|string|max:255',
                 'type' => 'required|string',
                 'price' => 'required|integer',
-                'trade' => 'nullable|string'
+                'trade' => 'nullable|string',
+                'tags' => 'nullable|string'
             ]);
         } else if ($request->type == "swap") {
             $request->validate([
@@ -65,7 +69,8 @@ class ItemController extends Controller
                 'description' => 'required|string|max:255',
                 'type' => 'required|string',
                 'price' => 'nullable|integer',
-                'trade' => 'required|string'
+                'trade' => 'required|string',
+                'tags' => 'nullable|string'
             ]);
         } else {
             $request->validate([
@@ -74,10 +79,12 @@ class ItemController extends Controller
                 'description' => 'required|string|max:255',
                 'type' => 'required|string',
                 'price' => 'required|integer',
-                'trade' => 'required|string'
+                'trade' => 'required|string',
+                'tags' => 'nullable|string'
             ]);
         }
 
+        // ADD ITEM
         $item = new Item();
         $item->category_id = $request->category_id;
         $item->user_id = Auth::id();
@@ -88,6 +95,30 @@ class ItemController extends Controller
         $item->trade = $request->trade;
         $item->save();
 
+        // ADD TAGS
+        if (trim($request->tags)) {
+            $tagString = trim($request->tags);
+            $tagArray = explode(" ", $tagString); // SPLIT AND TRIM TAGS
+
+            foreach ($tagArray as $tag) {
+                $tag = trim($tag);
+
+                // ADD TAG TO TABLE IF DOESN'T EXIST
+                if (!Tag::where('name', $tag)->count()) {
+                    $newTag = new Tag();
+                    $newTag->name = $tag;
+                    $newTag->save();
+                }
+
+                // LINK ITEM TAG TO TAG TABLE
+                $newItemTag = new ItemTag();
+                $newItemTag->tag_id = Tag::where('name', $tag)->first()->id;
+                $newItemTag->item_id = $item->id;
+                $newItemTag->save();
+            }
+        }
+
+//        ADD IMAGES
         if ($request->images)
             $this->storeImages($item, $request->file('images'));
 
@@ -109,7 +140,14 @@ class ItemController extends Controller
         $category = $category ?: $item->category->slug; // If the category is not passed through then retrieve it from the item
         $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
 
-        $data = ['item' => $item, 'category' => $category, 'authorised' => $authorised];
+        $saved = false;
+        if (Auth::id() != $item->seller_id) {
+            if (SavedItem::where(['item_id' => $item->id, 'user_id' => Auth::id()])->count()) {
+                $saved = true;
+            }
+        }
+
+        $data = ['item' => $item, 'category' => $category, 'authorised' => $authorised, 'saved' => $saved];
 
         if ($request->is('api/*'))
             return $this->apiResponse(true, 'Success (individual item)', $data);
@@ -118,13 +156,61 @@ class ItemController extends Controller
 
     }
 
-//    public function editItem($id = null)
-//    {
-//        $item = Item::find($id);
-//        $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
-//
-//        return view('items.update', ['item' => $item, 'authorised' => $authorised]);
-//    }
+    // FUNCTION USED TO OPEN UPDATE VIEW - DO NOT DELETE
+    public function editItem($id = null)
+    {
+        $item = Item::find($id);
+        $tagsArray = ItemTag::where('item_id', $item->id)->get();
+        $tags = [];
+        foreach ($tagsArray as $itemTag) {
+            $tag = Tag::find($itemTag->tag_id);
+            array_push($tags, $tag->name);
+        }
+
+        $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
+
+        return view('items.update', ['item' => $item, 'authorised' => $authorised, 'tags' => $tags]);
+    }
+
+    // SAVE ITEM
+    public function save($id = null)
+    {
+        $item = Item::find($id);
+        $category = $item->category;
+        $saved = false;
+
+        if (Auth::id() != $item->seller_id) {
+            if (!SavedItem::where(['item_id' => $item->id, 'user_id' => Auth::id()])->count()) {
+                $savedItem = new SavedItem();
+                $savedItem->item_id = $item->id;
+                $savedItem->user_id = Auth::id();
+                $savedItem->save();
+                $saved = true;
+            } else {
+                $savedID = SavedItem::where(['item_id' => $item->id, 'user_id' => Auth::id()])->first();
+                $savedItem = SavedItem::find($savedID->id);
+                $savedItem->delete();
+            }
+        }
+
+        return redirect()->action(
+            'ItemController@readItem', ['category' => $category, 'id' => $id, 'saved' => $saved]
+        );
+    }
+
+    public function savedItems(Request $request)
+    {
+        $user_id = Auth::id();
+        $items = Item::whereHas('saved_items', function ($q) use($user_id){
+            $q->where('user_id', $user_id);
+        })->paginate(15);
+        $saved = true;
+
+        $data = ['items' => $items, 'saved' => $saved];
+
+        return view('items.index', $data);
+    }
+
 
     public function updateItem(Request $request, $id = null)
     {
@@ -135,7 +221,8 @@ class ItemController extends Controller
                 'description' => 'required|string|max:255',
                 'type' => 'required|string',
                 'price' => 'required|integer',
-                'trade' => 'nullable|string'
+                'trade' => 'nullable|string',
+                'tags' => 'nullable|string'
             ]);
         } else if ($request->type == "swap") {
             $request->validate([
@@ -144,7 +231,8 @@ class ItemController extends Controller
                 'description' => 'required|string|max:255',
                 'type' => 'required|string',
                 'price' => 'nullable|integer',
-                'trade' => 'required|string'
+                'trade' => 'required|string',
+                'tags' => 'nullable|string'
             ]);
         } else {
             $request->validate([
@@ -153,11 +241,12 @@ class ItemController extends Controller
                 'description' => 'required|string|max:255',
                 'type' => 'required|string',
                 'price' => 'required|integer',
-                'trade' => 'required|string'
+                'trade' => 'required|string',
+                'tags' => 'nullable|string'
             ]);
         }
 
-        // TODO: Implement sellType logic
+        // UPDATE ITEM
         $item = Item::find($id);
         $item->name = $request->input('name');
         $item->description = $request->description;
@@ -173,6 +262,35 @@ class ItemController extends Controller
         }
         $item->save();
 
+        // UPDATE TAGS
+        if (trim($request->tags)) {
+            $tagString = trim($request->tags);
+            $tagArray = explode(" ", $tagString); // SPLIT AND TRIM TAGS
+
+            $itemTagList = ItemTag::all();
+            foreach ($itemTagList as $itemTag) {
+                if ($itemTag->item_id == $item->id) $itemTag->delete(); // REMOVE OLD TAGS
+            }
+
+            foreach ($tagArray as $tag) {
+                $tag = trim($tag);
+
+                // ADD TAG TO TABLE IF DOESN'T EXIST
+                if (!Tag::where('name', $tag)->count()) {
+                    $newTag = new Tag();
+                    $newTag->name = $tag;
+                    $newTag->save();
+                }
+
+                // LINK ITEM TAG TO TAG TABLE
+                $newItemTag = new ItemTag();
+                $newItemTag->tag_id = Tag::where('name', $tag)->first()->id;
+                $newItemTag->item_id = $item->id;
+                $newItemTag->save();
+            }
+        }
+
+        // UPDATED IMAGES
         if ($request->images)
             $this->storeImages($item, $request->file('images'));
 
@@ -182,7 +300,7 @@ class ItemController extends Controller
 
         return redirect()->action(
             'ItemController@readItem', ['category' => $category, 'id' => $id]
-        )->with('status', 'Successfully updated your item!');
+        );//->with('status', 'Successfully updated your item!');
     }
 
     public function removeItem($id)

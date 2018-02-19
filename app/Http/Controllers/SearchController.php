@@ -18,4 +18,19 @@ class SearchController extends Controller
 
         return view('search_results', ['query' => $request->value, 'results' => $results]);
     }
+
+    public function filter(Request $request, $sellTypeFilter = null)
+    {
+        $sellTypeFilter = $request->sellTypeFilter;
+        dd($sellTypeFilter);
+
+//        if ($sellTypeFilter != 'all') {
+//            $results = Item::search($request->value)->paginate(15);
+//            return view('search_results', ['query' => $request->value, 'results' => $results]);
+//        }
+//
+//        $results = Item::search($request->value)->where('type', $sellTypeFilter)->paginate(15);
+//
+//        return view('search_results', ['query' => $request->value, 'results' => $results]);
+    }
 }

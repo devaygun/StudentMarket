@@ -4,7 +4,6 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                @include('components.status')
 
                 <div class="panel panel-default">
                     <div class="panel-heading">Update Profile</div>

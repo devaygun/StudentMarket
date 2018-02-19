@@ -66,6 +66,12 @@
                                     <label for="trade">Swap for</label>
                                     <input type="text" class="form-control" id="updateSwap" min="1" max="255" value="{{$item->trade}}" name="trade" required>
                                 </div>
+                                <div class="form-group">
+                                    <label for="tags">Tags (Separate with spaces e.g Red Car New)</label>
+                                    <input type="text" class="form-control" id="tags"
+                                           value="@foreach($tags as $tag){{$tag}} @endforeach"
+                                           name="tags" maxlength="255">
+                                </div>
                                 <div class="checkbox">
                                     <label>
                                         <input id="checkboxSold" type="checkbox" value="true" name="sold"> Mark as sold

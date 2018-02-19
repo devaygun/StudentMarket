@@ -23,7 +23,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'last_name' => $faker->lastName,
         'email' => $faker->unique()->safeEmail,
         'date_of_birth' => $faker->dateTimeThisCentury,
-        'profile_picture' => 'profiles/' . $profile_pictures[rand(0,8)], //array_rand($profile_pictures),
+//        'profile_picture' => "profiles/" . $profile_pictures[rand(0,8)], //array_rand($profile_pictures),
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
         'api_token' => str_random(60),
