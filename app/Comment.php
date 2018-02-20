@@ -9,13 +9,15 @@ class Comment extends Model
 {
 
     protected $fillable = ['comment','reply_id','item_id','user_id'];
-
     protected $dates = ['created_at', 'updated_at'];
 
     public function replies()
 
     {
-        $this->belongsTo('App\Item');
         return $this->hasMany('App\Comment','id','reply_id');
+    }
+    public function item()
+    {
+        $this->belongsTo('App\Item');
     }
 }
