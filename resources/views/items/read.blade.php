@@ -135,16 +135,16 @@
                     @foreach ($item->comments as $comment)
                         <td width="5%"><a href="/view/{{$comment->user_id}}"><img src="{{\App\User::find($comment->user_id)->getProfilePicture()}}" alt="User Image Preview" class="panel" data-toggle_tooltip="tooltip" title="Click to view user's profile" height="75px" width="75px"></a></td>
                         <td width="5%"><a href="/view/{{$comment->user_id}}" class="text-primary">{{\App\User::find($comment->user_id)->first_name}}:</a></td>
-                        <td>{{$comment->comment}}</td>
+                        <td width="65%">{{$comment->comment}}</td>
                         <td width="10%">{{$comment->updated_at}}</td>
                         @if($comment->user_id == \Illuminate\Support\Facades\Auth::id())
                             <form class="form" action="/comments/{{$comment->id}}/delete" method="POST" name="form">
                                 {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                                 <input type="hidden" id = "id" name="id" value="{{$comment->id}}">
                                 <td width="15%"><button type="submit" class="btn btn-primary">Delete</button></form>
-                            <button data-toggle="modal" data-target="#messageModal" type="button" class="btn btn-primary">Reply</button></td>
+                            <button type="button" class="btn btn-primary" onclick=document.getElementById("comment").append("@_{{\App\User::find($comment->user_id)->first_name}}")>Reply</button></td>
                         @else
-                            <td><button data-target="#messageModal"class="btn btn-primary">Reply</button></td>
+                            <td><button type="button" class="btn btn-primary" onclick=document.getElementById("comment").append("@_{{\App\User::find($comment->user_id)->first_name}}")>Reply</button></td>
                         @endif
                         <tr></tr>
                         {{-- <td><img src="{{\App\Item::find($comment->user_id)->getProfilePicture()}}" alt="User Image Preview" class="panel" data-toggle_tooltip="tooltip" title="Click to view user's profile" height="100px" width="100px"></td>--}}
@@ -194,7 +194,9 @@
         .saveForm {
             position: relative;
         }
-        
+        table td{
+            word-break: break-all;
+        }
         .saveForm button {
             outline: 0;
             background: none;
