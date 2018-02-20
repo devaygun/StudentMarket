@@ -134,8 +134,8 @@
                     <tbody>
                     @foreach ($item->comments as $comment)
                         <td width="5%"><a href="/view/{{$comment->user_id}}"><img src="{{\App\User::find($comment->user_id)->getProfilePicture()}}" alt="User Image Preview" class="panel" data-toggle_tooltip="tooltip" title="Click to view user's profile" height="75px" width="75px"></a></td>
-                        <td width="5%"><a href="/view/{{$comment->user_id}}" class="text-primary">{{\App\User::find($comment->user_id)->first_name}}:</a></td>
-                        <td width="65%">{{$comment->comment}}</td>
+                        <td width="6%"><a href="/view/{{$comment->user_id}}" class="text-primary">{{\App\User::find($comment->user_id)->first_name}}:</a></td>
+                        <td id ="user_comment" width="64%">{{$comment->comment}}</td>
                         <td width="10%">{{$comment->updated_at}}</td>
                         @if($comment->user_id == \Illuminate\Support\Facades\Auth::id())
                             <form class="form" action="/comments/{{$comment->id}}/delete" method="POST" name="form">
