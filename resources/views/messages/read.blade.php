@@ -51,9 +51,9 @@
                 <form method="POST" action="/messages/{{$recipient}}" enctype="multipart/form-data">
                     {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                     <div class="form-group">
-                        <label for="message" class="control-label"></label>
-                        <textarea class="form-control" name="message" rows="2" id="message"></textarea>
+                        <textarea class="form-control" minlength="1" maxlength="255" oninput="validateMsg()" name="message" rows="2" id="message" required></textarea>
                         <button type="submit" class="btn btn-success" id="sendButton">Send</button>
+                        <label for="message" class="control-label">Characters remaining: <span id="charCount"></span></label>
                     </div>
 
                 </form>
@@ -69,13 +69,37 @@
 
     <script>
 
+        // SCROLL TO BOTTOM OF MESSAGES ON PAGE LOAD
         $(document).ready(function(){
             var chatContainer = document.getElementById("chatContainer");
             chatContainer.scrollTop = chatContainer.scrollHeight;
+            validateMsg();
         });
+
+        //    CALLED WHEN MESSAGE BOX INPUT CHANGES
+        function validateMsg() {
+            getMessageCount();
+//            disableSend();
+        }
+
+        //    GETS REMAINING CHARACTERS AVAILABLE IN MESSAGE
+        function getMessageCount() {
+            var $msgBoxCount = 255 - $("#message").val().length;
+            $("#charCount").text($msgBoxCount);
+        }
+
+        //    DISABLES SEND BUTTON IF MESSAGE IS EMPTY
+        function disableSend() {
+
+            if (!$.trim($("#message").val())) {
+                $("#sendButton").attr("disabled", "disabled");
+            } else {
+                $("#sendButton").removeAttr("disabled");
+            }
+        }
+
     </script>
 
-    <!-- MODALS -->
 
     {{--STYLES--}}
 

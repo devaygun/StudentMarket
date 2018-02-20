@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->integer('phone_number')->nullable();
             $table->date('date_of_birth');
             $table->string('profile_picture')->nullable(); // Pull through Gravatar if no image is set
-            $table->string('api_token', 60)->unique();
+            $table->string('api_token', 60)->unique()->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
@@ -35,6 +35,8 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('users');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

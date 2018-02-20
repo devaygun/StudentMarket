@@ -5,7 +5,12 @@
 
         <div class="col-sm-12">
             <div class="panel panel-default">
-                <div class="panel-heading">{{$viewUser->first_name}} {{$viewUser->last_name}}</div>
+                <div class="panel-heading">
+                    <span>{{$viewUser->first_name}} {{$viewUser->last_name}}</span>
+                    @if (!$canReview)
+                        <a href="/profile" class="btn btn-primary btn-xs" style="float: right;"><i class="fa fa-pencil"></i></a>
+                    @endif
+                </div>
                 <div class="row">
                     <div class="col-sm-4">
                         @if ($viewUser->profile_picture)
@@ -42,6 +47,10 @@
                             </tr>
                             </thead>
                         </table>
+                        {{--IF PROFILE DOES NOT BELONG TO AUTHORISED USER--}}
+                        @if ($canReview)
+                            <button data-toggle="modal" data-target="#messageModal" type="button" class="btn btn-primary">Message Seller</button>
+                        @endif
                     </div>
 
                     <div class="panel-body">
@@ -138,6 +147,7 @@
 
     <!-- Modals -->
     @include('modals.create_review')
+    @include('modals.create_message')
 
     {{--Scripts--}}
     <script>

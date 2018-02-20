@@ -26,6 +26,11 @@ class Item extends Model
         return $this->belongsToMany('App\Tag');
     }
 
+    public function saved_items()
+    {
+        return $this->hasMany('App\SavedItem');
+    }
+
     public function images()
     {
         return $this->hasMany('App\Image');

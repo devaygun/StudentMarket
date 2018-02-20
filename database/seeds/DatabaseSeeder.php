@@ -11,12 +11,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(UserTableSeeder::class);
-        $this->call(CategoryTableSeeder::class);
-        $this->call(ItemTableSeeder::class);
-        $this->call(ReviewTableSeeder::class);
-        $this->call(MessageTableSeeder::class);
-        $this->call(ImageTableSeeder::class);
-        $this->call(CommentTableSeeder::class);
+        /* Seeds with fundamental website content with some test data */
+        $this->call([
+            UserTableSeeder::class,
+            CategoryTableSeeder::class,
+            ItemTableSeeder::class,
+            CommentTableSeeder::class,
+            ReviewTableSeeder::class,
+            MessageTableSeeder::class,
+            ImageTableSeeder::class,
+        ]);
+
+        /* Factories (used to generate large amounts of dynamic test data) */
+        factory(App\User::class, 50)->create();
+        factory(App\Item::class, 50)->create();
+
     }
 }

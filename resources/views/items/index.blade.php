@@ -5,7 +5,26 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">{{$category or 'Recently Added'}}</div>
+                    <div class="panel-heading">
+
+                        {{--CHANGE PANEL HEADING ON SAVED ITEMS OR INDEX PAGE--}}
+                        @if( ! empty($saved))
+                            <div><span class="panelSaved">Saved Items</span> <span class="panelSavedCount">{{count($items)}}</span></div>
+                        @else
+                            <div class="inline-block">{{$category or 'Recently Added'}}</div>
+                        @endif
+
+                        {{--LEGEND--}}
+                        {{--DO NOT DISPLAY ON SAVED ITEM PAGE--}}
+                        @if( empty($saved))
+                            <div class="legend">
+                                <i class="fa fa-gbp fa-pad" aria-hidden="true"></i><span> Sell</span>
+                                <i class="fa fa-exchange fa-pad" aria-hidden="true"></i><span> Swap</span>
+                                <i class="fa fa-gbp  fa-pad" aria-hidden="true"></i><span> + </span>
+                                <i class="fa fa-exchange" aria-hidden="true"></i><span> Part-Exchange</span>
+                            </div>
+                        @endif
+                    </div>
 
                     <div class="panel-body">
                         @if (session('status'))
@@ -14,11 +33,45 @@
                             </div>
                         @endif
 
-                        {{--@include('components.item', ['items' => $items])--}}
-                        @include('components.itemTest', ['items' => $items])
+                        {{--DISPLAY ON SAVED ITEMS PAGE ONLY--}}
+                        @if( ! empty($saved) && count($items) == 0)
+                            <h5>Click the <i class="fa fa-heart" style="color: red" aria-hidden="true"></i> icon on an item page to store the item here</h5>
+                        @endif
+
+                        @include('components.item', ['items' => $items])
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    {{--STYLE--}}
+    <style>
+
+        .legend {
+            float: right;
+            padding-top: 0 !important;
+        }
+
+        .panelSaved {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .panelSavedCount {
+            height: 20px;
+            width: 20px;
+            background: #158cba;
+            font-size: 9px;
+            line-height: 20px;
+            color: #fff;
+            display: inline-block;
+            text-align: center;
+            border-radius: 100%;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+    </style>
+
 @endsection

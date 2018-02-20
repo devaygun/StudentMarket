@@ -10,15 +10,47 @@
                 <div class="modal-body">
                     {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                     <div class="form-group">
-                        <label for="message" class="control-label">Max characters: 1000</label>
-                        <textarea class="form-control" name="message" rows="2" id="message" style="max-width: 100%; max-height: 400px; resize: vertical; min-height: 100px;"></textarea>
+                        <label for="message" class="control-label">Characters remaining: <span id="charCount"></span></label>
+                        <textarea class="form-control" name="message" oninput="validateMsg()" rows="2" id="message" minLength="1" maxlength="255" required style="max-width: 100%; max-height: 400px; resize: vertical; min-height: 100px;"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Send</button>
+                    <button type="submit" id="msgSend" class="btn btn-success">Send</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: left;"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+{{--SCRIPT--}}
+<script>
+
+//    ON PAGE LOAD
+    $( document ).ready(function() {
+        validateMsg();
+    });
+
+//    CALLED WHEN MESSAGE BOX INPUT CHANGES
+    function validateMsg() {
+        getMessageCount();
+//        disableSend();
+    }
+
+//    GETS REMAINING CHARACTERS AVAILABLE IN MESSAGE
+    function getMessageCount() {
+        var $msgBoxCount = 255 - $("#message").val().length;
+        $("#charCount").text($msgBoxCount);
+    }
+
+//    DISABLES SEND BUTTON IF MESSAGE IS EMPTY
+    function disableSend() {
+
+        if (!$.trim($("#message").val())) {
+            $("#msgSend").attr("disabled", "disabled");
+        } else {
+            $("#msgSend").removeAttr("disabled");
+        }
+    }
+
+</script>

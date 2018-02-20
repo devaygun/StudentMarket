@@ -111,7 +111,8 @@
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
                             <li style="padding-top: 10px;"><a href="" data-toggle="modal" data-target="#sellModal"><i class="fa fa-plus" aria-hidden="true"></i> Sell Item</a></li>
-                            <li class="dropdown">
+                            <li style="padding-top: 10px;"><a href="/items/saved"><i class="fa fa-heart-o" aria-hidden="true"></i> Saved Items</a></li>
+                                <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     @php $user = \Illuminate\Support\Facades\Auth::user(); @endphp
                                     <span class="nav-font" style="display: flex;">
@@ -143,15 +144,29 @@
                 </div>
             </div>
         </nav>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    @include('components.status')
+                </div>
+            </div>
+        </div>
+
         @auth
             @include('components.search') {{-- Includes the search box component area --}}
         @endauth
+
         @yield('content')
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
+
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
         $('.image_preview').on("click", function () {
             var source_url = $(this).attr('src');
             $('#large_image').html('<img src="'+source_url+'" alt="" class="large_image">');
@@ -159,6 +174,24 @@
 
         });
     </script>
+
+    {{--STYLE--}}
+    <style>
+
+        /*GLOBAL STYLES - DO NOT REMOVE*/
+        .inline-block {
+            display: inline-block;
+        }
+
+        .legend {
+            color: #8c8c8c;
+            padding-top: 10px;
+        }
+
+        .legend .fa-pad:not(:first-child) {
+            padding-left: 15px;
+        }
+    </style>
 
     <!-- Modals -->
     @include('modals.add_item')

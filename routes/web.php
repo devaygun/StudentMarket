@@ -35,8 +35,12 @@ Route::get('/', 'ItemController@index');
     /* Delete */
         Route::post('/item/{id}/remove', 'ItemController@removeItem');
     /* Comments */
-    Route::get('comments/{itemId}', 'CommentController@index');
-    Route::post('comments', 'CommentController@store');
+        Route::get('/comments/{itemId}', 'CommentController@index');
+        Route::post('/comments/{id}', 'CommentController@store');
+        Route::post('/comments/{id}/delete', 'CommentController@deleteComment');
+    /* Saved Items */
+        Route::post('/items/save/{id}', 'ItemController@save');
+        Route::get('/items/saved', 'ItemController@savedItems');
 
 
 /* Images */
@@ -44,6 +48,7 @@ Route::post('/images/remove', 'ImageController@delete');
 
 /* Search */
 Route::get('/search', 'SearchController@index');
+Route::get('/search/filter', 'SearchController@filter');
 
 /* Messages */
 Route::get('/messages', 'MessageController@index');
@@ -53,5 +58,6 @@ Route::post('/messages/{id}', 'MessageController@sendMessage');
 /* User */
 Route::get('/view/{id}', 'UserController@viewUser');
 Route::post('/view/{id}/reviews', 'UserController@createReview');
+
 Route::get('/profile', 'UserController@index');
 Route::post('/profile', 'UserController@update')->name('update_profile');

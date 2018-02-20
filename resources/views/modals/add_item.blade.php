@@ -49,6 +49,10 @@
                         <p>Press <kbd>Ctrl</kbd> or <kbd>command ⌘</kbd> to select multiple images.</p>
                         <input type="file" accept="image/*" class="form-control" id="images" value="{{old('images')}}" name="images[]" multiple>
                     </div>
+                    <div class="form-group">
+                        <label for="tags">Tags (Separate with spaces e.g red bike new)</label>
+                        <input type="text" class="form-control" id="tags" value="" name="tags" maxlength="150">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Add item</button>
@@ -60,32 +64,33 @@
             <!-- Script -->
             <script>
 
-                window.onload = function() {
+                $( document ).ready(function() {
                     createCheckedSellType();
-                }
+                });
 
                 function createCheckedSellType() {
-                    document.getElementById('modalCreatePriceForm').style.display = "block";
-                    document.getElementById('modalCreatePrice').required = true;
-                    document.getElementById('modalCreateSwap').value = "";
-                    document.getElementById('modalCreateSwap').required = false;
-                    document.getElementById('modalCreateSwapForm').style.display = "none";
+                    $('#modalCreatePriceForm').css("display", "block");
+                    $('#modalCreatePrice').prop("required", true);
+                    $('#modalCreateSwap').val('');
+                    $('#modalCreateSwap').prop("required", false);
+                    $('#modalCreateSwapForm').css("display", "none");
                 }
                 function createCheckedSwapType() {
-                    document.getElementById('modalCreatePrice').value = "";
-                    document.getElementById('modalCreatePrice').required = false;
-                    document.getElementById('modalCreatePriceForm').style.display = "none";
-                    document.getElementById('modalCreateSwap').value = "";
-                    document.getElementById('modalCreateSwap').required = true;
-                    document.getElementById('modalCreateSwapForm').style.display = "block";
+                    $('#modalCreatePrice').val('');
+                    $('#modalCreatePrice').prop("required", false);
+                    $('#modalCreatePriceForm').css("display", "none");
+                    $('#modalCreateSwap').val('');
+                    $('#modalCreateSwap').prop("required", true);
+                    $('#modalCreateSwapForm').css("display", "block");
                 }
                 function createCheckedPEType() {
-                    document.getElementById('modalCreatePriceForm').style.display = "block";
-                    document.getElementById('modalCreatePrice').required = true;
-                    document.getElementById('modalCreateSwap').value = "";
-                    document.getElementById('modalCreateSwap').required = true;
-                    document.getElementById('modalCreateSwapForm').style.display = "block";
+                    $('#modalCreatePriceForm').css("display", "block");
+                    $('#modalCreatePrice').prop("required", true);
+                    $('#modalCreateSwap').val('');
+                    $('#modalCreateSwap').prop("required", true);
+                    $('#modalCreateSwapForm').css("display", "block");
                 }
+
             </script>
         </div>
     </div>
