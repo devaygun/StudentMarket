@@ -13,6 +13,79 @@ class ItemTableSeeder extends Seeder
      */
     public function run()
     {
+
+        DB::table('items')->insert([
+            'user_id' => 2,
+            'category_id' => 2,
+            'name' => 'Sony Speakers',
+            'description' => "5:1 Sony Speakers for PC, used but good condition",
+            'type' => 'sell',
+            'price' => 30,
+            'trade' => null,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('items')->insert([
+            'user_id' => 2,
+            'category_id' => 2,
+            'name' => 'Running Trainers',
+            'description' => "Size 10 outdoor running trainers",
+            'type' => 'swap',
+            'price' => null,
+            'trade' => "Winter Jacket",
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('items')->insert([
+            'user_id' => 2,
+            'category_id' => 2,
+            'name' => 'Guitar',
+            'description' => "Electric guitar, black and white, good condition",
+            'type' => 'swap',
+            'price' => null,
+            'trade' => "Ukulele",
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('items')->insert([
+            'user_id' => 2,
+            'category_id' => 2,
+            'name' => 'Philosophy Textbook',
+            'description' => "Modularity of the mind textbook",
+            'type' => 'part-exchange',
+            'price' => 10,
+            'trade' => "USB 3.0 Flash Drive",
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('items')->insert([
+            'user_id' => 2,
+            'category_id' => 2,
+            'name' => 'Headphones',
+            'description' => "Red headphones, brand new in packaging",
+            'type' => 'swap',
+            'price' => null,
+            'trade' => "Acoustic Guitar",
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('items')->insert([
+            'user_id' => 2,
+            'category_id' => 2,
+            'name' => 'Laptop',
+            'description' => "15\" laptop, i5 Processor, 4GB RAM",
+            'type' => 'sell',
+            'price' => 200,
+            'trade' => null,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
         DB::table('items')->insert([
             'user_id' => 1,
             'category_id' => 1,
@@ -45,18 +118,6 @@ class ItemTableSeeder extends Seeder
             'type' => 'sell',
             'price' => 7,
             'trade' => null,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
-        DB::table('items')->insert([
-            'user_id' => 2,
-            'category_id' => 2,
-            'name' => 'Sony Speakers',
-            'description' => "Best speakers in the world",
-            'type' => 'swap',
-            'price' => null,
-            'trade' => "Puppy",
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
