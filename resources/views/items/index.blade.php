@@ -72,6 +72,13 @@
             vertical-align: middle;
         }
 
+        @media screen and (max-width: 767px) {
+            .legend {
+                float: none;
+                font-size: 13px;
+            }
+        }
+
     </style>
 
 @endsection
