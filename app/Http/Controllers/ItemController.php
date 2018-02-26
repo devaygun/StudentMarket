@@ -173,7 +173,7 @@ class ItemController extends Controller
     }
 
     // SAVE ITEM
-    public function save($id = null)
+    public function save(Request $request, $id = null)
     {
         $item = Item::find($id);
         $category = $item->category;
@@ -186,12 +186,15 @@ class ItemController extends Controller
                 $savedItem->user_id = Auth::id();
                 $savedItem->save();
                 $saved = true;
+                $request->session()->flash('success', 'Item has been saved!');
             } else {
                 $savedID = SavedItem::where(['item_id' => $item->id, 'user_id' => Auth::id()])->first();
                 $savedItem = SavedItem::find($savedID->id);
                 $savedItem->delete();
             }
         }
+
+
 
         return redirect()->action(
             'ItemController@readItem', ['category' => $category, 'id' => $id, 'saved' => $saved]
