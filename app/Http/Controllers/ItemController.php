@@ -12,6 +12,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * @resource Items
+ */
 class ItemController extends Controller
 {
     public function __construct()
@@ -27,6 +30,11 @@ class ItemController extends Controller
         return response()->json(['success' => $success, 'message' => $message, 'data' => $data], $status);
     }
 
+    /**
+     * All Items
+     *
+     * Returns all available items
+     */
     public function index(Request $request, $category = null)
     {
         if ($category == null) {
@@ -129,6 +137,11 @@ class ItemController extends Controller
         return view('items.read', ['item' => $item, 'category' => null, 'authorised' => $authorised]);
     }
 
+    /**
+     * Individual Item
+     *
+     * Returns an individual item
+     */
     public function readItem(Request $request, $category = null, $id = null)
     {
         if ($category == "update")
