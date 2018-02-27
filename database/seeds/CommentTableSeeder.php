@@ -29,15 +29,5 @@ class CommentTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
-        DB::table('comments')->insert([
-            'comment' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum a pretium sem. Duis rhoncus lectus non tellus scelerisque semper facilisis a est. Praesent sed mi eu 
-            mauris egestas pretium vel et justo. Donec non velit orci. Quisque egestas sapien vel erat auctor interdum. Donec libero enim, vulputate et tristique eget, blandit
-             sit amet nulla. Quisque vel tincidunt eros. Nunc mauris ex, lobortis aliquet tincidunt tempus, ornare viverra lorem.',
-            'reply_id' => 2,
-            'item_id' => 3,
-            'user_id' => 2,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
     }
 }

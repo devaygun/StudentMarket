@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             ReviewTableSeeder::class,
             MessageTableSeeder::class,
             ImageTableSeeder::class,
+            CommentTableSeeder::class,
         ]);
 
         /* Factories (used to generate large amounts of dynamic test data) */
