@@ -60,6 +60,7 @@ class UserController extends Controller
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->date_of_birth = $request->date_of_birth;
+        $user->distance_unit = $request->distance_unit;
 
         if ($request->profile_picture)
             $user->profile_picture = Storage::putFile('profiles', $request->file('profile_picture'));

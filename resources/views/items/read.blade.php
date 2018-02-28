@@ -98,16 +98,24 @@
                         </div>
 
                         {{--BUTTONS--}}
+                        <div class="col-sm-3">
+                            @if (isset($distance))
+                                <div class="well well-sm">
+                                    {{round($distance)}} {{$user->distance_unit ?: "miles"}} away
+                                </div>
+                            @endif
+                        </div>
+                        <div class="col-sm-9">
+                            <a href="/items" class="btn btn-default pull-right" role="button" style="margin-left: 5px;">Return</a>
 
-                        <a href="/items" class="btn btn-default" role="button">Return</a>
+                            @if (!$authorised)
+                                <button type="button" class="btn btn-primary pull-right">Make Offer</button>
+                            @endif
 
-                        @if (!$authorised)
-                            <button type="button" class="btn btn-primary">Make Offer</button>
-                        @endif
-
-                        @if ($authorised)
-                            <a href="/items/update/{{$item->id}}" class="btn btn-primary">Edit</a>
-                        @endif
+                            @if ($authorised)
+                                <a href="/items/update/{{$item->id}}" class="btn btn-primary pull-right">Edit</a>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
@@ -115,7 +123,7 @@
     </div>
 
     {{--Comment Section--}}
-    <div class="container">
+    <div class="col-lg-12">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 style="display:inline-block" class="panel-title">Comments</h3>
@@ -133,10 +141,19 @@
                     </thead>
                     <tbody>
                     @foreach ($item->comments as $comment)
-                        <td width="5%"><a href="/view/{{$comment->user_id}}"><img src="{{\App\User::find($comment->user_id)->getProfilePicture()}}" alt="User Image Preview" class="panel" data-toggle_tooltip="tooltip" title="Click to view user's profile" height="75px" width="75px"></a></td>
-                        <td width="7%"><a href="/view/{{$comment->user_id}}" class="text-primary">{{\App\User::find($comment->user_id)->first_name}}:</a></td>
-                        <td width="64%">{{$comment->comment}}</td>
-                        <td width="9%">{{$comment->updated_at->format('d/m/Y')}}</td>
+                        <td width="5%">
+                            <div class="image-frame">
+                                <div class="item-thumb" style="background-image: url({{\App\User::find($comment->user_id)->getProfilePicture()}})">
+                                    <a href="/view/{{$comment->user_id}}">
+                                        <img src="{{\App\User::find($comment->user_id)->getProfilePicture()}}" alt="User Image Preview" class="i-panel" data-toggle_tooltip="tooltip"
+                                             title="Click to view user's profile" height="75px" width="75px">
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                        <td width="6%"><a href="/view/{{$comment->user_id}}" class="text-primary">{{\App\User::find($comment->user_id)->first_name}}:</a></td>
+                        <td id ="user_comment" width="64%">{{$comment->comment}}</td>
+                        <td width="10%">{{$comment->updated_at}}</td>
                         @if($comment->user_id == \Illuminate\Support\Facades\Auth::id())
                             <form class="form" action="/comments/{{$comment->id}}/delete" method="POST" name="form">
                                 {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
@@ -151,15 +168,17 @@
                     @endforeach
                     </tbody>
                 </table>
-                <div class="col-sm-2 comment-form">
-                    <img src="{{$image = Auth::User()->getProfilePicture()}}" alt="Profile Image Preview" class="panel" height="100px" width="100px">
+                <div class="col-sm-1 image-frame">
+                    <div class="avatar-thumb" style="background-image: url({{Auth::User()->getProfilePicture()}})">
+                    <img src="{{$image = Auth::User()->getProfilePicture()}}" alt="Profile Image Preview" class="comment-post">
+                    </div>
                 </div>
                 <form class="form" action="/comments/{{$item->id}}" method="POST" name="form">
                     <input type="hidden" name="item_id" value="{{$item->id}}">
                     <input type="hidden" name="reply_id" value="0">
                     {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
-                    <div class="col-sm-10 form-row">
-                        <textarea class="form-control" placeholder="Write your comment here..." required rows="4" id="comment" name="comment"></textarea>
+                    <div class="col-sm-11 form-row">
+                        <textarea class="form-control" placeholder="Write your comment here..." required rows="3" id="comment" name="comment"></textarea>
                         <button type="submit" class="btn btn-primary">Add comment</button>
                     </div>
                 </form>
@@ -262,6 +281,23 @@
             margin: 20px 0
         }
 
+        .avatar-thumb {
+            position: relative;
+            width: 100%;
+            background-position: center;
+            -webkit-background-size: cover;
+            background-size: cover;
+            background-color: #ccc;
+            border-radius: 6px;
+        }
+
+        .avatar-thumb img.comment-post{
+            height: 0;
+            width: 100%;
+            padding-bottom: 100%;
+            opacity: 0;
+        }
+
         .item-thumb {
             position: relative;
             width: 100%;
@@ -270,6 +306,13 @@
             background-size: cover;
             background-color: #ccc;
             border-radius: 6px;
+        }
+
+        .item-thumb img.i-panel{
+            height: 0;
+            width: 100%;
+            padding-bottom: 100%;
+            opacity: 0;
         }
 
         .item-thumb img.image_preview {

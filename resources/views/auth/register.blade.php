@@ -67,6 +67,16 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="distance_unit" class="col-md-4 control-label">Unit of Distance</label>
+                            <div class="col-md-6">
+                                <select class="form-control" id="distance_unit" name="distance_unit">
+                                    <option value="miles" selected>Miles</option>
+                                    <option value="kilometers">Kilometers</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
 

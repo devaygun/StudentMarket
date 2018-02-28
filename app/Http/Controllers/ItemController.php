@@ -11,6 +11,7 @@ use App\ItemTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Stevebauman\Location\Location;
 
 /**
  * @resource Items
@@ -38,7 +39,7 @@ class ItemController extends Controller
     public function index(Request $request, $category = null)
     {
         if ($category == null) {
-            $data = ['items' => Item::with('category')->orderBy('created_at')->paginate(15)];
+            $data = ['items' => Item::with('category', 'images')->orderBy('created_at')->paginate(15)];
 
             if ($request->is('api/*'))
                return $this->apiResponse(true, 'Success (items index with no category)', $data);
@@ -46,7 +47,7 @@ class ItemController extends Controller
             return view('items.index', $data); // View all items in all categories
         }
 
-        $items = Item::whereHas('category', function ($query) use ($category) { // Limiting our results based on whether a relationship to the specific category exists or not
+        $items = Item::with('images')->whereHas('category', function ($query) use ($category) { // Limiting our results based on whether a relationship to the specific category exists or not
             $query->where('slug', $category);
         })->paginate(15);
 
@@ -92,6 +93,8 @@ class ItemController extends Controller
             ]);
         }
 
+        $location = \Location::get();
+
         // ADD ITEM
         $item = new Item();
         $item->category_id = $request->category_id;
@@ -101,6 +104,8 @@ class ItemController extends Controller
         $item->type = $request->type;
         $item->price = $request->price;
         $item->trade = $request->trade;
+        $item->latitude = $location->latitude;
+        $item->longitude = $location->longitude;
         $item->save();
 
         // ADD TAGS
@@ -133,9 +138,8 @@ class ItemController extends Controller
         // DISPLAY SUCCESS MESSAGE
         $request->session()->flash('success', 'Successfully added item.');
 
-        $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
-        return view('items.read', ['item' => $item, 'category' => null, 'authorised' => $authorised]);
-    }
+        return redirect()->action('ItemController@readItem', ['category' => $request->category_id, 'id' => $item->id]);
+        }
 
     /**
      * Individual Item
@@ -160,13 +164,56 @@ class ItemController extends Controller
             }
         }
 
-        $data = ['item' => $item, 'category' => $category, 'authorised' => $authorised, 'saved' => $saved];
+        $data = ['item' => $item, 'category' => $category, 'authorised' => $authorised, 'saved' => $saved, 'distance' => $this->calculateDistance($item->latitude, $item->longitude), 'user' => Auth::user()];
 
         if ($request->is('api/*'))
             return $this->apiResponse(true, 'Success (individual item)', $data);
 
         return view('items.read', $data);
 
+    }
+
+    /**
+     * Calculates the distance between two points
+     *
+     * Credit: https://www.geodatasource.com/developers/php
+     */
+    public function calculateDistance($item_latitude, $item_longitude)
+    {
+        if ($item_latitude && $item_longitude) {
+
+            $lat1 = $item_latitude;
+            $lon1 = $item_longitude;
+            $location = \Location::get();
+            $lat2 = $location->latitude;
+            $lon2 = $location->longitude;
+
+            $unit = "M";
+
+            if (Auth::user()->distance_unit) {
+                if (Auth::user()->distance_unit == "kilometers") {
+                    $unit = "K";
+                }
+            }
+
+            $theta = $lon1 - $lon2;
+            $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+            $dist = acos($dist);
+            $dist = rad2deg($dist);
+            $miles = $dist * 60 * 1.1515;
+            $unit = strtoupper($unit);
+
+            if ($unit == "K") {
+                return ($miles * 1.609344);
+            } else if ($unit == "N") {
+                return ($miles * 0.8684);
+            } else {
+                return $miles;
+            }
+
+        }
+
+        return null;
     }
 
     // FUNCTION USED TO OPEN UPDATE VIEW - DO NOT DELETE
@@ -207,11 +254,7 @@ class ItemController extends Controller
             }
         }
 
-
-
-        return redirect()->action(
-            'ItemController@readItem', ['category' => $category, 'id' => $id, 'saved' => $saved]
-        );
+        return redirect()->action('ItemController@readItem', ['category' => $category, 'id' => $id, 'saved' => $saved]);
     }
 
     public function savedItems(Request $request)
@@ -262,6 +305,8 @@ class ItemController extends Controller
             ]);
         }
 
+        $location = \Location::get();
+
         // UPDATE ITEM
         $item = Item::find($id);
         $item->name = $request->input('name');
@@ -271,6 +316,9 @@ class ItemController extends Controller
         $item->type = $request->type;
         $item->price = $request->price;
         $item->trade = $request->trade;
+        $item->latitude = $location->latitude;
+        $item->longitude = $location->longitude;
+
         if ($request->sold) { // if 'sold' checkbox is checked
             $item->sold = true;
         } else {
@@ -285,7 +333,8 @@ class ItemController extends Controller
 
             $itemTagList = ItemTag::all();
             foreach ($itemTagList as $itemTag) {
-                if ($itemTag->item_id == $item->id) $itemTag->delete(); // REMOVE OLD TAGS
+                if ($itemTag->item_id == $item->id)
+                    $itemTag->delete(); // REMOVE OLD TAGS
             }
 
             foreach ($tagArray as $tag) {
