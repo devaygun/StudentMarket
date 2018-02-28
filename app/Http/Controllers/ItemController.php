@@ -39,7 +39,7 @@ class ItemController extends Controller
     public function index(Request $request, $category = null)
     {
         if ($category == null) {
-            $data = ['items' => Item::with('category')->orderBy('created_at')->paginate(15)];
+            $data = ['items' => Item::with('category', 'images')->orderBy('created_at')->paginate(15)];
 
             if ($request->is('api/*'))
                return $this->apiResponse(true, 'Success (items index with no category)', $data);
@@ -47,7 +47,7 @@ class ItemController extends Controller
             return view('items.index', $data); // View all items in all categories
         }
 
-        $items = Item::whereHas('category', function ($query) use ($category) { // Limiting our results based on whether a relationship to the specific category exists or not
+        $items = Item::with('images')->whereHas('category', function ($query) use ($category) { // Limiting our results based on whether a relationship to the specific category exists or not
             $query->where('slug', $category);
         })->paginate(15);
 
