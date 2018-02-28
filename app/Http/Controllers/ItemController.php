@@ -298,6 +298,8 @@ class ItemController extends Controller
             ]);
         }
 
+        $location = \Location::get();
+
         // UPDATE ITEM
         $item = Item::find($id);
         $item->name = $request->input('name');
@@ -307,6 +309,9 @@ class ItemController extends Controller
         $item->type = $request->type;
         $item->price = $request->price;
         $item->trade = $request->trade;
+        $item->latitude = $location->latitude;
+        $item->longitude = $location->longitude;
+
         if ($request->sold) { // if 'sold' checkbox is checked
             $item->sold = true;
         } else {
