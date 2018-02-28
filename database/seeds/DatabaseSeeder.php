@@ -16,10 +16,10 @@ class DatabaseSeeder extends Seeder
             UserTableSeeder::class,
             CategoryTableSeeder::class,
             ItemTableSeeder::class,
-            CommentTableSeeder::class,
             ReviewTableSeeder::class,
             MessageTableSeeder::class,
             ImageTableSeeder::class,
+            CommentTableSeeder::class,
         ]);
 
         /* Factories (used to generate large amounts of dynamic test data) */

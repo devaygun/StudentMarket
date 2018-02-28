@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegistrationRequest;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
+/**
+ * @resource Authentication
+ *
+ * Below you can find methods for logging in and registering.
+ *
+ * @package App\Http\Controllers
+ */
 class ApiAuthController extends Controller
 {
     /**
@@ -19,7 +27,11 @@ class ApiAuthController extends Controller
     }
 
     /**
-     * Login function with validation and upon success returns the authenticated user object
+     * Login
+     *
+     * Requires a valid <kbd>email</kbd> and a <kbd>password</kbd>
+     *
+     * Returns the user
      */
     public function login(Request $request)
     {
@@ -39,19 +51,14 @@ class ApiAuthController extends Controller
     }
 
     /**
-     * Registration function
+     * Registration
+     *
+     * Also requires a `password_confirmation` input
+     *
+     * Returns the user
      */
-    public function register(Request $request)
+    public function register(RegistrationRequest $request)
     {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'date_of_birth' => 'required|date',
-            'profile_picture' => 'image|dimensions:min_width=100,min_height=100,max_width=2000,max_height=2000',
-            'password' => 'required|string|min:6|confirmed', // This also means that in the API request a "password_confirmation" input must be supplied
-        ]);
-
         $user = new User();
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
@@ -65,6 +72,8 @@ class ApiAuthController extends Controller
     }
 
     /**
+     * Logout
+     *
      * Logs out the user, invalidates and refreshes the API token
      */
     public function logout()
