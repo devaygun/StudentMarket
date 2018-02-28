@@ -25,6 +25,8 @@ class CreateItemsTable extends Migration
             $table->integer('price')->nullable(); // Will be set as null if 'swap' is set in 'type'
             $table->string('trade')->nullable(); // Will be set as null if 'sell' is set in 'type'
             $table->boolean('sold')->default(false);
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->timestamps();
         });
     }

@@ -11,6 +11,7 @@ use App\ItemTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Stevebauman\Location\Location;
 
 /**
  * @resource Items
@@ -92,6 +93,8 @@ class ItemController extends Controller
             ]);
         }
 
+        $location = \Location::get('129.12.161.220');
+
         // ADD ITEM
         $item = new Item();
         $item->category_id = $request->category_id;
@@ -101,6 +104,8 @@ class ItemController extends Controller
         $item->type = $request->type;
         $item->price = $request->price;
         $item->trade = $request->trade;
+        $item->latitude = $location->latitude;
+        $item->longitude = $location->longitude;
         $item->save();
 
         // ADD TAGS
@@ -133,9 +138,8 @@ class ItemController extends Controller
         // DISPLAY SUCCESS MESSAGE
         $request->session()->flash('success', 'Successfully added item.');
 
-        $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
-        return view('items.read', ['item' => $item, 'category' => null, 'authorised' => $authorised]);
-    }
+        return redirect()->action('ItemController@readItem', ['category' => $request->category_id, 'id' => $item->id]);
+        }
 
     /**
      * Individual Item
@@ -207,11 +211,7 @@ class ItemController extends Controller
             }
         }
 
-
-
-        return redirect()->action(
-            'ItemController@readItem', ['category' => $category, 'id' => $id, 'saved' => $saved]
-        );
+        return redirect()->action('ItemController@readItem', ['category' => $category, 'id' => $id, 'saved' => $saved]);
     }
 
     public function savedItems(Request $request)
