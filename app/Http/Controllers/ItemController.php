@@ -188,22 +188,29 @@ class ItemController extends Controller
             $lat2 = $location->latitude;
             $lon2 = $location->longitude;
 
-            $unit = Auth::user()->distance_unit ?: "miles";
+            $unit = "M";
+
+            if (Auth::user()->distance_unit) {
+                if (Auth::user()->distance_unit == "kilometers") {
+                    $unit = "K";
+                }
+            }
 
             $theta = $lon1 - $lon2;
-            $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+            $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
             $dist = acos($dist);
             $dist = rad2deg($dist);
             $miles = $dist * 60 * 1.1515;
             $unit = strtoupper($unit);
 
-            if ($unit == "kilometers") {
+            if ($unit == "K") {
                 return ($miles * 1.609344);
             } else if ($unit == "N") {
                 return ($miles * 0.8684);
             } else {
                 return $miles;
             }
+
         }
 
         return null;
@@ -326,7 +333,8 @@ class ItemController extends Controller
 
             $itemTagList = ItemTag::all();
             foreach ($itemTagList as $itemTag) {
-                if ($itemTag->item_id == $item->id) $itemTag->delete(); // REMOVE OLD TAGS
+                if ($itemTag->item_id == $item->id)
+                    $itemTag->delete(); // REMOVE OLD TAGS
             }
 
             foreach ($tagArray as $tag) {
