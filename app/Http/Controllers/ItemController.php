@@ -93,7 +93,7 @@ class ItemController extends Controller
             ]);
         }
 
-        $location = \Location::get('129.12.161.220');
+        $location = \Location::get();
 
         // ADD ITEM
         $item = new Item();
@@ -164,13 +164,49 @@ class ItemController extends Controller
             }
         }
 
-        $data = ['item' => $item, 'category' => $category, 'authorised' => $authorised, 'saved' => $saved];
+        $data = ['item' => $item, 'category' => $category, 'authorised' => $authorised, 'saved' => $saved, 'distance' => $this->calculateDistance($item->latitude, $item->longitude), 'user' => Auth::user()];
 
         if ($request->is('api/*'))
             return $this->apiResponse(true, 'Success (individual item)', $data);
 
         return view('items.read', $data);
 
+    }
+
+    /**
+     * Calculates the distance between two points
+     *
+     * Credit: https://www.geodatasource.com/developers/php
+     */
+    public function calculateDistance($item_latitude, $item_longitude)
+    {
+        if ($item_latitude && $item_longitude) {
+
+            $lat1 = $item_latitude;
+            $lon1 = $item_longitude;
+            $location = \Location::get();
+            $lat2 = $location->latitude;
+            $lon2 = $location->longitude;
+
+            $unit = Auth::user()->distance_unit ?: "miles";
+
+            $theta = $lon1 - $lon2;
+            $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+            $dist = acos($dist);
+            $dist = rad2deg($dist);
+            $miles = $dist * 60 * 1.1515;
+            $unit = strtoupper($unit);
+
+            if ($unit == "kilometers") {
+                return ($miles * 1.609344);
+            } else if ($unit == "N") {
+                return ($miles * 0.8684);
+            } else {
+                return $miles;
+            }
+        }
+
+        return null;
     }
 
     // FUNCTION USED TO OPEN UPDATE VIEW - DO NOT DELETE

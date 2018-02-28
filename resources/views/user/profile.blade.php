@@ -33,6 +33,13 @@
                                     <input type="date" class="form-control" id="date_of_birth" value="{{old('date_of_birth', $user->date_of_birth)}}" name="date_of_birth" required>
                                 </div>
                                 <div class="form-group">
+                                    <label for="distance_unit">Unit of Distance</label>
+                                    <select class="form-control" id="distance_unit" name="distance_unit">
+                                        <option value="miles" @if ($user->distance_unit == "miles") selected @endif>Miles</option>
+                                        <option value="kilometers" @if ($user->distance_unit == "kilometers") selected @endif>Kilometers</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label for="password">Password</label>
                                     <input type="password" class="form-control" id="password" name="password" placeholder="New password..." minlength="6" maxlength="255">
                                 </div>

@@ -98,16 +98,24 @@
                         </div>
 
                         {{--BUTTONS--}}
+                        <div class="col-sm-3">
+                            @if (isset($distance))
+                                <div class="well well-sm">
+                                    {{round($distance)}} {{$user->distance_unit ?: "miles"}} away
+                                </div>
+                            @endif
+                        </div>
+                        <div class="col-sm-9">
+                            <a href="/items" class="btn btn-default pull-right" role="button" style="margin-left: 5px;">Return</a>
 
-                        <a href="/items" class="btn btn-default" role="button">Return</a>
+                            @if (!$authorised)
+                                <button type="button" class="btn btn-primary pull-right">Make Offer</button>
+                            @endif
 
-                        @if (!$authorised)
-                            <button type="button" class="btn btn-primary">Make Offer</button>
-                        @endif
-
-                        @if ($authorised)
-                            <a href="/items/update/{{$item->id}}" class="btn btn-primary">Edit</a>
-                        @endif
+                            @if ($authorised)
+                                <a href="/items/update/{{$item->id}}" class="btn btn-primary pull-right">Edit</a>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
