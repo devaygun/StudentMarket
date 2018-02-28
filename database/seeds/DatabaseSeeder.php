@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         /* Factories (used to generate large amounts of dynamic test data) */
-        factory(App\User::class, 50)->create();
-        factory(App\Item::class, 50)->create();
+//        factory(App\User::class, 50)->create();
+//        factory(App\Item::class, 50)->create();
 
     }
 }
