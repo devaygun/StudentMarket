@@ -123,7 +123,7 @@
     </div>
 
     {{--Comment Section--}}
-    <div class="col-lg-12">
+    <div class="container">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 style="display:inline-block" class="panel-title">Comments</h3>
@@ -151,9 +151,9 @@
                                 </div>
                             </div>
                         </td>
-                        <td width="6%"><a href="/view/{{$comment->user_id}}" class="text-primary">{{\App\User::find($comment->user_id)->first_name}}:</a></td>
+                        <td width="7%"><a href="/view/{{$comment->user_id}}" class="text-primary">{{\App\User::find($comment->user_id)->first_name}}:</a></td>
                         <td id ="user_comment" width="64%">{{$comment->comment}}</td>
-                        <td width="10%">{{$comment->updated_at}}</td>
+                        <td width="9%">{{$comment->updated_at->format('d/m/Y')}}</td>
                         @if($comment->user_id == \Illuminate\Support\Facades\Auth::id())
                             <form class="form" action="/comments/{{$comment->id}}/delete" method="POST" name="form">
                                 {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
