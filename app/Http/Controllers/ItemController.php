@@ -181,7 +181,6 @@ class ItemController extends Controller
     public function calculateDistance($item_latitude, $item_longitude)
     {
         if ($item_latitude && $item_longitude) {
-
             $lat1 = $item_latitude;
             $lon1 = $item_longitude;
             $location = \Location::get();
@@ -306,6 +305,8 @@ class ItemController extends Controller
         }
 
         $location = \Location::get();
+        dump(\Request::ip());
+        dd($location);
 
         // UPDATE ITEM
         $item = Item::find($id);
