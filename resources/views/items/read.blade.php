@@ -98,11 +98,11 @@
                         </div>
 
                         {{--BUTTONS--}}
-                        <div class="col-xs-3">
-                                <div class="well well-sm distance" style="display: none;">
-                                </div>
+                        <div class="col-xs-12 col-sm-8" style="margin-top: 8px;">
+                            <span class="well well-sm distance" style="display: none;"></span>
+                            <span class="well well-sm duration" style="display: none;"></span>
                         </div>
-                        <div class="col-xs-9">
+                        <div class="col-xs-12 col-sm-4">
                             <a href="/items" class="btn btn-default pull-right" role="button" style="margin-left: 5px;">Return</a>
 
                             @if (!$authorised)
@@ -225,7 +225,8 @@
                                 var distance = json['rows'][0]['elements'][0]['distance']['text'];
                                 var duration = json['rows'][0]['elements'][0]['duration']['text'];
 
-                                $(".distance").show().html('<i class="fa fa-map-marker fa-lg"></i> ' + distance + ' away');
+                                $(".distance").show().html('<i class="fa fa-map-marker fa-lg"></i> Distance: ' + distance + ' away');
+                                $(".duration").show().html('<i class="fa fa-car fa-lg"></i> Duration: ' + duration);
                             },
                             error: function (data) {
                                 console.log(data.responseText);
