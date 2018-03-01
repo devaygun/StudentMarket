@@ -6,7 +6,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Sell Item</h4>
             </div>
-            <form method="POST" action="/items/add" enctype="multipart/form-data">
+            <form method="POST" action="/items/add" enctype="multipart/form-data" id="create_form">
                 <div class="modal-body">
                     {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                     <div class="form-group">
@@ -55,14 +55,35 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Add item</button>
+                    <span id="updating"></span>
+                    <button type="button" class="btn btn-success" id="create_button">Add item</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: left;"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
                 </div>
+                <input type="hidden" id="latitude" name="latitude">
+                <input type="hidden" id="longitude" name="longitude">
             </form>
 
 
             <!-- Script -->
             <script>
+                $(document).on('click', '#create_button', function() {
+                    $("body").css("cursor", "progress");
+                    $("#updating").html('<i class="fa fa-spinner fa-pulse fa-lg" style="margin-right: 10px;"></i>');
+
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition (
+                            function (position) {
+                                latitude = position.coords.latitude;
+                                longitude = position.coords.longitude;
+
+                                $('#latitude').val(latitude);
+                                $('#longitude').val(longitude);
+
+                                $("#create_form").submit();
+                                $("body").css("cursor", "default");
+                            });
+                    }
+                });
 
                 $( document ).ready(function() {
                     createCheckedSellType();

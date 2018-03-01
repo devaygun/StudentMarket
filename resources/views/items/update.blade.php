@@ -25,7 +25,7 @@
                             @endif
                             {{-- TODO: Limit changes based on whether the item has received any offers or not. --}}
                             {{--UPDATE ITEM FORM--}}
-                            <form method="POST" action="/items/update/{{$item->id}}" enctype="multipart/form-data">
+                            <form method="POST" action="/items/update/{{$item->id}}" enctype="multipart/form-data" id="update_form">
                                 {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                                 <div class="form-group">
                                     <label for="images">Select Images</label>
@@ -77,15 +77,36 @@
                                         <input id="checkboxSold" type="checkbox" value="true" name="sold"> Mark as sold
                                     </label>
                                 </div>
+                                <input type="hidden" id="latitude" name="latitude">
+                                <input type="hidden" id="longitude" name="longitude">
                                 <a href="/items/{{$item->category->slug}}/{{$item->id}}" class="btn btn-default" role="button">Return</a>
-                                <button type="submit" class="btn btn-success">Update</button>
+                                <button type="button" class="btn btn-success" id="update_button">Update</button>
+                                <span id="updating"></span>
                                 <button data-toggle="modal" data-target="#removeModal" type="button" class="btn btn-danger" style="float:right">Remove item</button>
                             </form>
 
                             <br><br>User is authorised to edit this item as they are the owner.<br>
-
                             <!-- Script -->
                             <script>
+                                $(document).on('click', '#update_button', function() {
+                                    $("body").css("cursor", "progress");
+                                    $("#updating").html('<i class="fa fa-spinner fa-pulse fa-lg" style="margin-left: 10px;"></i>');
+
+                                    if (navigator.geolocation) {
+                                        navigator.geolocation.getCurrentPosition (
+                                            function (position) {
+                                                latitude = position.coords.latitude;
+                                                longitude = position.coords.longitude;
+
+                                                $('#latitude').val(latitude);
+                                                $('#longitude').val(longitude);
+
+                                                $("#update_form").submit();
+                                                $("body").css("cursor", "default");
+                                            });
+                                    }
+                                });
+
                                 $(document).on('click', '.remove_image_btn', function(){
                                     var id = $(this).attr('id');
                                     console.log("clicked");

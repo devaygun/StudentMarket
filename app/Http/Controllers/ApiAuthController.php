@@ -64,6 +64,7 @@ class ApiAuthController extends Controller
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->date_of_birth = $request->date_of_birth;
+        $user->distance_unit = $request->distance_unit;
         $user->password = bcrypt($request->password);
         $user->api_token = str_random(60);
         $user->save();

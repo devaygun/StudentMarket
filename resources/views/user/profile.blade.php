@@ -35,8 +35,8 @@
                                 <div class="form-group">
                                     <label for="distance_unit">Unit of Distance</label>
                                     <select class="form-control" id="distance_unit" name="distance_unit">
-                                        <option value="miles" @if ($user->distance_unit == "miles") selected @endif>Miles</option>
-                                        <option value="kilometers" @if ($user->distance_unit == "kilometers") selected @endif>Kilometers</option>
+                                        <option value="imperial" @if ($user->distance_unit == "imperial") selected @endif>Imperial (Miles)</option>
+                                        <option value="metric" @if ($user->distance_unit == "metric") selected @endif>Metric (Kilometers)</option>
                                     </select>
                                 </div>
                                 <div class="form-group">

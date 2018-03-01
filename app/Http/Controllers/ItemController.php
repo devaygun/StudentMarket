@@ -93,8 +93,6 @@ class ItemController extends Controller
             ]);
         }
 
-        $location = \Location::get();
-
         // ADD ITEM
         $item = new Item();
         $item->category_id = $request->category_id;
@@ -104,8 +102,8 @@ class ItemController extends Controller
         $item->type = $request->type;
         $item->price = $request->price;
         $item->trade = $request->trade;
-        $item->latitude = $location->latitude;
-        $item->longitude = $location->longitude;
+        $item->latitude = $request->latitude;
+        $item->longitude = $request->longitude;
         $item->save();
 
         // ADD TAGS
@@ -164,13 +162,25 @@ class ItemController extends Controller
             }
         }
 
-        $data = ['item' => $item, 'category' => $category, 'authorised' => $authorised, 'saved' => $saved, 'distance' => $this->calculateDistance($item->latitude, $item->longitude), 'user' => Auth::user()];
+        $data = ['item' => $item, 'category' => $category, 'authorised' => $authorised, 'saved' => $saved, 'user' => Auth::user()];
 
         if ($request->is('api/*'))
             return $this->apiResponse(true, 'Success (individual item)', $data);
 
         return view('items.read', $data);
+    }
 
+    public function getDistance(Request $request)
+    {
+        if ($request->item_latitude && $request->item_longitude && $request->user_latitude && $request->user_longitude) {
+            $unit = Auth::user()->distance_unit ?: "imperial";
+
+            $distance = file_get_contents("https://maps.googleapis.com/maps/api/distancematrix/json?origins={$request->user_latitude}+{$request->user_longitude}&destinations={$request->item_latitude}+{$request->user_longitude}&key=AIzaSyBrzsfXZ4U7ob6u_NAZOZ5nph4lSv_duio&units=$unit");
+
+            return $distance;
+        }
+
+        return null;
     }
 
     /**
@@ -304,10 +314,6 @@ class ItemController extends Controller
             ]);
         }
 
-        $location = \Location::get();
-        dump(\Request::ip());
-        dd($location);
-
         // UPDATE ITEM
         $item = Item::find($id);
         $item->name = $request->input('name');
@@ -317,8 +323,8 @@ class ItemController extends Controller
         $item->type = $request->type;
         $item->price = $request->price;
         $item->trade = $request->trade;
-        $item->latitude = $location->latitude;
-        $item->longitude = $location->longitude;
+        $item->latitude = $request->latitude;
+        $item->longitude = $request->longitude;
 
         if ($request->sold) { // if 'sold' checkbox is checked
             $item->sold = true;

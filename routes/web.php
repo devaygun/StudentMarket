@@ -41,6 +41,8 @@ Route::get('/', 'ItemController@index');
     /* Saved Items */
         Route::post('/items/save/{id}', 'ItemController@save');
         Route::get('/items/saved', 'ItemController@savedItems');
+    /* Location */
+        Route::post('/items/getDistance', 'ItemController@getDistance');
 
 
 /* Images */

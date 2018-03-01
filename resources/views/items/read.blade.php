@@ -98,14 +98,11 @@
                         </div>
 
                         {{--BUTTONS--}}
-                        <div class="col-sm-3">
-                            @if (isset($distance))
-                                <div class="well well-sm">
-                                    {{round($distance)}} {{$user->distance_unit ?: "miles"}} away
+                        <div class="col-xs-3">
+                                <div class="well well-sm distance" style="display: none;">
                                 </div>
-                            @endif
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-xs-9">
                             <a href="/items" class="btn btn-default pull-right" role="button" style="margin-left: 5px;">Return</a>
 
                             @if (!$authorised)
@@ -200,6 +197,51 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            var latitude = null;
+            var longitude = null;
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        latitude = position.coords.latitude;
+                        longitude = position.coords.longitude;
+
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '/items/getDistance',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                item_longitude: '{{$item->longitude}}',
+                                item_latitude: '{{$item->latitude}}',
+                                user_longitude: longitude,
+                                user_latitude: latitude
+                            },
+                            success: function (data) {
+                                var json = JSON.parse(data);
+                                var distance = json['rows'][0]['elements'][0]['distance']['text'];
+                                var duration = json['rows'][0]['elements'][0]['duration']['text'];
+
+                                $(".distance").show().html('<i class="fa fa-map-marker fa-lg"></i> ' + distance + ' away');
+                            },
+                            error: function (data) {
+                                console.log(data.responseText);
+                            }
+                        });
+                    },
+                    function(error) {
+                        console.log("Error with location");
+                        console.log(error.toString());
+                    }
+                );
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        });
+    </script>
 
     {{--STYLE--}}
 
