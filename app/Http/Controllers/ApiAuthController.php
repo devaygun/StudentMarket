@@ -83,8 +83,6 @@ class ApiAuthController extends Controller
         $user->api_token = str_random(60);
         $user->save();
 
-        Auth::logout();
-
         return $this->response(true, 'Successfully logged out.', null);
     }
 
