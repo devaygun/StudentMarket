@@ -56,7 +56,8 @@
                 </div>
                 <div class="modal-footer">
                     <span id="updating"></span>
-                    <button type="button" class="btn btn-success" id="create_button">Add item</button>
+                    <a id="submit_form" href="javascript:void(0);"><button type="button" class="btn btn-success" id="create_button">Add item</button></a>
+                    <input type="submit" value="Submit" style="display: none;">
                     <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: left;"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
                 </div>
                 <input type="hidden" id="latitude" name="latitude">
@@ -66,24 +67,41 @@
 
             <!-- Script -->
             <script>
-                $(document).on('click', '#create_button', function() {
-                    $("body").css("cursor", "progress");
-                    $("#updating").html('<i class="fa fa-spinner fa-pulse fa-lg" style="margin-right: 10px;"></i>');
+                var form = document.querySelector('#create_form');
 
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition (
-                            function (position) {
-                                latitude = position.coords.latitude;
-                                longitude = position.coords.longitude;
+                var submit_form_btn = document.querySelector('#submit_form');
 
-                                $('#latitude').val(latitude);
-                                $('#longitude').val(longitude);
 
+                submit_form_btn.addEventListener('click', function () {
+                    if (form.checkValidity()) {
+                        $("body").css("cursor", "progress");
+                        $("#updating").html('<i class="fa fa-spinner fa-pulse fa-lg" style="margin-right: 10px;"></i>');
+
+                        if (navigator.geolocation) {
+                            setTimeout(function() {
                                 $("#create_form").submit();
-                                $("body").css("cursor", "default");
-                            });
+                            }, 5000);
+
+                            navigator.geolocation.getCurrentPosition (
+                                function (position) {
+                                    latitude = position.coords.latitude;
+                                    longitude = position.coords.longitude;
+
+                                    $('#latitude').val(latitude);
+                                    $('#longitude').val(longitude);
+
+                                    //$("#create_form").submit();
+                                    $("body").css("cursor", "default");
+                                });
+                        } else {
+                            console.log("Error with retrieving location...");
+                        }
                     }
-                });
+                    else {
+                        form.querySelector('input[type="submit"]').click();
+                    }
+                }, false);
+
 
                 $( document ).ready(function() {
                     createCheckedSellType();

@@ -80,7 +80,9 @@
                                 <input type="hidden" id="latitude" name="latitude">
                                 <input type="hidden" id="longitude" name="longitude">
                                 <a href="/items/{{$item->category->slug}}/{{$item->id}}" class="btn btn-default" role="button">Return</a>
-                                <button type="button" class="btn btn-success" id="update_button">Update</button>
+                                <a id="submit_form" href="javascript:void(0);"><button type="button" class="btn btn-success" id="update_button">Update</button></a>
+                                <input type="submit" value="Submit" style="display: none;">
+
                                 <span id="updating"></span>
                                 <button data-toggle="modal" data-target="#removeModal" type="button" class="btn btn-danger" style="float:right">Remove item</button>
                             </form>
@@ -88,24 +90,37 @@
                             <br><br>User is authorised to edit this item as they are the owner.<br>
                             <!-- Script -->
                             <script>
-                                $(document).on('click', '#update_button', function() {
-                                    $("body").css("cursor", "progress");
-                                    $("#updating").html('<i class="fa fa-spinner fa-pulse fa-lg" style="margin-left: 10px;"></i>');
+                                var form = document.querySelector('#update_form');
 
-                                    if (navigator.geolocation) {
-                                        navigator.geolocation.getCurrentPosition (
-                                            function (position) {
-                                                latitude = position.coords.latitude;
-                                                longitude = position.coords.longitude;
+                                var submit_form_btn = document.querySelector('#submit_form');
 
-                                                $('#latitude').val(latitude);
-                                                $('#longitude').val(longitude);
+                                submit_form_btn.addEventListener('click', function () {
+                                    if (form.checkValidity()) {
+                                        $("body").css("cursor", "progress");
+                                        $("#updating").html('<i class="fa fa-spinner fa-pulse fa-lg" style="margin-left: 10px;"></i>');
 
+                                        if (navigator.geolocation) {
+                                            setTimeout(function() {
                                                 $("#update_form").submit();
-                                                $("body").css("cursor", "default");
-                                            });
+                                            }, 5000);
+
+                                            navigator.geolocation.getCurrentPosition (
+                                                function (position) {
+                                                    latitude = position.coords.latitude;
+                                                    longitude = position.coords.longitude;
+
+                                                    $('#latitude').val(latitude);
+                                                    $('#longitude').val(longitude);
+
+                                                    $("#update_form").submit();
+                                                    $("body").css("cursor", "default");
+                                                });
+                                        }
                                     }
-                                });
+                                    else {
+                                        form.querySelector('input[type="submit"]').click();
+                                    }
+                                }, false);
 
                                 $(document).on('click', '.remove_image_btn', function(){
                                     var id = $(this).attr('id');
