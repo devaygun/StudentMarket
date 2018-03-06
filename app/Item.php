@@ -40,4 +40,9 @@ class Item extends Model
     {
         return $this->hasMany('App\Comment');
     }
+
+    public function scopeByType($query, $type)
+    {
+        return $query->whereIn('type', $type);
+    }
 }
