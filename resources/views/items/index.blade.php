@@ -11,18 +11,7 @@
                         @if( ! empty($saved))
                             <div><span class="panelSaved">Saved Items</span> <span class="panelSavedCount">{{count($items)}}</span></div>
                         @else
-                            <div class="inline-block">{{$category or 'Recently Added'}}</div>
-                        @endif
-
-                        {{--LEGEND--}}
-                        {{--DO NOT DISPLAY ON SAVED ITEM PAGE--}}
-                        @if( empty($saved))
-                            <div class="legend">
-                                <i class="fa fa-gbp fa-pad" aria-hidden="true"></i><span> Sell</span>
-                                <i class="fa fa-exchange fa-pad" aria-hidden="true"></i><span> Swap</span>
-                                <i class="fa fa-gbp  fa-pad" aria-hidden="true"></i><span> + </span>
-                                <i class="fa fa-exchange" aria-hidden="true"></i><span> Part-Exchange</span>
-                            </div>
+                            <div class="inline-block">{{$category or 'Available Items'}}</div>
                         @endif
                     </div>
 
@@ -37,6 +26,8 @@
                         @if( ! empty($saved) && count($items) == 0)
                             <h5>Click the <i class="fa fa-heart" style="color: red" aria-hidden="true"></i> icon on an item page to store the item here</h5>
                         @endif
+
+                            @include('components.filters')
 
                         @include('components.item', ['items' => $items])
                     </div>

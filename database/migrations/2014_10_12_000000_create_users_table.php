@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->integer('phone_number')->nullable();
             $table->date('date_of_birth');
-            $table->string('distance_unit');
+            $table->string('distance_unit')->nullable();
             $table->string('profile_picture')->nullable(); // Pull through Gravatar if no image is set
             $table->string('api_token', 60)->unique()->nullable();
             $table->string('password');
