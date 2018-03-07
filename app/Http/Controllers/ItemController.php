@@ -330,9 +330,6 @@ class ItemController extends Controller
         $item->trade = $request->trade;
         $item->latitude = $request->latitude;
         $item->longitude = $request->longitude;
-        dump($request->latitude);
-        dump($request->longitude);
-
         if ($request->sold) { // if 'sold' checkbox is checked
             $item->sold = true;
         } else {

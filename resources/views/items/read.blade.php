@@ -197,7 +197,6 @@
             </div>
         </div>
     </div>
-    {{dump($item)}}
 
     <script>
         $(document).ready(function() {

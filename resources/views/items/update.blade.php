@@ -59,11 +59,11 @@
                                 </div>
 
                                 <div id="updatePriceForm" class="form-group">
-                                    <label for="price">Price (£)</label>
+                                    <label for="updatePrice">Price (£)</label>
                                     <input type="number" class="form-control" id="updatePrice" min="1" max="100000" value="{{$item->price}}" name="price" required>
                                 </div>
                                 <div id="updateSwapForm" class="form-group">
-                                    <label for="trade">Swap for</label>
+                                    <label for="updateSwap">Swap for</label>
                                     <input type="text" class="form-control" id="updateSwap" min="1" max="255" value="{{$item->trade}}" name="trade" required>
                                 </div>
                                 <div class="form-group">
@@ -80,11 +80,7 @@
                                 <input type="hidden" id="latitude" name="latitude">
                                 <input type="hidden" id="longitude" name="longitude">
                                 <a href="/items/{{$item->category->slug}}/{{$item->id}}" class="btn btn-default" role="button">Return</a>
-                                <a id="submit_form" href="javascript:void(0);">
-                                    <button type="submit" class="btn btn-success" id="update_button">Update</button>
-                                </a>
-                                <input type="submit" value="Submit" style="display: none;">
-
+                                <button type="submit" class="btn btn-success" id="update_button">Update</button>
                                 <span id="updating"></span>
                                 <button data-toggle="modal" data-target="#removeModal" type="button" class="btn btn-danger" style="float:right">Remove item</button>
                             </form>
@@ -92,43 +88,33 @@
                             <br><br>User is authorised to edit this item as they are the owner.<br>
                             <!-- Script -->
                             <script>
-                                var form = document.querySelector('#update_form');
+                                $("#update_form").submit(function(e){
+                                    e.preventDefault();
 
-                                var submit_form_btn = document.querySelector('#submit_form');
-
-                                submit_form_btn.addEventListener('click', function () {
-                                    if (form.checkValidity()) {
+                                    if (navigator.geolocation) {
                                         $("body").css("cursor", "progress");
                                         $("#updating").html('<i class="fa fa-spinner fa-pulse fa-lg" style="margin-left: 10px;"></i>');
 
-                                        if (navigator.geolocation) {
-                                            setTimeout(function() {
+                                        setTimeout(function() {
+                                            $("#update_form").submit();
+                                        }, 5000);
+
+                                        navigator.geolocation.getCurrentPosition (
+                                            function (position) {
+                                                latitude = position.coords.latitude;
+                                                longitude = position.coords.longitude;
+
+                                                $('#latitude').val(latitude);
+                                                $('#longitude').val(longitude);
+
                                                 $("#update_form").submit();
-                                            }, 5000);
-
-                                            navigator.geolocation.getCurrentPosition (
-                                                function (position) {
-                                                    latitude = position.coords.latitude;
-                                                    longitude = position.coords.longitude;
-                                                    console.log(latitude);
-                                                    console.log(longitude);
-
-                                                    $('#latitude').val(latitude);
-                                                    $('#longitude').val(longitude);
-
-                                                    $("#update_form").submit();
-                                                    $("body").css("cursor", "default");
-                                                });
-                                        }
+                                                $("body").css("cursor", "default");
+                                            });
                                     }
-                                    else {
-                                        form.querySelector('input[type="submit"]').click();
-                                    }
-                                }, false);
+                                });
 
                                 $(document).on('click', '.remove_image_btn', function(){
                                     var id = $(this).attr('id');
-                                    console.log("clicked");
 
                                     $.ajax({
                                         type:'POST',
@@ -153,7 +139,6 @@
                                 function checkCategory() {
                                     var cat = "select{{$item->category_id}}";
                                     document.getElementById(cat).selected = "selected";
-                                    console.log("cat = " + cat);
                                 }
 
 //                                CHANGE THE SOLD TOGGLE TO MATCH IF THE ITEM HAS BEEN SOLD
@@ -191,7 +176,6 @@
                                     document.getElementById('updateSwap').value = "{{$item->trade}}";
                                     document.getElementById('updateSwap').required = true;
                                     document.getElementById('updateSwapForm').style.display = "block";
-                                    console.log("swap");
                                 }
 //                                HIDE IRRELEVANT INPUTS
                                 function updateCheckedPEType() {
