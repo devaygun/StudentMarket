@@ -185,7 +185,7 @@ class ItemController extends Controller
             return $distance;
         }
 
-        return null;
+        return json_encode(null);
     }
 
     /**
