@@ -221,6 +221,7 @@
                                 user_latitude: latitude
                             },
                             success: function (data) {
+                                console.log(data);
                                 var json = JSON.parse(data);
                                 var distance = json['rows'][0]['elements'][0]['distance']['text'];
                                 var duration = json['rows'][0]['elements'][0]['duration']['text'];
