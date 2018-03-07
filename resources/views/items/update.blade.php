@@ -80,7 +80,9 @@
                                 <input type="hidden" id="latitude" name="latitude">
                                 <input type="hidden" id="longitude" name="longitude">
                                 <a href="/items/{{$item->category->slug}}/{{$item->id}}" class="btn btn-default" role="button">Return</a>
-                                <a id="submit_form" href="javascript:void(0);"><button type="button" class="btn btn-success" id="update_button">Update</button></a>
+                                <a id="submit_form" href="javascript:void(0);">
+                                    <button type="submit" class="btn btn-success" id="update_button">Update</button>
+                                </a>
                                 <input type="submit" value="Submit" style="display: none;">
 
                                 <span id="updating"></span>
