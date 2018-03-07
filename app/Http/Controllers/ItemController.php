@@ -40,21 +40,23 @@ class ItemController extends Controller
     {
         $order_by = $request->sort ?: "created_at|DESC";
         $order_by = explode("|", $order_by);
+        $type = $request->item_type ?: ["sell", "swap", "part-exchange"];
 
         if ($category == null) {
-            $data = ['items' => Item::with('category', 'images')->byType($request->item_type)->orderBy($order_by[0], $order_by[1])->paginate(15), 'order_by' => $order_by];
+            $data = ['items' => Item::with('category', 'images')->byType($type)->orderBy($order_by[0], $order_by[1])->paginate(15), 'order_by' => $order_by, 'item_type' => $type];
 
             if ($request->is('api/*'))
                return $this->apiResponse(true, 'Success (items index with no category)', $data);
 
+
             return view('items.index', $data); // View all items in all categories
         }
 
-        $items = Item::with('images')->byType($request->item_type)->whereHas('category', function ($query) use ($category) { // Limiting our results based on whether a relationship to the specific category exists or not
+        $items = Item::with('images')->byType($type)->whereHas('category', function ($query) use ($category) { // Limiting our results based on whether a relationship to the specific category exists or not
             $query->where('slug', $category);
         })->orderBy($order_by[0], $order_by[1])->paginate(15);
 
-        $data = ['items' => $items, 'category' => Category::where('slug', $category)->first()->name, 'order_by' => $order_by];
+        $data = ['items' => $items, 'category' => Category::where('slug', $category)->first()->name, 'order_by' => $order_by, 'item_type' => $type];
 
         if ($request->is('api/*'))
             return $this->apiResponse(true, 'Success (items index)', $data);
