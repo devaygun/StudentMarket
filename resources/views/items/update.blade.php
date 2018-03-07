@@ -110,6 +110,8 @@
                                                 function (position) {
                                                     latitude = position.coords.latitude;
                                                     longitude = position.coords.longitude;
+                                                    console.log(latitude);
+                                                    console.log(longitude);
 
                                                     $('#latitude').val(latitude);
                                                     $('#longitude').val(longitude);
