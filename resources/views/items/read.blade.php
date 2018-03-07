@@ -209,6 +209,10 @@
                         latitude = position.coords.latitude;
                         longitude = position.coords.longitude;
 
+                        console.log(latitude);
+                        console.log(longitude);
+                        console.log('{{$item->latitude}}');
+                        console.log('{{$item->longitude}}');
 
                         $.ajax({
                             type: 'POST',
