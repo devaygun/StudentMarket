@@ -223,11 +223,13 @@
                             success: function (data) {
                                 console.log(data);
                                 var json = JSON.parse(data);
-                                var distance = json['rows'][0]['elements'][0]['distance']['text'];
-                                var duration = json['rows'][0]['elements'][0]['duration']['text'];
+                                if (json) {
+                                    var distance = json['rows'][0]['elements'][0]['distance']['text'];
+                                    var duration = json['rows'][0]['elements'][0]['duration']['text'];
 
-                                $(".distance").show().html('<i class="fa fa-map-marker fa-lg"></i> Distance: ' + distance + ' away');
-                                $(".duration").show().html('<i class="fa fa-car fa-lg"></i> Duration: ' + duration);
+                                    $(".distance").show().html('<i class="fa fa-map-marker fa-lg"></i> Distance: ' + distance + ' away');
+                                    $(".duration").show().html('<i class="fa fa-car fa-lg"></i> Duration: ' + duration);
+                                }
                             },
                             error: function (data) {
                                 console.log(data.responseText);
