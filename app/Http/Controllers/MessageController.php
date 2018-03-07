@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Message;
 use App\User;
 
+/**
+ * @resource Messages
+ */
 class MessageController extends Controller
 {
     public function __construct()
@@ -22,23 +25,29 @@ class MessageController extends Controller
         return response()->json(['success' => $success, 'message' => $message, 'data' => $data], $status);
     }
 
-
+    /**
+     * Messages
+     *
+     * Displays users and messages for the authenticated user
+     */
     public function index(Request $request) {
+        $auth_id = $request->is('api/*') ? User::where('api_token', $request->api_token)->first()->id : Auth::id(); // Retrieve the user's ID based on if the request is from the API or not
+
         // GENERATE ALL MESSAGES FROM OR TO THE LOGGED IN USER
-        $messages = Message::where('sender_id', User::find(Auth::id())->id)
-            ->orWhere('receiver_id', User::find(Auth::id())->id)
+        $messages = Message::where('sender_id', $auth_id)
+            ->orWhere('receiver_id', $auth_id)
             ->orderBy('created_at')
             ->get();
 
         // GENERATE LIST OF MESSAGED USERS
         $userList = Message::select('sender_id')
-            ->where('receiver_id', User::find(Auth::id())->id)
+            ->where('receiver_id', $auth_id)
             ->distinct()
             ->orderBy('created_at')
             ->get();
 
         $userList2 = Message::select('receiver_id')
-            ->where('sender_id', User::find(Auth::id())->id)
+            ->where('sender_id', $auth_id)
             ->distinct()
             ->orderBy('created_at')
             ->get();
@@ -55,6 +64,11 @@ class MessageController extends Controller
         return view('messages.index', $data);
     }
 
+    /**
+     * View Message
+     *
+     * Returns all messages from a specific conversation
+     */
     public function viewMessages(Request $request, $id = null)
     {
         $auth_id = $request->is('api/*') ? User::where('api_token', $request->api_token)->first()->id : Auth::id(); // Retrieve the user's ID based on if the request is from the API or not
@@ -94,6 +108,11 @@ class MessageController extends Controller
         return view('messages.read', $data);
     }
 
+    /**
+     * Send Message
+     *
+     * Sends a message from the sender to the receiver
+     */
     public function sendMessage(Request $request, $id = null)
     {
         $auth_id = $request->is('api/*') ? User::where('api_token', $request->api_token)->first()->id : Auth::id(); // Retrieve the user's ID based on if the request is from the API or not
