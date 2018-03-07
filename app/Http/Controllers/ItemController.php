@@ -8,6 +8,7 @@ use App\Item;
 use App\SavedItem;
 use App\Tag;
 use App\ItemTag;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -158,16 +159,19 @@ class ItemController extends Controller
 
         $item = Item::with('category', 'images', 'user')->find($id);
         $category = $category ?: $item->category->slug; // If the category is not passed through then retrieve it from the item
-        $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
+        $id = $request->is('api/*') ? User::where('api_token', $request->api_token)->first()->id : Auth::id(); // Retrieve the user's ID based on if the request is from the API or not
+
+        $authorised = ($item->user_id == $id) ? true : false; // Checks to see if the item belongs to the authenticated user
+
 
         $saved = false;
-        if (Auth::id() != $item->seller_id) {
-            if (SavedItem::where(['item_id' => $item->id, 'user_id' => Auth::id()])->count()) {
+        if ($id != $item->seller_id) {
+            if (SavedItem::where(['item_id' => $item->id, 'user_id' => $id])->count()) {
                 $saved = true;
             }
         }
 
-        $data = ['item' => $item, 'category' => $category, 'authorised' => $authorised, 'saved' => $saved, 'user' => Auth::user()];
+        $data = ['item' => $item, 'category' => $category, 'authorised' => $authorised, 'saved' => $saved, 'user' => User::find($id)];
 
         if ($request->is('api/*'))
             return $this->apiResponse(true, 'Success (individual item)', $data);
@@ -186,48 +190,6 @@ class ItemController extends Controller
         }
 
         return json_encode(null);
-    }
-
-    /**
-     * Calculates the distance between two points
-     *
-     * Credit: https://www.geodatasource.com/developers/php
-     */
-    public function calculateDistance($item_latitude, $item_longitude)
-    {
-        if ($item_latitude && $item_longitude) {
-            $lat1 = $item_latitude;
-            $lon1 = $item_longitude;
-            $location = \Location::get();
-            $lat2 = $location->latitude;
-            $lon2 = $location->longitude;
-
-            $unit = "M";
-
-            if (Auth::user()->distance_unit) {
-                if (Auth::user()->distance_unit == "kilometers") {
-                    $unit = "K";
-                }
-            }
-
-            $theta = $lon1 - $lon2;
-            $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
-            $dist = acos($dist);
-            $dist = rad2deg($dist);
-            $miles = $dist * 60 * 1.1515;
-            $unit = strtoupper($unit);
-
-            if ($unit == "K") {
-                return ($miles * 1.609344);
-            } else if ($unit == "N") {
-                return ($miles * 0.8684);
-            } else {
-                return $miles;
-            }
-
-        }
-
-        return null;
     }
 
     // FUNCTION USED TO OPEN UPDATE VIEW - DO NOT DELETE

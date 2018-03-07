@@ -15,15 +15,22 @@ class MessageController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
-//        GENERATE ALL MESSAGES FROM OR TO THE LOGGED IN USER
+    /**
+     * Provides a response to API requests in JSON with a consistent formatting
+     */
+    public function apiResponse($success, $message, $data, $status = 200) {
+        return response()->json(['success' => $success, 'message' => $message, 'data' => $data], $status);
+    }
+
+
+    public function index(Request $request) {
+        // GENERATE ALL MESSAGES FROM OR TO THE LOGGED IN USER
         $messages = Message::where('sender_id', User::find(Auth::id())->id)
             ->orWhere('receiver_id', User::find(Auth::id())->id)
             ->orderBy('created_at')
             ->get();
 
-//        GENERATE LIST OF MESSAGED USERS
+        // GENERATE LIST OF MESSAGED USERS
         $userList = Message::select('sender_id')
             ->where('receiver_id', User::find(Auth::id())->id)
             ->distinct()
@@ -36,69 +43,76 @@ class MessageController extends Controller
             ->orderBy('created_at')
             ->get();
 
-        foreach ($userList2 as $u) {
-            if (!$userList->contains('sender_id', $u->receiver_id)) {
+        foreach ($userList2 as $u)
+            if (!$userList->contains('sender_id', $u->receiver_id))
                 $userList->push($u);
-            }
-        }
 
-        return view('messages.index', ['messages' => $messages, 'userList' => $userList]);
+        $data = ['messages' => $messages, 'userList' => $userList];
+
+        if ($request->is('api/*'))
+            return $this->apiResponse(true, 'Successfully retrieved messages index', $data);
+
+        return view('messages.index', $data);
     }
 
-    public function viewMessages($id = null)
+    public function viewMessages(Request $request, $id = null)
     {
-//        IF USER TRIES TO MESSAGE THEMSELVES, REDIRECT
-        if ($id == User::find(Auth::id())->id) {
+        $auth_id = $request->is('api/*') ? User::where('api_token', $request->api_token)->first()->id : Auth::id(); // Retrieve the user's ID based on if the request is from the API or not
+
+        // IF USER TRIES TO MESSAGE THEMSELVES, REDIRECT
+        if ($id == $auth_id)
             return redirect()->action('MessageController@index');
-        }
 
         // SELECT ALL MESSAGES FROM OR TO USER
-        $messages = Message::where('sender_id', User::find(Auth::id())->id)->Where('receiver_id', $id)
-            ->orWhere('sender_id', $id)->Where('receiver_id', User::find(Auth::id())->id)
+        $messages = Message::where('sender_id', $auth_id)->Where('receiver_id', $id)
+            ->orWhere('sender_id', $id)->Where('receiver_id', $auth_id)
             ->orderBy('created_at')
             ->get();
 
         //        GENERATE LIST OF MESSAGED USERS
         $userList = Message::select('sender_id')
-            ->where('receiver_id', User::find(Auth::id())->id)
+            ->where('receiver_id', $auth_id)
             ->distinct()
             ->orderBy('created_at')
             ->get();
 
         $userList2 = Message::select('receiver_id')
-            ->where('sender_id', User::find(Auth::id())->id)
+            ->where('sender_id', $auth_id)
             ->distinct()
             ->orderBy('created_at')
             ->get();
 
-        foreach ($userList2 as $u) {
-            if (!$userList->contains('sender_id', $u->receiver_id)) {
+        foreach ($userList2 as $u)
+            if (!$userList->contains('sender_id', $u->receiver_id))
                 $userList->push($u);
-//                dump('working');
-            }
-        }
 
-        return view('messages.read', ['messages' => $messages, 'recipient' => $id, 'userList' => $userList]);
+        $data = ['messages' => $messages, 'recipient' => $id, 'userList' => $userList];
+
+        if ($request->is('api/*'))
+            return $this->apiResponse(true, 'Successfully read messages', $data);
+
+        return view('messages.read', $data);
     }
 
-    public function sendMessage($id = null, Request $request)
+    public function sendMessage(Request $request, $id = null)
     {
-        if ($id == User::find(Auth::id())->id) {
-            return redirect()->action('MessageController@index');
-        }
+        $auth_id = $request->is('api/*') ? User::where('api_token', $request->api_token)->first()->id : Auth::id(); // Retrieve the user's ID based on if the request is from the API or not
 
-        $user = User::find(Auth::id());
-        $recip = User::find($id); // FIND SEARCHED USER
+        if ($id == $auth_id)
+            return redirect()->action('MessageController@index');
 
         $request->validate([
             'message' => 'required|string|max:1000'
         ]);
 
         $message = new Message();
-        $message->sender_id = User::find(Auth::id())->id;
+        $message->sender_id = $auth_id;
         $message->receiver_id = User::find($id)->id;
         $message->message = $request->message;
         $message->save();
+
+        if ($request->is('api/*'))
+            return $this->apiResponse(true, 'Successfully sent message', ['id' => $id]);
 
         return redirect()->action('MessageController@viewMessages', ['id' => $id]);
     }
