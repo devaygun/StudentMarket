@@ -40,10 +40,11 @@ class MessageController extends Controller
             ->get();
 
         // GENERATE LIST OF MESSAGED USERS
-        $userList = Message::select('sender_id')
+        $userList = Message::select('sender_id', 'users.*')
             ->where('receiver_id', $auth_id)
             ->distinct()
-            ->orderBy('created_at')
+            ->orderBy('messages.created_at')
+            ->leftJoin('users', 'users.id', '=', 'sender_id')
             ->get();
 
         $userList2 = Message::select('receiver_id')
