@@ -88,7 +88,7 @@ class UserController extends Controller
         $viewUser = User::with('items')->find($id); // FIND SEARCHED USER (This is who the profile belongs to)
         $user = User::find($current_id); // CURRENT LOGGED IN USER
         $canReview = ($current_id != $id); // CHECK IF SEARCHED USER IS LOGGED IN (Only show review button if profile does not belong to user)
-        $userReviews = Review::all()->where('seller_id', $id); // ARRAY OF REVIEWS FOR USER
+        $userReviews = Review::with('reviewer')->where('seller_id', $id)->get(); // ARRAY OF REVIEWS FOR USER
 
         // CALCULATE AVERAGE RATING
         $totalRatingValue = 0;
