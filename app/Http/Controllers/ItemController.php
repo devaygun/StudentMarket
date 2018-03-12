@@ -41,7 +41,7 @@ class ItemController extends Controller
     {
         $order_by = $request->sort ?: "created_at|DESC";
         $order_by = explode("|", $order_by);
-        $type = $request->item_type ?: ["sell", "swap", "part-exchange"];
+        $type = $request->item_type ?: ["sell" => "sell", "swap" => "swap", "part-exchange" => "part-exchange"];
 
         if ($category == null) {
             $data = ['items' => Item::with('category', 'images')->byType($type)->orderBy($order_by[0], $order_by[1])->paginate(15), 'order_by' => $order_by, 'item_type' => $type];
