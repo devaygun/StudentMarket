@@ -50,7 +50,6 @@ Route::post('/images/remove', 'ImageController@delete');
 
 /* Search */
 Route::get('/search', 'SearchController@index');
-Route::get('/search/filter', 'SearchController@filter');
 
 /* Messages */
 Route::get('/messages', 'MessageController@index');

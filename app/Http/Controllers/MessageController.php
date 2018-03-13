@@ -21,7 +21,8 @@ class MessageController extends Controller
     /**
      * Provides a response to API requests in JSON with a consistent formatting
      */
-    public function apiResponse($success, $message, $data, $status = 200) {
+    public function apiResponse($success, $message, $data, $status = 200)
+    {
         return response()->json(['success' => $success, 'message' => $message, 'data' => $data], $status);
     }
 
@@ -30,28 +31,17 @@ class MessageController extends Controller
      *
      * Displays users and messages for the authenticated user
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $auth_id = $request->is('api/*') ? User::where('api_token', $request->api_token)->first()->id : Auth::id(); // Retrieve the user's ID based on if the request is from the API or not
 
         // GENERATE ALL MESSAGES FROM OR TO THE LOGGED IN USER
-        $messages = Message::where('sender_id', $auth_id)
-            ->orWhere('receiver_id', $auth_id)
-            ->orderBy('created_at')
-            ->get();
+        $messages = Message::where('sender_id', $auth_id)->orWhere('receiver_id', $auth_id)->orderBy('created_at')->get();
 
         // GENERATE LIST OF MESSAGED USERS
-        $userList = Message::select('sender_id', 'users.*')
-            ->where('receiver_id', $auth_id)
-            ->distinct()
-            ->orderBy('messages.created_at')
-            ->leftJoin('users', 'users.id', '=', 'sender_id')
-            ->get();
+        $userList = Message::select('sender_id', 'users.*')->where('receiver_id', $auth_id)->distinct()->orderBy('messages.created_at')->leftJoin('users', 'users.id', '=', 'sender_id')->get();
 
-        $userList2 = Message::select('receiver_id')
-            ->where('sender_id', $auth_id)
-            ->distinct()
-            ->orderBy('created_at')
-            ->get();
+        $userList2 = Message::select('receiver_id')->where('sender_id', $auth_id)->distinct()->orderBy('created_at')->get();
 
         foreach ($userList2 as $u)
             if (!$userList->contains('sender_id', $u->receiver_id))
@@ -79,23 +69,12 @@ class MessageController extends Controller
             return redirect()->action('MessageController@index');
 
         // SELECT ALL MESSAGES FROM OR TO USER
-        $messages = Message::where('sender_id', $auth_id)->Where('receiver_id', $id)
-            ->orWhere('sender_id', $id)->Where('receiver_id', $auth_id)
-            ->orderBy('created_at')
-            ->get();
+        $messages = Message::where('sender_id', $auth_id)->Where('receiver_id', $id)->orWhere('sender_id', $id)->Where('receiver_id', $auth_id)->orderBy('created_at')->get();
 
-        //        GENERATE LIST OF MESSAGED USERS
-        $userList = Message::select('sender_id')
-            ->where('receiver_id', $auth_id)
-            ->distinct()
-            ->orderBy('created_at')
-            ->get();
+        // GENERATE LIST OF MESSAGED USERS
+        $userList = Message::select('sender_id')->where('receiver_id', $auth_id)->distinct()->orderBy('created_at')->get();
 
-        $userList2 = Message::select('receiver_id')
-            ->where('sender_id', $auth_id)
-            ->distinct()
-            ->orderBy('created_at')
-            ->get();
+        $userList2 = Message::select('receiver_id')->where('sender_id', $auth_id)->distinct()->orderBy('created_at')->get();
 
         foreach ($userList2 as $u)
             if (!$userList->contains('sender_id', $u->receiver_id))

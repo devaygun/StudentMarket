@@ -47,7 +47,7 @@ class ItemController extends Controller
             $data = ['items' => Item::with('category', 'images')->byType($type)->orderBy($order_by[0], $order_by[1])->paginate(15), 'order_by' => $order_by, 'item_type' => $type];
 
             if ($request->is('api/*'))
-               return $this->apiResponse(true, 'Success (items index with no category)', $data);
+                return $this->apiResponse(true, 'Success (items index with no category)', $data);
 
 
             return view('items.index', $data); // View all items in all categories
@@ -143,7 +143,7 @@ class ItemController extends Controller
         $request->session()->flash('success', 'Successfully added item.');
 
         return redirect()->action('ItemController@readItem', ['category' => $request->category_id, 'id' => $item->id]);
-        }
+    }
 
     /**
      * Individual Item
@@ -153,7 +153,7 @@ class ItemController extends Controller
     public function readItem(Request $request, $category = null, $id = null)
     {
         if ($category == "update")
-           return $this->editItem($id);
+            return $this->editItem($id);
         if ($category == "sold")
             return $this->soldItem($id);
 
@@ -236,7 +236,7 @@ class ItemController extends Controller
     public function savedItems(Request $request)
     {
         $user_id = Auth::id();
-        $items = Item::whereHas('saved_items', function ($q) use($user_id){
+        $items = Item::whereHas('saved_items', function ($q) use ($user_id) {
             $q->where('user_id', $user_id);
         })->paginate(15);
         $saved = true;

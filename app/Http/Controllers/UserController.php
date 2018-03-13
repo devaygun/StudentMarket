@@ -95,7 +95,7 @@ class UserController extends Controller
         $numRatings = 0;
         $avgRating = 0;
         foreach ($userReviews as $review) {
-            $numRatings ++;
+            $numRatings++;
             $totalRatingValue += $review->rating;
         }
         if ($numRatings != 0) $avgRating = number_format(($totalRatingValue / $numRatings), 1);

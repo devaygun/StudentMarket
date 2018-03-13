@@ -126,7 +126,7 @@
                 <h3 style="display:inline-block" class="panel-title">Comments</h3>
             </div>
             <div class="panel-body">
-                <table class="table table-hover v-align">
+                <table class="table v-align">
                     <thead>
                     <tr>
                         <th></th>
@@ -148,7 +148,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td width="7%"><a href="/view/{{$comment->user_id}}" class="text-primary">{{\App\User::find($comment->user_id)->first_name}}:</a></td>
+                        <td width="7%"><a href="/view/{{$comment->user_id}}" class="text-primary">{{\App\User::find($comment->user_id)->first_name}}</a></td>
                         <td id ="user_comment" width="64%">{{$comment->comment}}</td>
                         <td width="9%">{{$comment->updated_at->format('d/m/Y')}}</td>
                         @if($comment->user_id == \Illuminate\Support\Facades\Auth::id())
@@ -176,7 +176,7 @@
                     {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                     <div class="col-sm-11 form-row">
                         <textarea class="form-control" placeholder="Write your comment here..." required rows="3" id="comment" name="comment"></textarea>
-                        <button type="submit" class="btn btn-primary">Add comment</button>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 5px;">Add comment</button>
                     </div>
                 </form>
             </div>
