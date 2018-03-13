@@ -44,11 +44,11 @@ class ItemController extends Controller
         $type = $request->item_type ?: ["sell" => "sell", "swap" => "swap", "part-exchange" => "part-exchange"];
 
         if ($category == null) {
-            $data = ['items' => Item::with('category', 'images')->byType($type)->orderBy($order_by[0], $order_by[1])->paginate(4), 'order_by' => $order_by, 'item_type' => $type];
+            $items = Item::with('category', 'images')->byType($type)->orderBy($order_by[0], $order_by[1])->paginate(15);
+            $data = ['items' => $items, 'order_by' => $order_by, 'item_type' => $type];
 
             if ($request->is('api/*'))
                 return $this->apiResponse(true, 'Success (items index with no category)', $data);
-
 
             return view('items.index', $data); // View all items in all categories
         }
