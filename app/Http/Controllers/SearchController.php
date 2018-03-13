@@ -14,8 +14,6 @@ class SearchController extends Controller
 
     public function index(Request $request)
     {
-        $results = Item::search($request->value)->paginate(15);
-
-        return view('search_results', ['query' => $request->value, 'results' => $results]);
+        return view('search_results', ['query' => $request->value, 'results' => Item::search($request->value)->get()]);
     }
 }

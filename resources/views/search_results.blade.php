@@ -5,13 +5,11 @@
         <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Results <span class="badge badge-primary badge-pill">{{$results->total()}}</span>
+                    Results <span class="badge badge-primary badge-pill">{{count($results)}}</span>
 
                     <img src="/images/search-by-algolia.png" alt="Algolia (search engine API)" style="height: 18px; width: 130px; float: right; z-index: -1;">
-                    {{--LEGEND--}}
-                    {{--DO NOT DISPLAY ON SAVED ITEM PAGE--}}
                     @if( empty($saved))
-                        <div class="legend">
+                        <div class="legend" style="margin-right: 20px;">
                             <i class="fa fa-gbp fa-pad" aria-hidden="true"></i><span> Sell</span>
                             <i class="fa fa-exchange fa-pad" aria-hidden="true"></i><span> Swap</span>
                             <i class="fa fa-gbp  fa-pad" aria-hidden="true"></i><span> + </span>

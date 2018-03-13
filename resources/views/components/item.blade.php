@@ -39,8 +39,11 @@
         @endif
     @endforeach
 </div>
-<div style="text-align: center;">{{ $items->appends(['value' => \Illuminate\Support\Facades\Input::get('value')])->links() }}</div> {{-- Adds in paginator with appended search query if available --}}
-
+@if (!isset($results))
+<div class="col-xs-12" style="text-align: center;">
+    {{ $items->appends(['sort' => "$order_by[0]|$order_by[1]", 'item_type' => $item_type])->links() }} {{-- Adds in paginator with appended search query if available --}}
+</div>
+@endif
 {{--STYLES--}}
 <style>
 

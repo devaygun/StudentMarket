@@ -27,7 +27,7 @@
                             <h5>Click the <i class="fa fa-heart" style="color: red" aria-hidden="true"></i> icon on an item page to store the item here</h5>
                         @endif
 
-                            @include('components.filters')
+                        @include('components.filters')
 
                         @include('components.item', ['items' => $items])
                     </div>
