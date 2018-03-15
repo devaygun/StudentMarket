@@ -30,7 +30,7 @@
                                 @elseif ($item->type == "part-exchange") <i class="fa fa-gbp" aria-hidden="true"></i> + <i class="fa fa-exchange" aria-hidden="true"></i> @endif
                             </div>
                             <div class="item-description">{{$item->description}}</div>
-                            <div class="item-date">Added on {{$item->created_at->format('d/m/y')}}</div>
+                            <div class="item-date">Added on {{$item->created_at->format('d/m/y \\a\\t H:i')}}</div>
                             <button class="btn btn-primary item-button">View Details</button>
                         </div>
                     </a>

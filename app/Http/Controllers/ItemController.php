@@ -157,7 +157,7 @@ class ItemController extends Controller
         if ($category == "sold")
             return $this->soldItem($id);
 
-        $item = Item::with('category', 'images', 'user')->find($id);
+        $item = Item::with('category', 'images', 'user', 'comments.user')->find($id);
         $category = $category ?: $item->category->slug; // If the category is not passed through then retrieve it from the item
         $id = $request->is('api/*') ? User::where('api_token', $request->api_token)->first()->id : Auth::id(); // Retrieve the user's ID based on if the request is from the API or not
 
@@ -350,9 +350,8 @@ class ItemController extends Controller
         $authorised = ($item->user_id == Auth::id()) ? true : false; // Checks to see if the item belongs to the authenticated user
 
         // only delete if user is authorised
-        if ($authorised) {
+        if ($authorised)
             $item->delete();
-        }
 
         return redirect()->action('ItemController@index');
     }

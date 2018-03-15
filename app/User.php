@@ -42,4 +42,9 @@ class User extends Authenticatable
     {
         return asset($this->profile_picture ? "storage/$this->profile_picture" : 'images/default_profile.jpg');
     }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
 }

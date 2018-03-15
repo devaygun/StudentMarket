@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -12,7 +11,6 @@ return [
     | any other location as required by the application or its packages.
     |
     */
-
     'name' => env('APP_NAME', 'Student Market'),
 
     /*
@@ -25,7 +23,6 @@ return [
     | services your application utilizes. Set this in your ".env" file.
     |
     */
-
     'env' => env('APP_ENV', 'production'),
 
     /*
@@ -38,7 +35,6 @@ return [
     | application. If disabled, a simple generic error page is shown.
     |
     */
-
     'debug' => env('APP_DEBUG', false),
 
     /*
@@ -51,7 +47,6 @@ return [
     | your application so that it is used when running Artisan tasks.
     |
     */
-
     'url' => env('APP_URL', 'http://localhost'),
 
     /*
@@ -64,8 +59,7 @@ return [
     | ahead and set this to a sensible default for you out of the box.
     |
     */
-
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/London',
 
     /*
     |--------------------------------------------------------------------------
@@ -77,7 +71,6 @@ return [
     | to any of the locales which will be supported by the application.
     |
     */
-
     'locale' => 'en',
 
     /*

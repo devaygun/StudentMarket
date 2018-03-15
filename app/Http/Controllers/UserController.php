@@ -55,6 +55,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request)
     {
         $id = $request->is('api/*') ? User::where('api_token', $request->api_token)->first()->id : Auth::id(); // Retrieve the user's ID based on if the request is from the API or not
+
         $user = User::find($id);
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
@@ -98,7 +99,8 @@ class UserController extends Controller
             $numRatings++;
             $totalRatingValue += $review->rating;
         }
-        if ($numRatings != 0) $avgRating = number_format(($totalRatingValue / $numRatings), 1);
+        if ($numRatings != 0)
+            $avgRating = number_format(($totalRatingValue / $numRatings), 1);
 
         if ($request->is('api/*'))
             return $this->apiResponse(true, "Successfully retrieved user view.", ['user' => $user, 'viewUser' => $viewUser, 'canReview' => $canReview, 'userReviews' => $userReviews, 'avgRating' => $avgRating]);

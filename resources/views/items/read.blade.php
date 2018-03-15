@@ -92,7 +92,7 @@
                             <div class="col-sm-12">
                                 <div class="hr"></div>
                                 <h4>Description</h4>
-                                <h4 class="added-on">Added on {{$item->created_at->format('d/m/y')}}</h4>
+                                <h4 class="added-on">Added on {{$item->created_at->format('d/m/y \\a\\t H:i')}}</h4>
                                 <div>{{old('description', $item->description)}}</div>
                             </div>
                         </div>
@@ -126,19 +126,9 @@
                 <h3 style="display:inline-block" class="panel-title">Comments</h3>
             </div>
             <div class="panel-body">
-                <table class="table v-align">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($item->comments as $comment)
-                        <td width="5%">
+                @foreach ($item->comments as $comment)
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-1">
                             <div class="image-frame">
                                 <div class="item-thumb" style="background-image: url({{\App\User::find($comment->user_id)->getProfilePicture()}})">
                                     <a href="/view/{{$comment->user_id}}">
@@ -147,38 +137,48 @@
                                     </a>
                                 </div>
                             </div>
-                        </td>
-                        <td width="7%"><a href="/view/{{$comment->user_id}}" class="text-primary">{{\App\User::find($comment->user_id)->first_name}}</a></td>
-                        <td id ="user_comment" width="64%">{{$comment->comment}}</td>
-                        <td width="9%">{{$comment->updated_at->format('d/m/Y')}}</td>
-                        @if($comment->user_id == \Illuminate\Support\Facades\Auth::id())
-                            <form class="form" action="/comments/{{$comment->id}}/delete" method="POST" name="form">
-                                {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
-                                <input type="hidden" id = "id" name="id" value="{{$comment->id}}">
-                                <td width="15%"><button type="submit" class="btn btn-primary">Delete</button></form>
-                            <button type="button" class="btn btn-primary" onclick=document.getElementById("comment").append("@_{{\App\User::find($comment->user_id)->first_name}}")>Reply</button></td>
-                        @else
-                            <td><button type="button" class="btn btn-primary" onclick=document.getElementById("comment").append("@_{{\App\User::find($comment->user_id)->first_name}}")>Reply</button></td>
-                        @endif
-                        <tr></tr>
-                        {{-- <td><img src="{{\App\Item::find($comment->user_id)->getProfilePicture()}}" alt="User Image Preview" class="panel" data-toggle_tooltip="tooltip" title="Click to view user's profile" height="100px" width="100px"></td>--}}
-                    @endforeach
-                    </tbody>
-                </table>
-                <div class="col-sm-1 image-frame">
-                    <div class="avatar-thumb" style="background-image: url({{Auth::User()->getProfilePicture()}})">
-                    <img src="{{$image = Auth::User()->getProfilePicture()}}" alt="Profile Image Preview" class="comment-post">
+                        </div>
+                        <div class="col-xs-8 col-sm-2">
+                            <a href="/view/{{$comment->user_id}}" class="text-primary">{{$comment->user->first_name . " " . $comment->user->last_name}}</a>
+                            <span class="label label-info">Posted at {{$comment->updated_at->format('H:i \\o\\n d/m/y')}}</span>
+                        </div>
+                        <div class="col-xs-12 col-sm-8">
+                            {{$comment->comment}}
+                        </div>
+                        <div class="col-xs-12 col-sm-1">
+                            @if($comment->user_id == \Illuminate\Support\Facades\Auth::id())
+                                <form class="form" action="/comments/{{$comment->id}}/delete" method="POST" name="form">
+                                    {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
+                                    <input type="hidden" id = "id" name="id" value="{{$comment->id}}">
+                                    <button type="submit" class="btn btn-primary">Delete</button>
+                                </form>
+
+                                <button type="button" class="btn btn-primary" onclick='document.getElementById("comment").append("@_{{$comment->user->first_name}}")' style="margin: 5px;">Reply</button>
+                            @else
+                                <button type="button" class="btn btn-primary" onclick='document.getElementById("comment").append("@_{{$comment->user->first_name}}")' style="margin: 5px;">Reply</button>
+                            @endif
+                        </div>
                     </div>
+                    <hr>
+                @endforeach
+
+                {{-- Add Comment area --}}
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-xs-3 col-sm-1 image-frame">
+                        <div class="avatar-thumb" style="background-image: url({{Auth::User()->getProfilePicture()}})">
+                            <img src="{{$image = Auth::User()->getProfilePicture()}}" alt="Profile Image Preview" class="comment-post">
+                        </div>
+                    </div>
+                    <form class="form" action="/comments/{{$item->id}}" method="POST" name="form">
+                        <input type="hidden" name="item_id" value="{{$item->id}}">
+                        <input type="hidden" name="reply_id" value="0">
+                        {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
+                        <div class="col-xs-9 col-sm-11 form-row">
+                            <textarea class="form-control" placeholder="Write your comment here..." required rows="3" id="comment" name="comment"></textarea>
+                            <button type="submit" class="btn btn-primary pull-right" style="margin-top: 5px;">Add comment</button>
+                        </div>
+                    </form>
                 </div>
-                <form class="form" action="/comments/{{$item->id}}" method="POST" name="form">
-                    <input type="hidden" name="item_id" value="{{$item->id}}">
-                    <input type="hidden" name="reply_id" value="0">
-                    {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
-                    <div class="col-sm-11 form-row">
-                        <textarea class="form-control" placeholder="Write your comment here..." required rows="3" id="comment" name="comment"></textarea>
-                        <button type="submit" class="btn btn-primary" style="margin-top: 5px;">Add comment</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
