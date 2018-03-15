@@ -235,15 +235,17 @@ class ItemController extends Controller
 
     public function savedItems(Request $request)
     {
+        $order_by = $request->sort ?: "created_at|DESC";
+        $order_by = explode("|", $order_by);
+        $type = $request->item_type ?: ["sell" => "sell", "swap" => "swap", "part-exchange" => "part-exchange"];
+
         $user_id = Auth::id();
         $items = Item::whereHas('saved_items', function ($q) use ($user_id) {
             $q->where('user_id', $user_id);
         })->paginate(15);
         $saved = true;
 
-        $data = ['items' => $items, 'saved' => $saved];
-
-        return view('items.index', $data);
+        return view('items.index', ['items' => $items, 'saved' => $saved, 'order_by' => $order_by, 'item_type' => $type]);
     }
 
 

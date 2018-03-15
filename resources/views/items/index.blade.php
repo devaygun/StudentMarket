@@ -6,10 +6,10 @@
             <div class="col-sm-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-
                         {{--CHANGE PANEL HEADING ON SAVED ITEMS OR INDEX PAGE--}}
                         @if( ! empty($saved))
-                            <div><span class="panelSaved">Saved Items</span> <span class="panelSavedCount">{{count($items)}}</span></div>
+                            <div><span class="panelSaved">Saved Items</span> <span
+                                        class="panelSavedCount">{{count($items)}}</span></div>
                         @else
                             <div class="inline-block">{{$category or 'Available Items'}}</div>
                         @endif
@@ -24,10 +24,13 @@
 
                         {{--DISPLAY ON SAVED ITEMS PAGE ONLY--}}
                         @if( ! empty($saved) && count($items) == 0)
-                            <h5>Click the <i class="fa fa-heart" style="color: red" aria-hidden="true"></i> icon on an item page to store the item here</h5>
+                            <h5>Click the <i class="fa fa-heart" style="color: red" aria-hidden="true"></i> icon on an
+                                item page to store the item here</h5>
                         @endif
 
-                        @include('components.filters')
+                        @if ($items->isNotEmpty())
+                            @include('components.filters')
+                        @endif
 
                         @include('components.item', ['items' => $items])
                     </div>
