@@ -2,7 +2,7 @@
 <div class="item-listing">
     @foreach ($items as $item)
         @if ($item->sold == false)
-            <div class="col-sm-6 col-md-4 item">
+            <div class="col-xs-12 col-sm-6 col-md-4 item">
                 <div class="item-inner">
 
                     {{--LINK AROUND ITEM--}}

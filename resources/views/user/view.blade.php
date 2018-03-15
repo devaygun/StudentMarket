@@ -8,7 +8,7 @@
                 <div class="panel-heading">
                     <span>{{$viewUser->first_name}} {{$viewUser->last_name}}</span>
                     @if (!$canReview)
-                        <a href="/profile" class="btn btn-primary btn-xs" style="float: right;"><i class="fa fa-pencil"></i></a>
+                        <a href="/profile" class="btn btn-primary btn-xs" style="float: right;">Edit</a>
                     @endif
                 </div>
                 <div class="row">

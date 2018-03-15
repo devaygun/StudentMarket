@@ -12,20 +12,18 @@
                 <ul class="nav nav-pills nav-stacked">
                     @foreach ($userList as $mUser)
                         <li class="active">
-
                             @if ($mUser->sender_id != null)
                                 <a href="/messages/{{$mUser->sender_id}}">
-                                    <span>{{\App\User::where('id', ($mUser->sender_id))->first()->first_name}}</span>
+                                    <span>{{\App\User::find($mUser->sender_id)->first_name . " " . \App\User::find($mUser->sender_id)->last_name }}</span>
                                     {{--<span style="float: right">Last message received: {{$mUser->created_at->format('d/m/y H:i')}}</span>--}}
                                 </a>
                             @endif
-                            @if ($mUser->receiver_id != null))
+                            @if ($mUser->receiver_id != null)
                             <a href="/messages/{{$mUser->receiver_id}}">
-                                <span>{{\App\User::where('id', ($mUser->receiver_id))->first()->first_name}}</span>
+                                <span>{{\App\User::find($mUser->receiver_id)->first_name . " " . \App\User::find($mUser->receiver_id)->last_name}}</span>
                                 {{--<span style="float: right">Last message received: {{$mUser->created_at->format('d/m/y H:i')}}</span>--}}
                             </a>
                             @endif
-
                         </li>
                     @endforeach
                 </ul>
@@ -39,7 +37,7 @@
                             @if ($message->sender_id != Auth::id())) from="recipient" @endif
                         >
                             <div class="panel-heading">
-                                <h3 class="panel-title"><a href="/view/{{$message->sender_id}}" title="View Profile">{{\App\User::where('id', ($message->sender_id))->first()->first_name}}</a></h3>
+                                <h3 class="panel-title"><a href="/view/{{$message->sender_id}}" title="View Profile">{{\App\User::find($message->sender_id)->first_name . " " . \App\User::find($message->sender_id)->last_name }}</a></h3>
                             </div>
                             <div class="panel-body">
                                 {{$message->message}}
@@ -61,14 +59,8 @@
         </div>
     </div>
 
-
-
-
-
     {{--SCRIPTS--}}
-
     <script>
-
         // SCROLL TO BOTTOM OF MESSAGES ON PAGE LOAD
         $(document).ready(function(){
             var chatContainer = document.getElementById("chatContainer");
@@ -90,21 +82,17 @@
 
         //    DISABLES SEND BUTTON IF MESSAGE IS EMPTY
         function disableSend() {
-
             if (!$.trim($("#message").val())) {
                 $("#sendButton").attr("disabled", "disabled");
             } else {
                 $("#sendButton").removeAttr("disabled");
             }
         }
-
     </script>
-
 
     {{--STYLES--}}
 
     <style>
-
         .chat-container {
             max-height: 400px;
             height: 400px;
@@ -184,8 +172,6 @@
             display: inline-block;
             float: right;
         }
-
-
     </style>
 
 @endsection
