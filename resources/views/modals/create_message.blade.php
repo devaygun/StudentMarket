@@ -4,9 +4,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Message {{$item->user->first_name}}</h4>
+                <h4 class="modal-title">Message {{$user->first_name}}</h4>
             </div>
-            <form method="POST" action="/messages/{{$item->user_id}}" enctype="multipart/form-data">
+            <form method="POST" action="/messages/{{$user->id}}" enctype="multipart/form-data">
                 <div class="modal-body">
                     {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                     <div class="form-group">
