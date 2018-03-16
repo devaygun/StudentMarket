@@ -23,8 +23,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'ApiAuthController@logout');
 
     /* Items */
-    Route::get('/items', 'ItemController@index');
-    Route::get('/items/{category}/{id}', 'ItemController@readItem');
+        /* Read */
+            Route::get('/items', 'ItemController@index');
+            Route::get('/items/{category}/{id}', 'ItemController@readItem');
 
     /* User */
     Route::get('/view/{id}', 'UserController@viewUser');
