@@ -104,11 +104,6 @@
                         </div>
                         <div class="col-xs-12 col-sm-4">
                             <a href="/items" class="btn btn-default pull-right" role="button" style="margin-left: 5px;">Return</a>
-
-                            @if (!$authorised)
-                                <button type="button" class="btn btn-primary pull-right">Make Offer</button>
-                            @endif
-
                             @if ($authorised)
                                 <a href="/items/update/{{$item->id}}" class="btn btn-primary pull-right">Edit</a>
                             @endif
