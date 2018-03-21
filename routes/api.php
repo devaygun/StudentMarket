@@ -23,18 +23,17 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('logout', 'ApiAuthController@logout');
 
     /* Items */
-        /* Read */
-            Route::get('/items', 'ItemController@index');
-            Route::get('/items/{category}/{id}', 'ItemController@readItem');
+        Route::get('/items', 'ItemController@index');
+        Route::get('/items/{category}/{id}', 'ItemController@readItem');
 
     /* User */
-    Route::get('/view/{id}', 'UserController@viewUser');
-    Route::post('/view/{id}/reviews', 'UserController@createReview');
-    Route::get('/profile', 'UserController@index'); // Retrieves the profile based on the api_token
-    Route::post('/profile', 'UserController@update')->name('update_profile');
+        Route::get('/view/{id}', 'UserController@viewUser');
+        Route::post('/view/{id}/reviews', 'UserController@createReview');
+        Route::get('/profile', 'UserController@index'); // Retrieves the profile based on the api_token
+        Route::post('/profile', 'UserController@update')->name('update_profile');
 
     /* Messages */
-    Route::get('/messages', 'MessageController@index');
-    Route::get('/messages/{id}', 'MessageController@viewMessages');
-    Route::post('/messages/{id}', 'MessageController@sendMessage');
+        Route::get('/messages', 'MessageController@index');
+        Route::get('/messages/{id}', 'MessageController@viewMessages');
+        Route::post('/messages/{id}', 'MessageController@sendMessage');
 });

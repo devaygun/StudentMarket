@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\API;
 
 use App\User;
 use Tests\TestCase;
@@ -11,8 +11,6 @@ class ItemTest extends TestCase
 {
     /**
      * Basic test to check if retrieving all items works
-     *
-     * @return void
      */
     public function testItemOverview()
     {
@@ -24,8 +22,6 @@ class ItemTest extends TestCase
 
     /**
      * Basic test to check if retrieving an individual items works
-     *
-     * @return void
      */
     public function testItemRead()
     {
