@@ -4,9 +4,19 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Message {{$user->first_name}}</h4>
+                {{--CHECKS IF MODAL IS USED ON ITEM PAGE OR PROFILE PAGE--}}
+                @if( ! empty($item))
+                    <h4 class="modal-title">Message {{$item->user->first_name}}</h4>
+                @else
+                    <h4 class="modal-title">Message {{$viewUser->first_name}}</h4>
+                @endif
             </div>
-            <form method="POST" action="/messages/{{$user->id}}" enctype="multipart/form-data">
+            {{--CHECKS IF MODAL IS USED ON ITEM PAGE OR PROFILE PAGE--}}
+            @if( ! empty($item))
+                <form method="POST" action="/messages/{{$item->user->id}}" enctype="multipart/form-data">
+            @else
+                <form method="POST" action="/messages/{{$viewUser->id}}" enctype="multipart/form-data">
+            @endif
                 <div class="modal-body">
                     {{ csrf_field() }} {{-- Needed within all forms to prevent CSRF attacks --}}
                     <div class="form-group">

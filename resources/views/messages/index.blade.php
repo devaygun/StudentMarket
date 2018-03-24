@@ -18,7 +18,7 @@
                             {{--<span style="float: right">Last message received: {{$mUser->created_at->format('d/m/y H:i')}}</span>--}}
                         </a>
                         @endif
-                        @if ($mUser->receiver_id != null))
+                        @if ($mUser->receiver_id != null)
                             <a href="/messages/{{$mUser->receiver_id}}">
                                 <span>{{\App\User::where('id', ($mUser->receiver_id))->first()->first_name}}</span>
                                 {{--<span style="float: right">Last message received: {{$mUser->created_at->format('d/m/y H:i')}}</span>--}}
